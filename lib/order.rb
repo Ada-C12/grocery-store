@@ -30,4 +30,27 @@ class Order
     
     @products[prod_name] = prod_price
   end
+  
+  def remove_product(prod_name)
+    if @products.keys.include? prod_name
+      @products.reject! {|key,value| key == prod_name}
+    else
+      raise ArgumentError, 'Product was not a part of the cart to begin with.'
+    end
+  end
 end
+
+# require_relative 'customer'
+
+# address = {
+#   street: "123 Main",
+#   city: "Seattle",
+#   state: "WA",
+#   zip: "98101"
+# }
+
+# cust = Customer.new(123, "a@a.co", address)
+# ord = Order.new(456, {"apple" => 4.32, "banana" => 1.99, "cracker" => 3.00}, cust)
+
+# ord.remove_product("banana")
+# puts ord.products
