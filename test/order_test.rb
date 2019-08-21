@@ -164,8 +164,8 @@ describe "Order Wave 2" do
     it "Can find the last order from the CSV" do
       last_order = Order.find(100)
 
-      expect(last_order).must_equal Order.all.last
-      expect(last_order.id).must_equal 1
+      expect(last_order.id).must_equal Order.all.last.id
+      expect(last_order.id).must_equal 100
       expect(last_order.products["Amaranth"]).must_equal 83.81
       expect(last_order.customer.id).must_equal 20
       expect(last_order.fulfillment_status).must_equal :pending
