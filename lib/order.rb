@@ -14,6 +14,12 @@ class Order
     @fulfillment_status = fulfillment_status
   end
   
+  def total()
+    # sum all the products
+    # add a 7.5% tax
+    # round the result to two decimal places
+  end
+  
 end
 
 #     A total method which will calculate the total cost of the order by:
