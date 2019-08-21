@@ -8,6 +8,13 @@ class Order
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
+    
+    allowed_statuses = [:pending, :paid, :processing, :shipped, :complete]
+    unless allowed_statuses.include?(@fulfillment_status)
+      raise ArgumentError.new("Invalid fulfillment status given.")
+    end
+    
+    
   end
   
   
@@ -30,7 +37,14 @@ class Order
   end
   
   
-  def add_product
+  def add_product(product_name, price)
+    existing_products = @products.keys
+    
+    if existing_products.include?(product_name)
+      raise ArgumentError.new("You are trying to add a duplicate product.")
+    else
+      @products[product_name] = price
+    end
     
   end
   
