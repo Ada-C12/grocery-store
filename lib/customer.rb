@@ -33,13 +33,11 @@ class Customer
   end
   
   def self.find(target_id)
-    all_customers = self.all
-    matches = all_customers.select {|customer| customer.id == target_id}
-    num_matches = matches.length
+    matches = self.all.select {|customer| customer.id == target_id}
     
     # if no customers found, returns nil like the find method for Ruby arrays
     # returns the first match if multiple matches found, like the find method for Ruby arrays
-    if num_matches == 0
+    if matches == nil
       return nil
     else
       return matches[0]
