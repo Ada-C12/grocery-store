@@ -23,4 +23,12 @@ class Order
     end
   end
 
+  def add_product(product_name, price)
+    if @products.key?(product_name)
+      raise ArgumentError.new("Product is already present in order")
+    else
+      @products.merge!({product_name => price})
+    end
+  end
+
 end
