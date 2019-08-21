@@ -28,4 +28,12 @@ class Order
     end
   end 
   
+  def remove_product(new_product, new_price)
+    if !@products.has_key?(new_product)
+      raise ArgumentError, "That product is not in your order."
+    else 
+      @products.delete_if {|key, value| key == new_product}
+    end 
+  end 
+  
 end
