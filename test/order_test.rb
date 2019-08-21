@@ -37,7 +37,7 @@ it "Takes an ID, collection of products, customer, and fulfillment_status" do
   expect(order.fulfillment_status).must_equal fulfillment_status
 end
 
-xit "Accepts all legal statuses" do
+it "Accepts all legal statuses" do
   valid_statuses = %i[pending paid processing shipped complete]
   
   valid_statuses.each do |fulfillment_status|
@@ -46,12 +46,12 @@ xit "Accepts all legal statuses" do
   end
 end
 
-xit "Uses pending if no fulfillment_status is supplied" do
+it "Uses pending if no fulfillment_status is supplied" do
   order = Order.new(1, {}, customer)
   expect(order.fulfillment_status).must_equal :pending
 end
 
-xit "Raises an ArgumentError for bogus statuses" do
+it "Raises an ArgumentError for bogus statuses" do
   bogus_statuses = [3, :bogus, 'pending', nil]
   bogus_statuses.each do |fulfillment_status|
     expect {
@@ -79,7 +79,7 @@ end
 end
 
 describe "#add_product" do
-xit "Increases the number of products" do
+it "Increases the number of products" do
   products = { "banana" => 1.99, "cracker" => 3.00 }
   before_count = products.count
   order = Order.new(1337, products, customer)
@@ -89,7 +89,7 @@ xit "Increases the number of products" do
   expect(order.products.count).must_equal expected_count
 end
 
-xit "Is added to the collection of products" do
+it "Is added to the collection of products" do
   products = { "banana" => 1.99, "cracker" => 3.00 }
   order = Order.new(1337, products, customer)
   
@@ -97,7 +97,7 @@ xit "Is added to the collection of products" do
   expect(order.products.include?("sandwich")).must_equal true
 end
 
-xit "Raises an ArgumentError if the product is already present" do
+it "Raises an ArgumentError if the product is already present" do
   products = { "banana" => 1.99, "cracker" => 3.00 }
   
   order = Order.new(1337, products, customer)

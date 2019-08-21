@@ -1,6 +1,6 @@
 class Order
   
-  attr_reader :id, :customer, :fullfillment_status, :products
+  attr_reader :id, :customer, :fulfillment_status, :products
   
   # Constructor
   def initialize(id, products, customer, fulfillment_status = :pending)
