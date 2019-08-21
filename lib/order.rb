@@ -30,4 +30,15 @@ class Order
       raise ArgumentError
     end   
   end
+
+  def self.parse_products(products)
+    products.split(';')
+            .map { |product| product.split(':') }
+            .to_h
+            .transform_values(&:to_f)
+  end
+
+  def self.all
+    
+  end
 end
