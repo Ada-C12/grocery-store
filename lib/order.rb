@@ -16,9 +16,9 @@ class Order
   
   def total()
     product_sum = 0
-    if products.length > 0
+    if @products.length > 0
       # sum all the products
-      product_sum = self.products.values.reduce(:+)
+      product_sum = @products.values.reduce(:+)
       # add a 7.5% tax
       product_sum += (product_sum * 0.075)
       # round the result to two decimal places
@@ -27,7 +27,7 @@ class Order
     return product_sum
   end
   
-  def add_product(product, price)
+  def add_product(product_name, price)
     
   end
   
