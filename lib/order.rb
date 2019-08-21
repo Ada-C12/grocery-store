@@ -35,8 +35,16 @@ class Order
     return total
   end
   
-  # def add_product (product_name, price)
-  # end
+  def add_product (product_name, price)
+    @products.each do |key,value|
+      if key == product_name
+        raise ArgumentError.new("Invalid Order Status Used")
+        return @products
+      end
+    end
+    @products.store(product_name, price)
+    return @products
+  end
   
   # def remove_product #optional
   # end
