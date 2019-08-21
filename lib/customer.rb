@@ -11,15 +11,17 @@ class Customer
   end
 
   def self.all
-    all_customers = CSV.open("data/customers.csv", "r").map do |customer|
+    all_the_customers = CSV.open("data/customers.csv", "r").map do |customer|
       self.new(customer[0].to_i, customer[1], { street: customer[2], city: customer[3], state: customer[4], zipcode: customer[5] })
       # city = cust[3]
       # state = cust[4]
       # zipcode = cust[5]
     end
-    return all_customers
+    return all_the_customers
   end
 
   def self.find(id)
+    customers = self.all
+    return customers.find { |customer| customer.id == id }
   end
 end
