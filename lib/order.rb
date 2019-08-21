@@ -28,7 +28,11 @@ class Order
   end
   
   def add_product(product_name, price)
-    @products[product_name] = price
+    if @products.has_key?(product_name)
+      raise ArgumentError.new("#{product_name} is already a product.")
+    else
+      @products[product_name] = price
+    end
   end
   
 end
