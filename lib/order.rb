@@ -31,4 +31,9 @@ class Order
     end
   end
   
+  def remove_product(name)
+    if @products.key? name
+      @products.delete(name)
+    end
+  end
 end
