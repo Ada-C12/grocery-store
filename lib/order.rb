@@ -15,17 +15,20 @@ class Order
   end
   
   def total()
-    # sum all the products
-    # add a 7.5% tax
-    # round the result to two decimal places
+    product_sum = 0
+    if products.length > 0
+      # sum all the products
+      product_sum = self.products.values.reduce(:+)
+      # add a 7.5% tax
+      product_sum += (product_sum * 0.075)
+      # round the result to two decimal places
+      product_sum = product_sum.round(2)
+    end
+    return product_sum
   end
   
 end
 
-#     A total method which will calculate the total cost of the order by:
-#         Summing up the products
-#         Adding a 7.5% tax
-#         Rounding the result to two decimal places
 #     An add_product method which will take in two parameters, product name and price, and add the data to the product collection
 #         If a product with the same name has already been added to the order, an ArgumentError should be raised
 
