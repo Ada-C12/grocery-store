@@ -14,5 +14,9 @@ class Order
     
   end
   
+  def total
+    (@products.values.sum * 1.075).round(2)
+  end
+  
   
 end
