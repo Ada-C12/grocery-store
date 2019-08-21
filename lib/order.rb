@@ -23,11 +23,19 @@ class Order
     return total_cost.round(2)
   end
   
-  def add_product(product_name, price)
+  def add_product(product_name, product_price)
     if @products.has_key? product_name
-      raise ArgumentError.new "That item already exists."
+      raise ArgumentError.new "That product already exists."
     else 
-      @products[product_name] = price
+      @products[product_name] = product_price
+    end
+  end
+  
+  def remove_product(product_name, product_price)
+    if @products.has_key? product_name
+      @products.delete(product_name)
+    else 
+      raise ArgumentError.new "That product does not exist."
     end
   end
   
