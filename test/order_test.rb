@@ -116,7 +116,10 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders).must_be_kind_of Array
+      expect(orders.count).must_equal 100
     end
 
     it "Returns accurate information about the first order" do
