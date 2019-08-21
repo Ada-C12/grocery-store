@@ -16,7 +16,11 @@ class Order
   end
 
   def add_product(name, price)
-
+    if @products[name]
+      @products[name] = price
+    else
+      raise ArgumentError
+    end
   end
 
   def fulfillment_status=(status)
