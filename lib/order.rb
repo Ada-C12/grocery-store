@@ -18,5 +18,12 @@ class Order
     (@products.values.sum * 1.075).round(2)
   end
   
+  def add_product(product_name, price)
+    if @products.keys.include? product_name
+      raise ArgumentError.new "Error! A product with this name has already been entered."
+    else
+      @products[product_name] = price
+    end
+  end
   
 end
