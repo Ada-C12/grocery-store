@@ -26,4 +26,12 @@ class Order
     end
   end
   
+  def remove_product(product_name)
+    if @products.keys.include? product_name
+      @products.delete(product_name)
+    else
+      raise ArgumentError.new "Error! The product you entered did not already exist in the hash."
+    end
+  end
+  
 end
