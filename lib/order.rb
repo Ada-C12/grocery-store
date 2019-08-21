@@ -17,9 +17,9 @@ class Order
 
   def add_product(name, price)
     if @products[name]
-      @products[name] = price
-    else
       raise ArgumentError
+    else
+      @products[name] = price
     end
   end
 
