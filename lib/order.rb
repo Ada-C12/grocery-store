@@ -28,10 +28,14 @@ class Order
     return sum_with_tax.round(2)
   end
   
-  # def add_product(name, price)
-  #   # here's a though on how to add a new item to the collection of products
-  #   # @collection_of_products[name] = price
-  # end
+  def add_product(name, price)
+    if @products.has_key?(name)
+      raise ArgumentError
+    else
+      @products[name] = price
+    end
+    return products
+  end
   
   
   # # optional (also make sure to write a test for this)

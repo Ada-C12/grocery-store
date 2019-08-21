@@ -79,7 +79,7 @@ describe "Order Wave 1" do
   end
   
   describe "#add_product" do
-    xit "Increases the number of products" do
+    it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
       order = Order.new(1337, products, customer)
@@ -89,7 +89,7 @@ describe "Order Wave 1" do
       expect(order.products.count).must_equal expected_count
     end
     
-    xit "Is added to the collection of products" do
+    it "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
       
@@ -97,7 +97,7 @@ describe "Order Wave 1" do
       expect(order.products.include?("sandwich")).must_equal true
     end
     
-    xit "Raises an ArgumentError if the product is already present" do
+    it "Raises an ArgumentError if the product is already present" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       
       order = Order.new(1337, products, customer)
