@@ -36,11 +36,11 @@ class Order
   end
   
   def remove_product(product_name)
-    # remove the argument product from @products
-    # if no product of that name is found, raises an argument error
+    if @products.has_key?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError.new("#{product_name} is not a product.")
+    end
   end
   
 end
-
-# Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
-# If no product with that name was found, an ArgumentError should be raised
