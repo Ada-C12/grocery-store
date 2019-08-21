@@ -48,4 +48,15 @@ class Order
     
   end
   
+  def remove_product(rem_product_name)
+    existing_prods = @products.keys
+    
+    unless existing_prods.include?(rem_product_name)
+      raise ArgumentError.new("Product is not in the catalog and therefore cannot be removed.")
+    else
+      @products.delete(rem_product_name)
+    end
+    
+  end
+  
 end

@@ -111,6 +111,30 @@ it "Raises an ArgumentError if the product is already present" do
 expect(order.total).must_equal before_total
 end
 end
+
+# Hallie's Test - Wave 1 Optional
+describe "#remove_product" do
+it "Is removed from the collection of products" do
+  products = { "banana" => 1.99, "cracker" => 3.00, "sandwich" => 4.25 }
+  order = Order.new(1337, products, customer)
+  
+  order.remove_product("cracker")
+  
+  expect(order.products.include?("cracker")).must_equal false
+end
+
+it "Raises an ArgumentError if the product does not exist" do
+  products = { "banana" => 1.99, "sandwich" => 4.25 }
+  
+  order = Order.new(1337, products, customer)
+  
+  expect {
+  order.remove_product("cracker")
+}.must_raise ArgumentError
+end
+
+end
+
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
