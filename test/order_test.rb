@@ -113,8 +113,7 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
@@ -141,11 +140,15 @@ xdescribe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      last_order = Order.all.last
+      expect(last_order.id).must_equal 100
+      expect(last_order.products["Cheddar"]).must_equal 5.63
+      expect(last_order.customer.id).must_equal 20
+      expect(last_order.status).must_equal :pending
     end
   end
 
-  describe "Order.find" do
+  xdescribe "Order.find" do
     it "Can find the first order from the CSV" do
       # TODO: Your test code here!
     end
