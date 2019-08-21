@@ -27,6 +27,10 @@ class Order
     return product_sum
   end
   
+  def add_product(product, price)
+    
+  end
+  
 end
 
 #     An add_product method which will take in two parameters, product name and price, and add the data to the product collection
