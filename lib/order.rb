@@ -9,6 +9,10 @@ class Order
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
+    fulfillment_statuses = [:pending, :paid, :processing, :shipped, :complete]
+    if !fulfillment_statuses.include? @fulfillment_status
+      raise ArgumentError
+    end
   end
   
   def total
@@ -20,7 +24,7 @@ class Order
   end
   
   def add_product(name, price)
-    if @products.keys.include? name
+    if @products.key? name
       raise ArgumentError
     else
       @products[name] = price
