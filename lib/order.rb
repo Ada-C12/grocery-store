@@ -24,7 +24,8 @@ class Order
   end
   
   def total
-    return @products.values.sum
+    sum_with_tax = 1.075 * ( @products.values.sum.to_f )
+    return sum_with_tax.round(2)
   end
   
   # def add_product(name, price)
