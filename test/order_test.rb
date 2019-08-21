@@ -147,7 +147,7 @@ describe "Order Wave 2" do
       expect(last_order.id).must_equal 100
       expect(last_order.products["Cheddar"]).must_equal 5.63
       expect(last_order.customer.id).must_equal 20
-      expect(last_order.status).must_equal :pending
+      expect(last_order.fulfillment_status).must_equal :pending
     end
   end
 
@@ -158,7 +158,7 @@ describe "Order Wave 2" do
       expect(first_order.id).must_equal 1
       expect(first_order.products["Lobster"]).must_equal 17.18
       expect(first_order.customer.id).must_equal 25
-      expect(first_order.status).must_equal :complete
+      expect(first_order.fulfillment_status).must_equal :complete
     end
 
     it "Can find the last order from the CSV" do
@@ -168,7 +168,7 @@ describe "Order Wave 2" do
       expect(last_order.id).must_equal 1
       expect(last_order.products["Amaranth"]).must_equal 83.81
       expect(last_order.customer.id).must_equal 20
-      expect(last_order.status).must_equal :pending
+      expect(last_order.fulfillment_status).must_equal :pending
     end
 
     it "Returns nil for an order that doesn't exist" do
