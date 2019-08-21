@@ -38,7 +38,7 @@ class Order
   def add_product (product_name, price)
     @products.each do |key,value|
       if key == product_name
-        raise ArgumentError.new("Invalid Order Status Used")
+        raise ArgumentError.new("Product Already in Order")
         return @products
       end
     end
@@ -46,7 +46,15 @@ class Order
     return @products
   end
   
-  # def remove_product #optional
-  # end
+  def remove_product (product_name)
+    @products.each do |key,value|
+      if key == product_name
+        @products.delete(key)
+        return @products
+      end
+    end
+    raise ArgumentError.new("Product Not in Order")
+    return @products
+  end
   
 end
