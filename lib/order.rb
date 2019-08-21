@@ -28,7 +28,17 @@ class Order
     
   end
   
-  
+  def add_product(product, cost)
+    
+    if @products.keys.include?(product)
+      raise ArgumentError
+    else
+      @products[product] = cost
+    end
+    
+    return @products
+    
+  end 
   
   
   
