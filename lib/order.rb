@@ -1,3 +1,5 @@
+require_relative 'customer'
+
 class Order
   
   FULFILLMENT_STATUSES = [:pending, :paid, :processing, :shipped, :complete]
@@ -41,6 +43,37 @@ class Order
     else
       raise ArgumentError.new("#{product_name} is not a product.")
     end
+  end
+  
+  def self.format_product_info(unformatted_info)
+    product_components = unformatted_info.split(/[,:;]/)
+    
+    product_with_string_price = Hash[product_components.each_slice(2).to_a] #from https://stackoverflow.com/questions/4028329/array-to-hash-ruby
+    
+    product = {}
+    product_with_string_price.each_pair do |name, value|
+      product[name] = value.to_f
+    end
+    
+    return product
+  end
+  
+  def self.all
+    formatted_orders_list = []
+    
+    unformatted_orders_list = []
+    CSV.foreach('data/prototype.csv') do |row|
+      unformatted_orders_list << row
+    end
+    
+    unformatted_orders_list.each do |order_data|
+      product_hash = format_product_info(order_data[1])
+      customer = Customer.find(order_data[2].to_i)
+      # (id, products_hash, customer, fulfillment_status = :pending)
+      formatted_orders_list << Order.new(order_data[0].to_i, product_hash, customer, order_data[3].to_sym)
+    end
+    
+    return formatted_orders_list
   end
   
 end
