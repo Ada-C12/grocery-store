@@ -36,3 +36,6 @@ class Order
   end
   
 end
+
+# Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
+# If no product with that name was found, an ArgumentError should be raised
