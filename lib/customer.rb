@@ -1,12 +1,8 @@
-# Create a class called Customer. Each new Customer should include the following attributes:
-
-#     ID, a number
-#     Email address, a string
-#     Delivery address, a hash
-
-# ID should be readable but not writable; the other two attributes can be both read and written.
+require 'csv'
 
 class Customer
+  
+  @@all = []
   
   attr_accessor :email, :address
   attr_reader :id
@@ -15,6 +11,13 @@ class Customer
     @id = id
     @email = email
     @address = address
+  end
+  
+  def self.all
+    CSV.foreach('data/customers.csv') do |data|
+      @@all << Customer.new(data[0].to_i, data[1], {street: data[2], city: data[3], state: data[4], zip: data[5]})
+    end
+    return @@all
   end
   
 end
