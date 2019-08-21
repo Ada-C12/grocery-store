@@ -10,11 +10,13 @@ class Order
   end
 
   def total
-    
+    net = @products.values.sum
+    tax = 0.075 * net
+    (net + tax).round(2)
   end
 
-  def add_product
-    
+  def add_product(name, price)
+
   end
 
   def fulfillment_status=(status)
