@@ -35,6 +35,11 @@ class Order
     end
   end
   
+  def remove_product(product_name)
+    # remove the argument product from @products
+    # if no product of that name is found, raises an argument error
+  end
+  
 end
 
 # Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
