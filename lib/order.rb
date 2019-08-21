@@ -76,7 +76,6 @@ class Order
     return formatted_orders_list
   end
   
-  # self.find(id) - returns an instance of Order where the value of the id field in the CSV matches the passed parameter
   def self.find(id)
     found_order = self.all.select do |order|
       order.id == id
