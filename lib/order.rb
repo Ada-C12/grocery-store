@@ -28,7 +28,7 @@ class Order
   end
   
   def add_product(product_name, price)
-    
+    @products[product_name] = price
   end
   
 end
