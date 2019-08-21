@@ -78,6 +78,39 @@ describe "Order Wave 1" do
     end
   end
 
+  describe "#remove_product" do
+    it "decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end 
+
+    it "removes product from the collection of products" do
+      # ARRANGE
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+      # ACT
+      order.remove_product("banana")
+      # ASSERT
+      expect(order.products.include?("banana")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product wasn't in the order" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+      # ACT && ASSERT
+      expect{order.remove_product("9banana")}.must_raise ArgumentError
+    end
+
+
+  end
+
+
+
   describe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
