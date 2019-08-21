@@ -12,8 +12,11 @@ class Order
   end
   
   def total
-    products = products.map { |item| item.values }
-    total_cost = products.sum
+    if @products != nil
+      total_cost = (@products.values.sum * 1.075).round(2)
+    else
+      return 0
+    end
   end
   
 end
