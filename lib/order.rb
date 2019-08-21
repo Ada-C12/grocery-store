@@ -21,5 +21,22 @@ class Order
         return total
     end
 
+    def add_product(product_name, price)
+        if @products.key?(product_name)
+            raise ArgumentError.new "Added product already exists"
+        else
+            @products[product_name] = price
+        end
+        return @products
+    end
+
+    def remove_product(product_name)
+        if @products.key?(product_name)
+           @products.delete(product_name)
+        else
+            raise ArgumentError.new "Deleted product doesn't exist"
+        end
+        return @products
+    end
 
 end
