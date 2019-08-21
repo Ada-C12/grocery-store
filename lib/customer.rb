@@ -19,11 +19,11 @@ class Customer
     return list
   end
   
-  # def self.find(id)
-  #   found_customer = self.all.select do |customer|
-  #     customer if customer.id == id
-  #   end
-  #   return found_customer
-  # end
+  def self.find(id)
+    found_customer = self.all.select do |customer|
+      customer.id == id
+    end
+    return found_customer[0]
+  end
   
 end
