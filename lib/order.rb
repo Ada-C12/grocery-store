@@ -13,4 +13,14 @@ class Order
     end
   end
 
+  def total
+    if products.length == 0 
+      return 0.00
+    else
+      sum_of_products = products.values.sum
+      tax = 0.075
+      return (sum_of_products + (sum_of_products * tax)).round(2)
+    end
+  end
+
 end
