@@ -161,7 +161,7 @@ xdescribe "Order Wave 2" do
       fulfillment_status = :complete
       
       order = Order.all.first
-      
+
       # Check that all data was loaded as expected
       expect(order.id).must_equal id
       expect(order.products).must_equal products
