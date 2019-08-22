@@ -2,8 +2,7 @@ require 'csv'
 require 'awesome_print'
 
 class Customer
-  attr_reader :id
-  attr_accessor :email, :address
+  attr_reader :id, :email, :address
   
   def initialize(id=nil, email=nil, address_hash = {street:nil, city:nil, state:nil, zip:nil})
     @email = email
@@ -33,5 +32,11 @@ class Customer
     return all_customers.find { |customer| customer.id == id }
   end
   
+
+  def self.save(file)
+    # save the list of objects to the file in the same format as the original CSV
+
+
+
 end
 
