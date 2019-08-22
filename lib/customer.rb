@@ -42,16 +42,8 @@ class Customer
     
     def self.find (id)
         data = self.all 
-
         person_found = data.select {|person| person.id == id }
-        
-        if person_found.empty?
-            return nil 
-        else 
-            return person_found[0]
-        end 
-        
-    
+        person_found[0] 
     end 
     
     
