@@ -1,6 +1,23 @@
 require 'pry'
 require 'csv'
 
+def find_fulfillment_status(a_string)
+  case a_string
+  when "pending"
+    return :pending
+  when "paid"
+    return :paid
+  when "processing"
+    return :processing
+  when "shipped"
+    return :shipped
+  when "complete"
+    return :complete
+  else
+    raise ArgumentError, "Invalid fulfillment status."
+  end
+end
+
 class Order
   # order = Order.new(id, {}, customer, fulfillment_status)
   attr_accessor :products, :customer, :fulfillment_status
@@ -42,22 +59,22 @@ class Order
     end
   end
   
-  def self.find_fulfillment_status(a_string)
-    case a_string
-    when "pending"
-      return :pending
-    when "paid"
-      :paid
-    when "processing"
-      :processing
-    when "shipped"
-      :shipped
-    when "complete"
-      :complete
-    else
-      nil
-    end
-  end
+  # def self.find_fulfillment_status(a_string)
+  #   case a_string
+  #   when "pending"
+  #     return :pending
+  #   when "paid"
+  #     return :paid
+  #   when "processing"
+  #     return :processing
+  #   when "shipped"
+  #     return :shipped
+  #   when "complete"
+  #     return :complete
+  #   else
+  #     raise ArgumentError, "Invalid fulfillment status."
+  #   end
+  # end
   
   # "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
   # { "banana" => 1.99, "cracker" => 3.00 }
@@ -80,7 +97,7 @@ class Order
       id = element[0].to_i
       products = Order.parse_order(element[1])
       customer = Customer.find(element[2].to_i)
-      status = Order.find_fulfillment_status(element[3].downcase)
+      status = find_fulfillment_status(element[3].downcase)
       
       # returns an array of objects
       all_orders << Order.new(id, products, customer, status)
