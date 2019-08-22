@@ -224,4 +224,20 @@ describe "Order Wave 2" do
       expect(Order.find(354235324)).must_be_nil
     end
   end
+  
+  describe "Order.find_by_customer(customer_id)" do
+    it "can return the list of order instances where the value of the customer's ID matches the passed parameter (customerID)" do
+      customer_id = 8
+      order_list = Order.find_by_customer(customer_id)
+      
+      expect(order_list[0]).must_be_kind_of Order
+      expect(order_list[1]).must_be_kind_of Order
+      
+      expect(order_list[0].id).must_equal 15
+      expect(order_list[1].id).must_equal 63
+      
+    end
+  end
+  
+  
 end

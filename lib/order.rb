@@ -17,8 +17,7 @@ class Order
   end
   
   def total
-    total_cost = @products.values.sum
-    total_cost *= 1.075
+    total_cost = (@products.values.sum)*1.075
     
     return total_cost.round(2)
   end
@@ -72,6 +71,13 @@ class Order
     found_order = order_array.select {|order| order.id == id}
     
     return found_order[0]
+  end
+  
+  def self.find_by_customer(customer_id)
+    order_array = self.all
+    customer_orders = order_array.select {|order| order.customer.id == customer_id}
+    
+    return customer_orders
   end
   
 end
