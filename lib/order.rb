@@ -1,3 +1,5 @@
+require 'customer'
+
 class Order
   attr_reader :id, :customer
   attr_accessor :products, :fulfillment_status
@@ -11,6 +13,28 @@ class Order
     if !valid_statuses.include? @fulfillment_status
       raise ArgumentError.new("Invalid Fulfillment Status")
     end
+  end
+
+  def self.format_products(products_text)
+    products_array = products_text.split(";")
+    formatted_product_hash = {}
+    products_array.each do |product|
+      name_price = product.split(":")
+      formatted_product_hash = formatted_product_hash.merge({name_price[0] => name_price[1].to_f})
+    end
+    return formatted_product_hash
+  end
+
+  def self.all
+    order_data = []
+    CSV.open('data/orders.csv', 'r').each do |o|
+      products_text = o[1]
+      formatted_product_hash = self.format_products(products_text)
+      customer_id = o[2].to_i
+      customer_instance = Customer.find(customer_id)
+      order_data << Order.new(o[0].to_i, formatted_product_hash, customer_instance, o[3].to_sym)
+    end
+    return order_data
   end
 
   def total
