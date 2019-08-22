@@ -37,7 +37,7 @@ class Customer
     
     # if no customers found, returns nil like the find method for Ruby arrays
     # returns the first match if multiple matches found, like the find method for Ruby arrays
-    if matches == nil
+    if matches == []
       return nil
     else
       return matches[0]
