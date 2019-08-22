@@ -219,3 +219,24 @@ describe "Order Wave 2" do
   end
   
 end
+
+describe "Order Wave 3" do
+  orders_csv = 'data/orders.csv'
+  orders_arr = CSV.read(orders_csv)
+  
+  describe "Order.save" do
+    it "matches all the information of original csv file" do
+      Order.save('new_order_list')
+      new_orders_arr = CSV.read('new_order_list')
+      
+      new_orders_arr.each_with_index do |order, line|
+        order.each_with_index do |info, index|
+          expect(info).must_equal orders_arr[line][index]
+        end
+      end
+      
+    end
+    
+  end
+  
+end
