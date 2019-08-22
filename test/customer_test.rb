@@ -1,12 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'minitest/skip_dsl'
-
+require 'pry'
 require_relative '../lib/customer'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Customer Wave 1" do
+describe "Customer Wave 1" do
   ID = 123
   EMAIL = "a@a.co"
   ADDRESS = {
@@ -16,7 +16,7 @@ xdescribe "Customer Wave 1" do
     zip: "98101"
   }.freeze
   
-  xdescribe "#initialize" do
+  describe "#initialize" do
     it "Takes an ID, email and address info" do
       cust = Customer.new(ID, EMAIL, ADDRESS)
       
@@ -70,10 +70,9 @@ describe "Customer Wave 2" do
     end
   end
   
-  xdescribe "Customer.find" do
+  describe "Customer.find" do
     it "Can find the first customer from the CSV" do
       first = Customer.find(1)
-      
       expect(first).must_be_kind_of Customer
       expect(first.id).must_equal 1
     end
