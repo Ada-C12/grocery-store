@@ -1,3 +1,5 @@
+require 'pry'
+
 class Order
   
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -38,7 +40,16 @@ class Order
     else
       @products.store(product_name, product_price)
     end
-    
+  end
+  
+  def remove_product (product_name)
+    #Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
+    #If no product with that name was found, an ArgumentError should be raised
+    if @products.has_key?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError.new "A product is being removed that was never in the basket"
+    end
   end
   
 end
