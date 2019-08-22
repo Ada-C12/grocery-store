@@ -1,39 +1,30 @@
+require "csv"
+
 class Customer
   attr_accessor :email, :address
   attr_reader :id
   
-  @@all = []
-  
   def initialize(id, email, address)
-    @id = id
+    @id = id.to_i
     @email = email
-    @address = address
-    @@all << self
+    @address = address 
   end
   
   def self.all
-    return @@all
+    all_customers = []
+    
+    CSV.foreach("data/customers.csv") do |row|    
+      all_customers << Customer.new(row[0].to_i, row[1], {street: row[2], city: row[3], state: row[4], zip: row[5]})
+    end
+    
+    return all_customers
   end
   
   def self.find(id)
-    customer = @@all.find do |customer|
+    customer = Customer.all.find do |customer|
       customer.id == id
     end
-    return customer    
+    
+    return customer
   end
-  
 end
-
-
-
-# one = Customer.new(1, "d@aol.com", {key: "value"})
-
-# two = Customer.new(2, "d@aol.com", {key: "value"})
-
-# puts "one.self.all"
-# p Customer.all
-
-# puts "one.self.find  should be 2"
-# p Customer.find(2)
-
-
