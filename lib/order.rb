@@ -39,9 +39,12 @@ class Order
   
   
   # # optional (also make sure to write a test for this)
-  # def remove_product(product_name)
-  #   # somehow delete the @collection_of_products[product_name] & its associated value from the hash
-  #   # if @collection_of_products[product_name] = nil, then raise ArgumentError
-  # end
+  def remove_product(product_name)
+    if products.has_key?(product_name)
+      products.delete(product_name)
+    else
+      raise ArgumentError
+    end
+  end
   
 end
