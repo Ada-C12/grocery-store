@@ -17,7 +17,7 @@ class Order
   
   def total
     if @products != nil
-      total_cost = (@products.values.sum * 1.075).round(2)
+      (@products.values.sum * 1.075).round(2)
     else
       return 0
     end
@@ -43,6 +43,7 @@ class Order
       cust = order.pop
       id = order.shift
       products = order.pop.to_s
+      
       products = products.split(';')
       product_hash = {}
       products.each do |product|
@@ -59,5 +60,11 @@ class Order
     return orders
   end
   
+  def self.find(id)
+    orders = self.all
+    orders.find do |order|
+      order.id == id
+    end
+  end
   
 end
