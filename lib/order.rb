@@ -37,4 +37,13 @@ class Order
     end
   end 
 
+  def self.all
+    array_of_orders = CSV.read("data/orders.csv")
+    instances_of_orders = []
+    array_of_orders.each do |order|
+      new_order = Order.new(customer[0].to_i, customer[1], {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]})
+      instances_of_orders.push(new_order)
+    end 
+    return  instances_of_orders
+  end 
 end 
