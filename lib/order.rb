@@ -39,4 +39,38 @@ class Order
     end
   end
   
+  def self.hash
+    order_hash = CSV.open("data/orders.csv", "r").map do |order|
+      product_array = (order[1].split(/[:;]/))
+      
+      #changing number strings to floats -- is there a better way to do this 
+      i = 1
+      
+      until i > product_array.length
+        product_array[i] = product_array[i].to_f
+        i+=2
+      end
+      
+      product_hash = Hash[*product_array]
+      
+      {id: order[0].to_i, products: product_hash, customerID: Customer.find(order[2].to_i), status: "#{order[3]}"}
+    end
+    
+    return order_hash
+  end
+  
+  
+  def self.all 
+    order_list = self.hash.map do |order|
+      Order.new(order[:id], order[:products], order[:customerID], order[:status].to_sym)
+    end
+    
+    return order_list
+  end
+  
+  def self.find(id)
+    
+  end
+  
+  
 end
