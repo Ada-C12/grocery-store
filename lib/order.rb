@@ -90,4 +90,22 @@ class Order
     return found_orders
   end
   
+  # Add a new class method to each of Order and Customer called save. The save method should take one parameter, a file name, and save the list of objects to that file in the same format as the original CSV file.
+  def format_product_info_for_saving()
+    product_string = ""
+    self.products.each_pair do |product_name, product_price|
+      product_string << "#{product_name}:#{product_price.to_s};"
+    end
+    return product_string
+  end
+  
+  def self.save(filename)
+    CSV.open(filename, "w") do |file|
+      Order.all.each do |order_instance|
+        products_string = order_instance.format_product_info_for_saving()
+        file << [order_instance.id, products_string, order_instance.customer.id, order_instance.fulfillment_status]
+      end
+    end
+  end
+  
 end
