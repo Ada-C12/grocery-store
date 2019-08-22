@@ -37,4 +37,14 @@ class Customer
     return customer_find
   end
   
+  # wave-3
+  def self.save(filename)
+    CSV.open(filename, 'w') do |csv|
+      CSV.open(CUSTOMERS_CSV).each do |line|
+        csv << line
+      end
+    end
+  end
+  
 end
+
