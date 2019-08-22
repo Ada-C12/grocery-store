@@ -148,15 +148,84 @@ describe "Order Wave 2" do
   
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+      
+      order = Order.find(1)
+      
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
     
+    # 100,Amaranth:83.81;Smoked Trout:70.6;Cheddar:5.63,20,pending
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+      
+      order = Order.find(100)
+      
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
     
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(101)).must_be_nil
+      expect(Order.find(0)).must_be_nil
     end
   end
 end
+
+describe "Order.find_by_customer" do
+  it "Returns an array of all orders under customer id 25" do
+    orders = Order.find_by_customer(25)
+    
+    expect(orders.length).must_equal 6
+    
+    expect(orders[0].id).must_equal 1
+    expect(orders[1].id).must_equal 20
+    expect(orders[2].id).must_equal 28
+    expect(orders[3].id).must_equal 51
+    expect(orders[4].id).must_equal 72
+    expect(orders[5].id).must_equal 95
+    
+    expect(orders[0]).must_be_kind_of Order
+    expect(orders).must_be_kind_of Array
+  end
+  
+  it "Returns nil for a customer id that does not exist" do
+    expect(Order.find_by_customer(34658)).must_be_nil
+  end
+end
+
+# describe "Customer Wave 2" do
+#   describe "Customer.all" do
+#     it "Returns an array of all customers" do
+#       customers = Customer.all
+
+#       expect(customers.length).must_equal 35
+#       customers.each do |c|
+#         expect(c).must_be_kind_of Customer
+
+#         expect(c.id).must_be_kind_of Integer
+#         expect(c.email).must_be_kind_of String
+#         expect(c.address).must_be_kind_of Hash
+#       end
+#     end
