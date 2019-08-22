@@ -1,3 +1,6 @@
+require 'csv'
+require 'awesome_print'
+
 class Order
   
   attr_reader :id
@@ -50,11 +53,30 @@ class Order
     return @products
   end 
   
-  
-  
-  
-  
-  
-  
+  def self.all 
+    orders = []
+    
+    CSV.open('data/orders.csv', 'r+').map(&:to_a).each do |order|
+      
+      id = order[0].to_i
+      customer = Customer.find(order[2].to_i)
+      fulfillment_status = order[3].to_sym
+      products = Hash.new
+      
+      pieces = order[1].split(";")
+      items = []
+      
+      pieces.each do |string|
+        items << string.split(":")
+        items.each do |i|
+          products[i[0]] = i[1].to_f
+        end
+      end
+      orders << Order.new(id, products, customer, fulfillment_status)
+    end
+    
+    
+    return orders
+  end
   
 end
