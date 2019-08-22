@@ -34,6 +34,15 @@ class Order
     end  
   end
   
+  def remove_product(product_name)
+    if !@products.key?(product_name)
+      raise ArgumentError.new("This order does not contain that product.")
+    else
+      @products.delete(product_name)
+      
+    end
+  end
+  
   def self.all  
     all_orders = []
     
@@ -64,3 +73,8 @@ class Order
     return order    
   end
 end
+
+
+
+
+

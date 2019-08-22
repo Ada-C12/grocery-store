@@ -116,7 +116,7 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      orders = Order.all      
+      orders = Order.all  
       expect(orders.length).must_equal 100
       
       orders.each do |order|
@@ -149,35 +149,53 @@ describe "Order Wave 2" do
     end
     
     it "Returns accurate information about the last order" do
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      
       last_order = Order.all.last
       
       expect(last_order.id).must_equal 100
-      expect(last_order.products).must_be_kind_of Hash
+      expect(last_order.products).must_equal products
       expect(last_order.customer.id).must_equal 20
       expect(last_order.fulfillment_status).must_equal :pending
-    end
+    end    
   end
   
   describe "Order.find" do
     it "Can find the first order from the CSV" do
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      
       first_order = Order.find(1)
       
       expect(first_order.id).must_equal 1
-      expect(first_order.products).must_be_kind_of Hash
+      expect(first_order.products).must_equal products
       expect(first_order.customer.id).must_equal 25
       expect(first_order.fulfillment_status).must_equal :complete
     end
     
     it "Can find the last order from the CSV" do
+      
+      products = {"Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      
       last_order = Order.find(100)
       
       expect(last_order.id).must_equal 100
-      expect(last_order.products).must_be_kind_of Hash
+      expect(last_order.products).must_equal products
       expect(last_order.customer.id).must_equal 20
       expect(last_order.fulfillment_status).must_equal :pending
     end
     
-    it "Returns nil for an order that doesn't exist" do      
+    it "Returns nil for an order that doesn't exist" do
       no_order = Order.find(101)
       
       expect(no_order).must_equal nil
