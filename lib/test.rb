@@ -1,5 +1,4 @@
-products = { "banana" => 1.99, "cracker" => 3.00 }
+line = [1 , Lobster:17.18 ; Annatto seed:58.38 ; Camomile:83.21 , 25 , complete]
 
-products.delete("banana")
-
+products = line[1]
 puts products
