@@ -39,26 +39,28 @@ class Order
     end
     return @products
   end
-
   
+  def self.formatproducts(products)
+    producthash = {}
+    productslist = products.split(';')
+    productslist.each do |product|
+      item = product.split(':')
+      productkey = item[0]
+      productcost = item[1].to_f
+      producthash[productkey] = productcost
+    end
+    return producthash
+  end
+
   def self.all
     orders = []
     CSV.open("data/orders.csv").each do |line|
       id = line[0].to_i
       customer_id = Customer.find(line[-2].to_i)
       fulfillment_status = line[-1].to_sym
-      
-      producthash = {}
-      productslist = line[1].split(';')
-      productslist.each do |product|
-        item = product.split(':')
-        productkey = item[0]
-        productcost = item[1].to_f
-        producthash[productkey] = productcost
-      end
+      products = Order.formatproducts(line[1])
 
-      
-      order = Order.new(id, producthash,customer_id,fulfillment_status)
+      order = Order.new(id, products,customer_id,fulfillment_status)
       orders << order
     end
     return orders
