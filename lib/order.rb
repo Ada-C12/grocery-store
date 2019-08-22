@@ -62,7 +62,7 @@ class Order
     formatted_orders_list = []
     
     unformatted_orders_list = []
-    CSV.foreach('data/prototype.csv') do |row|
+    CSV.foreach('data/orders.csv') do |row|
       unformatted_orders_list << row
     end
     
