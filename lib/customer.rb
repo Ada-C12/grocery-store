@@ -42,13 +42,16 @@ class Customer
     
     def self.find (id)
         data = self.all 
+
+        person_found = data.select {|person| person.id == id }
         
-        data.each do |person|
-            if person.id == id 
-                return person 
-            end 
+        if person_found.empty?
+            return nil 
+        else 
+            return person_found[0]
         end 
-        return nil 
+        
+    
     end 
     
     
