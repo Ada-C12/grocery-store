@@ -264,14 +264,11 @@ describe "Order Wave 3" do
   describe 'Can create an all_orders file' do
     
     it 'The file is created' do
-      # Arrange
       filename = "data/all_orders.csv"
       data = Order.all()
       
-      # Act
       Order.save(filename)
       
-      # Assert
       expect(File.exist?(filename)).must_equal true
     end
     
