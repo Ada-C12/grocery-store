@@ -34,6 +34,14 @@ class Order
     # print(@products.inspect)
   end
 
+  def remove_product(product_name)
+    if @products.keys.include?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError, "This product does not exist!"
+    end
+  end
+
   def self.list_of_products_hash(products_string)
     products = {}
     products_string.split(";").each do |prod|
