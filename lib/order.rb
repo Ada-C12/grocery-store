@@ -37,6 +37,11 @@ class Order
     return order_data
   end
 
+  def self.find(id)
+    order_data = Order.all
+    return order_data.find { |order| order.id == id }
+  end
+
   def total
     if products.length == 0 
       return 0.00
