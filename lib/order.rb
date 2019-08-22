@@ -11,38 +11,36 @@ class Order
     if validated_status.include?(fulfillment_status)
       @fulfillment_status = fulfillment_status
     else 
-      raise ArgumentError.new("Invalid Fulfillment Status")
+      raise ArgumentError.new, "Invalid Fulfillment Status"
     end
   end
+
+  def total
+    if products.length > 0
+      order_cost = ('%.2f' % ((products.values.inject {|a, b| a + b})*1.075)).to_f
+    else
+      order_cost = 0
+    end 
+
+    return order_cost
+  end
+
+  def add_product(product_name, product_cost)
+    if products.keys.include?(product_name) == false
+      products.merge!(product_name => product_cost)
+      return products
+    else
+      raise ArgumentError.new, "You already have this product in your chart"
+    end
+  end
+
+  def remove_product(product_name)
+    if products.keys.include?(product_name) == true
+      products.delete(product_name)
+      return products
+    else
+      raise ArgumentError.new, "You don't have that product in your chart"
+    end
+  end
+
 end
-
-# def total(products)
-#   if products.length > 0
-#     total_cost = products.inject(&:+)*1.075.round(2)
-#   else
-#     total_cost = 0
-#   end 
-
-#   return total_cost
-# end
-
-
-#   def add_product(name, price)
-#     if collection.keys.include?(name) == false
-#       added_collection = collection.merge!(name => price)
-#       return added_collection
-#     else
-#       raise ArgumentError.new("You already have this product in your chart")
-#     end
-#   end
-
-#   def remove_product(name)
-#     if collection.keys.include?(name) == true
-#       removed_collection = collection.delete(:name)
-#       return removed_collection
-#     else
-#       raise ArgumentError.new("You don't have that product in your chart")
-#     end
-#   end
-
-# end
