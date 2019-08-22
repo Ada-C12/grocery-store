@@ -15,7 +15,7 @@ class Order
     valid_statuses = [:pending, :paid, :processing, :shipped, :complete]
     
     if !valid_statuses.include?(fulfillment_status)
-      raise ArgumentError.new "Invslid fulfillment status."
+      raise ArgumentError.new "Invalid fulfillment status."
     end
   end
 
@@ -44,6 +44,36 @@ class Order
       raise ArgumentError.new "Product cannot be removed. Product does not exist in this order."
     else
       @products.delete(product_name)
+    end
+  end
+
+  def self.all
+    orders = []
+
+    CSV.open('data/orders.csv', 'r+').map(&:to_a).each do |order|
+      products = order[1].split(";")
+      products_hash = {}
+
+      products.each do |product|
+        products2 = []
+        products2 << product.split(":")
+
+        products2.each do |item|
+          products_hash[item[0]] = item[1].to_f
+        end
+      end
+      
+      customer = Customer.find(order[2].to_i)
+
+      orders << Order.new(order[0].to_i, products_hash, customer, order[3].to_sym)
+    end
+
+    return orders
+  end
+
+  def self.find(id)
+    Order.all.find do |order|
+      order.id == id
     end
   end
 
