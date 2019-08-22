@@ -1,7 +1,8 @@
 require 'pry'
 require 'csv'
+require_relative 'customer'
 
-def find_fulfillment_status(a_string)
+def find_status_from_string(a_string)
   case a_string
   when "pending"
     return :pending
@@ -18,6 +19,23 @@ def find_fulfillment_status(a_string)
   end
 end
 
+def find_status_from_symbol(a_symbol)
+  case a_symbol
+  when :pending
+    return "pending"
+  when :paid
+    return "paid"
+  when :processing
+    return "processing"
+  when :shipped
+    return "shipped"
+  when :complete
+    return "complete"
+  else
+    raise ArgumentError, "Invalid fulfillment status."
+  end
+end
+
 # "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
 # { "banana" => 1.99, "cracker" => 3.00 }
 def parse_order(a_string)
@@ -29,6 +47,16 @@ def parse_order(a_string)
   end
   
   return product_hash
+end
+
+def product_to_csv_format(hash)
+  string = ""
+  
+  hash.each do |key, value|
+    string << key << ":" << value.to_s << ";"
+  end
+  
+  return string[0..-2]
 end
 
 class Order
@@ -80,11 +108,10 @@ class Order
       id = element[0].to_i
       products = parse_order(element[1])
       customer = Customer.find(element[2].to_i)
-      status = find_fulfillment_status(element[3].downcase)
+      status = find_status_from_string(element[3].downcase)
       
       all_orders << Order.new(id, products, customer, status)
     end
-    
     # returns an array of objects
     return all_orders
   end
@@ -108,5 +135,27 @@ class Order
     else
       return matches
     end
+  end
+  
+  # NOTE: The instructions specified that only the filename should be passed as a parameter.
+  # So no list of object can be passed in.
+  # No list of objects is saved in within the class.
+  # The return value of self.all is not saved, just returned.
+  # THe only thing self.save can do is produce a duplicate of the data file.
+  def self.save(filename)
+    all_orders = self.all
+    
+    CSV.open(filename, "w") do |file|
+      all_orders.each do |order|
+        id = order.id
+        products = product_to_csv_format(order.products)
+        customer = order.customer.id
+        status = find_status_from_symbol(order.fulfillment_status)
+        
+        row = [id, products, customer, status]
+        file << row
+      end
+    end
+    
   end
 end

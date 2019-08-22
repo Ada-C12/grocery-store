@@ -43,4 +43,24 @@ class Customer
       return matches[0]
     end
   end
+  
+  # NOTE: The instructions specified that only the filename should be passed as a parameter.
+  # So no list of object can be passed in.
+  # No list of objects is saved in within the class.
+  # The return value of self.all is not saved, just returned.
+  # THe only thing self.save can do is produce a duplicate of the data file.
+  def self.save(filename)
+    all_customers = self.all
+    
+    CSV.open(filename, "w") do |file|
+      all_customers.each do |customer|
+        
+        row = [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
+        file << row
+        
+      end
+    end
+  end
+  
 end
+
