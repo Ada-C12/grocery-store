@@ -19,4 +19,8 @@ class Customer
         end
         return output
     end
+    
+    def self.find(id)
+        return Customer.all.find { |customer| customer.id == id}
+    end
 end
