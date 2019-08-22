@@ -4,7 +4,6 @@
 #   Delivery address, a hash
 require 'csv'
 
-
 # Wave 1
 
 class Customer
