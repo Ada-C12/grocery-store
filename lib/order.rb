@@ -67,4 +67,16 @@ class Order
     end
   end
   
+  def self.find_by_customer(customer_id)
+    orders = self.all
+    customers = Customer.all
+    orders_by_customer = []
+    orders.map do |order|
+      if order.customer.id == customer_id
+        orders_by_customer << order
+      end
+    end
+    return orders_by_customer
+  end
+  
 end
