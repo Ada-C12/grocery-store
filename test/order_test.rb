@@ -224,4 +224,38 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+  
+  # Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.
+  describe "Order.find_by_customer" do    
+    it "Can find multiple orders by a given customer" do
+      customer_30 = Customer.find(30)
+      order_50 = Order.new(50, {"Star Fruit" => 51.8}, customer_30, :processing)
+      order_60 = Order.new(60, {"Hummus" => 90.71}, customer_30, :processing)
+      order_64 = Order.new(64, {"Polenta" => 53.62, "Cacao" => 59.06, "Hokkien Noodles" => 10.06, "Cumquat" => 24.09}, customer_30, :complete)
+      
+      customer_orders = Order.find_by_customer(30)
+      
+      expect(customer_orders.length).must_equal 3
+      expect(customer_orders[0].id).must_equal 50
+      expect(customer_orders[1].id).must_equal 60
+      expect(customer_orders[2].id).must_equal 64
+    end
+    
+    it "Will return a single order if a customer has only one" do
+      customer_1 = Customer.find(1)
+      order_19 = Order.new(19, {"Wholewheat flour" => 0.95}, customer_1, :processing)
+      
+      customer_orders = Order.find_by_customer(1)
+      
+      expect(customer_orders.length).must_equal 1
+      expect(customer_orders[0].id).must_equal 19
+    end
+    
+    it "Will return empty for a customer with no orders" do
+      customer_orders = Order.find_by_customer(500)
+      expect(customer_orders.length).must_equal 0
+    end
+    
+  end
+  
 end
