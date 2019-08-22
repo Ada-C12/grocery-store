@@ -31,7 +31,7 @@ class Order
   def add_product(product, cost)
     
     if @products.keys.include?(product)
-      raise ArgumentError
+      raise ArgumentError.new "That product already exists"
     else
       @products[product] = cost
     end
@@ -40,6 +40,15 @@ class Order
     
   end 
   
+  def remove_product(product)
+    
+    if @products.keys.include?(product)
+      @products.delete(product)
+    else
+      raise ArgumentError.new "There is no product by that name"
+    end
+    return @products
+  end 
   
   
   
