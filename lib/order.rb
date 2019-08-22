@@ -43,20 +43,24 @@ class Order
     end
   end
   
+  def self.make_product_hash(string_of_products)
+    product_hash = {}
+    products = string_of_products.split(";")
+    
+    products.each do |product|
+      product_parts = product.split(":")
+      product_hash[product_parts[0]] = product_parts[1].to_f
+    end
+    
+    return product_hash
+  end
+  
+  
   def self.all  
     all_orders = []
     
     CSV.foreach("data/orders.csv") do |row|
-      product_hash = {}
-      product_list = row[1]
-      
-      products = product_list.split(";")
-      
-      products.each do |product|
-        product_parts = product.split(":")
-        product_hash[product_parts[0]] = product_parts[1].to_f
-      end
-      
+      product_hash = make_product_hash(row[1])
       customer = Customer.find(row[-2].to_i)
       
       all_orders << Order.new(row[0].to_i, product_hash, customer, row[-1].to_sym)
