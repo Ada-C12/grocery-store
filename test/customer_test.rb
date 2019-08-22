@@ -91,3 +91,21 @@ describe "Customer Wave 2" do
     end
   end
 end
+
+describe "Customer Wave 3" do
+  describe 'Can create an all_customers file' do
+    
+    it 'The file is created' do
+      # Arrange
+      filename = "data/all_customers.csv"
+      data = Customer.all()
+      
+      # Act
+      Customer.save(filename)
+      
+      # Assert
+      expect(File.exist?(filename)).must_equal true
+    end
+    
+  end
+end

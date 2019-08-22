@@ -90,7 +90,6 @@ class Order
     return found_orders
   end
   
-  # Add a new class method to each of Order and Customer called save. The save method should take one parameter, a file name, and save the list of objects to that file in the same format as the original CSV file.
   def format_product_info_for_saving()
     product_string = ""
     self.products.each_pair do |product_name, product_price|
