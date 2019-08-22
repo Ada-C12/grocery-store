@@ -36,4 +36,28 @@ class Order
       @products.delete(name)
     end
   end
+  
+  def self.all
+    orders = CSV.open('data/orders.csv', 'r+').map do |order|
+      fulfillment_status = order.pop
+      cust = order.pop
+      id = order.shift
+      products = order.pop.to_s
+      products = products.split(';')
+      product_hash = {}
+      products.each do |product|
+        item_and_price = product.split(':')
+        item = item_and_price[0]
+        price = item_and_price[1]
+        product_hash[item] = price.to_f
+      end
+      
+      customer = Customer.find(cust.to_i)
+      
+      order = Order.new(id.to_i, product_hash, customer, fulfillment_status.to_sym)
+    end
+    return orders
+  end
+  
+  
 end
