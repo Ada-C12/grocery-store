@@ -41,10 +41,11 @@ class Order
   
   
   def add_product(product_name, price)
-    
+    if @products.key?(product_name)
+      raise ArgumentError.new "Product of the same name had already been added to this order."
+    end
+
     @products[product_name] = price
-    
-    # raise ArgumentError.new "Product of the same name had already been added to this order."
     
   end
   
