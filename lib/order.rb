@@ -59,7 +59,6 @@ class Order
     return order_hash
   end
   
-  
   def self.all 
     order_list = self.hash.map do |order|
       Order.new(order[:id], order[:products], order[:customerID], order[:status].to_sym)
@@ -69,8 +68,11 @@ class Order
   end
   
   def self.find(id)
+    order_array = self.all
+    found_order = order_array.select {|order| order.id == id}
     
+    return found_order[0]
   end
   
-  
 end
+
