@@ -33,4 +33,13 @@ class Order
       @products[product_name] = product_price
     end
   end
+
+  def remove_product(product_name)
+    if !@products.has_key?(product_name)
+      raise ArgumentError.new("That product is not in the collection anyway")
+    else
+      @products.delete(product_name)
+    end
+    return @products
+  end
 end
