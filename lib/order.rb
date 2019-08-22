@@ -45,4 +45,11 @@ class Order
         end
         return order_list
     end
+    
+    def self.find(id) 
+        orders = Order.all
+        return orders.find {|order| order.id == id }
+        # - returns an instance of Order where the value of 
+        # the id field in the CSV matches the passed parameter
+    end
 end
