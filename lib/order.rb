@@ -1,3 +1,6 @@
+require 'csv'
+require 'pry'
+
 class Order
   
   attr_reader :id, :customer, :fulfillment_status, :products
@@ -49,7 +52,7 @@ class Order
   end
   
   def remove_product(rem_product_name)
-    existing_prods = @products.keys
+    existing_prods = @products.keys 
     
     unless existing_prods.include?(rem_product_name)
       raise ArgumentError.new("Product is not in the catalog and therefore cannot be removed.")
@@ -58,5 +61,7 @@ class Order
     end
     
   end
+  
+  
   
 end
