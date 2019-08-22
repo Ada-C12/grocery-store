@@ -19,24 +19,11 @@ class Customer
     end 
     def self.all
         data = CSV.read('data/customers.csv')
-        customers = []
-        data.each do |person|
-            
+        customers = data.map do |person|
             address = {street: person[2], city: person[3], state: person[4], zip: person[5]}
             csv_instance = self.new(person[0].to_i, person[1], address)
-            customers << csv_instance 
-            
-            
-        end 
-        customers
-        
-        
-        
-        
-        
-        
-        
-        
+         end 
+        customers     
     end 
     
     
