@@ -21,7 +21,7 @@ class Customer
         data = CSV.read('data/customers.csv')
         customers = []
         data.each do |person|
-
+            
             address = {street: person[2], city: person[3], state: person[4], zip: person[5]}
             csv_instance = self.new(person[0].to_i, person[1], address)
             customers << csv_instance 
@@ -38,29 +38,20 @@ class Customer
         
         
     end 
-
-  
+    
+    
     def self.find (id)
-        data = CSV.read('data/customers.csv')
-        customer = nil 
-        data.each do |person|
-            if person[0].to_i == id 
-            address = {street: person[2], city: person[3], state: person[4], zip: person[5]}
-            csv_instance = self.new(person[0].to_i, person[1], address)
-            customer = csv_instance 
-            end 
-
-            
-
-        end 
-
-        customer 
-
+        data = self.all 
         
-
+        data.each do |person|
+            if person.id == id 
+                return person 
+            end 
+        end 
+        return nil 
     end 
-
-
+    
+    
     
     
     
