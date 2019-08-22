@@ -24,7 +24,53 @@ class Order
     else
       @products[product_name] = price
     end
-    # returns the product data to the product collection
-    # if a product with the same name has been added, raise ArgumentError
+  end
+
+  def self.all
+    order_instances = []
+    all_orders = CSV.read('../data/orders.csv').map(&:to_a)
+    all_orders.each do |cur_order|
+      id = cur_order[0].to_i
+      products = product_hash(cur_order[1])
+      customer = Customer.find(cur_order[2].to_i)
+      fulfillment_status = cur_order[3].to_sym
+      order = Order.new(id, products, customer, fulfillment_status)
+      order_instances << order
+    end
+    return order_instances
+  end
+
+  def self.product_hash(string_of_products)
+    split_products = Hash.new
+    products_array = string_of_products.split(';')
+    products_array.each do |item|
+      split_item = []
+      split_item = item.split(':')
+      split_products[split_item[0]] = split_item[1].to_f
+    end
+    return split_products
+  end
+
+  def self.find(id)
+    Order.all.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end
+
+  def self.find_by_customer(customer_id)
+    matching_orders = []
+    Order.all.each do |order|
+      if order.customer.id == customer_id
+        # or order.customer == Customer.find(customer_id)
+        matching_orders << order
+      end
+    end
+    if matching_orders.empty?
+      return "Sorry. No orders found."
+    end
+    return matching_orders
   end
 end
