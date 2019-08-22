@@ -7,6 +7,5 @@ class Customer
     @id = id
     @email = email
     @address = address
-  end
-  
+  end 
 end
