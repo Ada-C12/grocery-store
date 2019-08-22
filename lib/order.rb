@@ -1,3 +1,6 @@
+require 'csv'
+require_relative 'customer'
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -78,6 +81,16 @@ class Order
     customer_orders = order_array.select {|order| order.customer.id == customer_id}
     
     return customer_orders
+  end
+  
+  def self.save(filename)
+    total_orders = self.all
+    
+    CSV.open(filename, "wb") do |csv|
+      total_orders.each do |order|
+        csv << [order.id, order.products, order.customer, order.fulfillment_status]
+      end
+    end
   end
   
 end
