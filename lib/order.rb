@@ -112,5 +112,23 @@ class Order
     return nil
   end
   
+  # Optional - returns a list of order instances for specified customer id
+  def self.find_by_customer(customer_id)
+    all_orders_array = Order.all
+    
+    order_list = []
+    
+    all_orders_array.each do |order|
+      if order.customer.id == customer_id
+        order_list << order
+      end 
+    end
+    
+    if order_list.length == 0
+      raise ArgumentError.new("There are no orders for that ID.")
+    end
+    
+    return order_list
+  end
   
 end
