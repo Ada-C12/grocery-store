@@ -62,6 +62,55 @@ class Order
     
   end
   
+  # Creates order instances from a CSV file
+  def self.all
+    csv_array = CSV.read('data/orders.csv').map(&:to_a)
+    
+    instance_array = []
+    
+    csv_array.each do |row|
+      products = self.make_hash(row[1])
+      
+      instance_array << Order.new(row[0].to_i, products, Customer.find(row[2].to_i), row[3].to_sym)
+    end
+    
+    return instance_array
+  end
+  
+  # Helper method for self.all
+  def self.make_hash(product_string)
+    # Separate products into an array
+    prod_array = product_string.split(";")
+    prod_nested_array = []
+    
+    # Make a nested array of individual products and their prices
+    prod_array.each do |item|
+      prod_nested_array << item.split(":")
+    end
+    
+    # Create a hash of all of the nested array items
+    prod_hash = {}
+    prod_nested_array.each do |key, value|
+      prod_hash[key] = value.to_f
+    end
+    
+    return prod_hash
+    
+  end
+  
+  # Looks for a specified ID and returns order instance, if found.
+  def self.find(id)
+    ord_instance_array = Order.all
+    
+    ord_instance_array.each do |order|
+      if id == order.id
+        return order
+      end
+    end
+    
+    # Did not locate customer
+    return nil
+  end
   
   
 end
