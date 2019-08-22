@@ -19,7 +19,7 @@ describe "Order Wave 1" do
   end
 
   describe "#initialize" do
-    it "Takes an ID, collection of products, customer, and fulfillment_status" do
+  it "Takes an ID, collection of products, customer, and fulfillment_status" do
       id = 1337
       fulfillment_status = :shipped
       order = Order.new(id, {}, customer, fulfillment_status)
@@ -62,7 +62,7 @@ describe "Order Wave 1" do
   end
 
   describe "#total" do
-    it "Returns the total from the collection of products" do
+  it "Returns the total from the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       order = Order.new(1337, products, customer)
 
@@ -79,7 +79,7 @@ describe "Order Wave 1" do
   end
 
   describe "#add_product" do
-    it "Increases the number of products" do
+  it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
       before_count = products.count
       order = Order.new(1337, products, customer)
