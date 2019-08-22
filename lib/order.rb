@@ -55,6 +55,6 @@ class Order
 
   def self.find(id)
     orders = self.all
-    return order.find { |order| order.id == id }
+    return orders.find { |order| order.id == id }
   end
 end
