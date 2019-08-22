@@ -235,4 +235,22 @@ describe "Order Wave 2" do
       expect(no_order).must_equal nil
     end
   end
+  
+  describe "Order.find_by_customer" do
+    it "Finds the correct number of orders for a customer with one order" do
+      all_orders = Order.all
+      customer_orders = Order.find_by_customer(7)
+      
+      expect(customer_orders.length).must_equal 1 
+      expect(customer_orders[0].id).must_equal 34     
+    end
+    
+    it "Finds the correct number of orders for a customer with multiple orders" do
+      all_orders = Order.all
+      customer_orders = Order.find_by_customer(6)
+      
+      expect(customer_orders.length).must_equal 3
+      expect(customer_orders[0].id).must_equal 54  
+    end
+  end
 end

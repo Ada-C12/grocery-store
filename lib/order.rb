@@ -76,8 +76,15 @@ class Order
     
     return order    
   end
+  
+  def self.find_by_customer(customer_id)
+    customer_orders = Order.all.select do |order|
+      order.customer.id == customer_id
+    end
+    
+    return customer_orders
+  end
 end
-
 
 
 
