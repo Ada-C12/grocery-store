@@ -83,4 +83,14 @@ class Order
     return nil if orders_by_customer.empty?
     return orders_by_customer
   end
+
+  # wave-3
+  def self.save(filename)
+    CSV.open(filename, 'w') do |csv|
+      CSV.open(ORDERS_CSV).each do |line|
+        csv << line
+      end
+    end
+  end
+
 end
