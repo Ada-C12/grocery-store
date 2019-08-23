@@ -87,7 +87,7 @@ class Order
   def self.find_by_customer(customer_id)
     
     all_customer_orders = Order.all.select { |order|  order if order.customer.id == customer_id }
-    # clients.map { |client| client.ip if client.type == 'tablet' }.compact
+    return all_customer_orders
   end
   
 end
