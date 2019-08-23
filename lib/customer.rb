@@ -32,11 +32,19 @@ class Customer
     return all_customers.find { |customer| customer.id == id }
   end
   
-
+  
   def self.save(file)
-    # save the list of objects to the file in the same format as the original CSV
-
-
-
+    # save the list of objects to the file in the ALMOST same format as the original CSV
+    # I added object_id for Customer instances
+    all_customers = Customer.all
+    CSV.open(file, "a") do |file|
+      file << ["OBJECT_ID", "ID", "EMAIL", "ADDRESS HASH"]
+      all_customers.each do |line|
+        object_id = line.object_id
+        file << [object_id, line.id, line.email, line.address]
+      end
+    end
+  end
 end
+
 

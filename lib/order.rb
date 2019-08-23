@@ -80,7 +80,7 @@ class Order
     all_orders = self.all
     return all_orders.find { |order| order.id == order_id }
   end
-
+  
   # OPTIONAL
   def self.find_by_customer(customer_id)
     # returns an Array of Order instances with matching customer Id
@@ -91,6 +91,25 @@ class Order
       curr_customer_inst = order.customer
       if curr_customer_inst.id == customer_id
         specific_customers_orders << order
+      end
+    end
+  end
+  
+  def self.save(file)
+    # save the list of objects to the file in ALMOST the same format as the original CSV
+    # I added object_ids for the Order and the Customers!!  
+    ### CRAZY ASS "BUG" of duplicate instances b/c both Order.all will invoke Customer.all, 
+    ### and if u call both Order.all and separately Customer.all, which we totally did here... 
+    ### the object_ids of the customer sets in both destination files will NOT MATCH! 
+    ### Solution: make Order.all refer to the customer master database instead of calling Customer.all within itself 
+    ### end CRAZY ASS BUG rant
+    
+    all_orders = self.all
+    CSV.open(file, "a") do |file|
+      file << ["OBJECT_ID", "ID", "PRODUCTS", "CUSTOMER_OBJ", "CUSTOMER_ID", "FULFILLMENT_STATUS"]
+      all_orders.each do |line|
+        object_id = line.object_id
+        file << [object_id, line.id, line.products, line.customer, line.customer.id, line.fulfillment_status]
       end
     end
   end
