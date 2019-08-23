@@ -24,7 +24,7 @@ class Order
 
     tax_amount = total * 0.075
     total = total + tax_amount
-    return ("%.2f" % total).to_f
+    return total.round(2)
   end
 
   def add_product(product_name, product_price)
