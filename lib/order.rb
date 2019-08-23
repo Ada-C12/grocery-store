@@ -51,17 +51,17 @@ class Order
 
   def self.all
     orders = []
-
+    
     CSV.open('data/orders.csv', 'r+').map(&:to_a).each do |order|
-      products = order[1].split(";")
+      product_list = order[1].split(";")
       products_hash = {}
 
-      products.each do |product|
-        products2 = []
-        products2 << product.split(":")
+      product_list.each do |product|
+        products_separated = []
+        products_separated << product.split(":")
 
-        products2.each do |item|
-          products_hash[item[0]] = item[1].to_f
+        products_separated.each do |value|
+          products_hash[value[0]] = value[1].to_f
         end
       end
       
