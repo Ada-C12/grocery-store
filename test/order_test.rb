@@ -5,7 +5,8 @@ require 'minitest/skip_dsl'
 require_relative '../lib/customer'
 require_relative '../lib/order'
 
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+Minitest::Reporters.use! 
+Minitest::Reporters::SpecReporter.new
 
 describe "Order Wave 1" do
   let(:customer) do
@@ -195,8 +196,9 @@ describe "Order Wave 2" do
   
   describe "Order.find_by_customer" do
     it "Can find all the orders for a customer" do
-      orders = Order.find_by_customer(25)      
+      orders = Order.find_by_customer(25)   
       expect(orders).must_be_kind_of Array
+      expect(orders.length).must_equal 6
       expect(orders.first).must_be_kind_of Order
       expect(orders.first.id).must_equal 1
       expect(orders.last).must_be_kind_of Order
@@ -206,6 +208,7 @@ describe "Order Wave 2" do
     it "Can find all the orders for a customer" do
       orders = Order.find_by_customer(5)      
       expect(orders).must_be_kind_of Array
+      expect(orders.length).must_equal 1
       expect(orders.first).must_be_kind_of Order
       expect(orders.first.id).must_equal 3
       expect(orders.last).must_be_kind_of Order
