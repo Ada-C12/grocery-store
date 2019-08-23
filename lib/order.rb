@@ -79,4 +79,10 @@ class Order
     return orders_by_customer
   end
   
+  def self.save(file)
+    File.open(file, 'a+') do |content|
+      content << self.all
+    end
+  end
+  
 end
