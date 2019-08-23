@@ -23,4 +23,13 @@ class Customer
     def self.find(id)
         return Customer.all.find { |customer| customer.id == id}
     end
+
+    def self.save(filename)
+        customers = Customer.all
+        CSV.open(filename, 'w') do |file|
+            customers.each do |customer|
+                file << [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:zip]]
+            end
+        end
+    end
 end
