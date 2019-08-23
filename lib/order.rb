@@ -1,4 +1,6 @@
 require 'csv'
+require 'customer'
+require 'pry'
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -40,10 +42,26 @@ class Order
   def self.all
     array_of_orders = CSV.read("data/orders.csv")
     instances_of_orders = []
+
     array_of_orders.each do |order|
-      new_order = Order.new(customer[0].to_i, customer[1], {street: customer[2], city: customer[3], state: customer[4], zip: customer[5]})
+    # CSV.foreach("data/orders.csv") do |order|
+      mini_array = []
+      prod_orders = {}
+      products = order[1].split(";")
+      products.each do |prod|
+        item = prod.split(":")
+        mini_array.push(item)
+      end 
+
+      mini_array.each do |pp|
+        prod_orders[pp[0]] = pp[1].to_f
+      end 
+
+      # binding.pry
+      new_order = Order.new(order[0].to_i, prod_orders, Customer.find(order[2].to_i), order[3].to_sym)
       instances_of_orders.push(new_order)
-    end 
+    end
     return  instances_of_orders
   end 
+
 end 
