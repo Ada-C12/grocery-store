@@ -42,21 +42,7 @@ class Order
     else
       raise ArgumentError, "It's not even in your order!"
     end
-  end
-  
-  ##############################################################################
-  # SOLUTION TO CRAZY ASS BUG, not going to do this but will document for future generations
-  
-  # HOLD UP!!!! we need to AVOID calling Customer.find(id) b/c it will call Customer.find
-  # which will make new Customer instances all over again!  
-  
-  # IDEALLY... use Customer.all and save those Objects to a master database,
-  # anytime a new Customer instnce is made, immediately add to that database.
-  # CHANGE Customer.find(id) to look into that master database.
-  # CHANGE Order.all to do the same!!!
-  
-  ##############################################################################
-  
+  end  
   
   def self.all
     file = "data/orders.csv"
@@ -110,14 +96,7 @@ class Order
   end
   
   def self.save(file)
-    # save the list of objects to the file in ALMOST the same format as the original CSV
-    # I was gonna add object_ids for the Order and the Customers but SHAN'T due to crazy ass bug
-    ### CRAZY ASS "BUG" of duplicate instances b/c both Order.all will invoke Customer.all, 
-    ### and if u call both Order.all and separately Customer.all, which we totally did here... 
-    ### the object_ids of the customer sets in both destination files will NOT MATCH! 
-    ### Solution: make Order.all refer to the customer master database instead of calling Customer.all within itself 
-    ### end CRAZY ASS BUG rant
-    
+
     all_orders = self.all
     CSV.open(file, "a") do |file|
       file << ["ID", "PRODUCTS", "CUSTOMER_ID", "FULFILLMENT_STATUS"]

@@ -9,7 +9,9 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 ### MY TESTS ###
 # puts "\nMY TESTS"
-# ap Customer.all
+# # will add onto existing data everytime b/c Customer.save includes Customer.all
+# # which creates new Customer objs from origin csv
+# Customer.save('data/customerObjs.csv')
 # puts "\n\n\n\n\n"
 
 
