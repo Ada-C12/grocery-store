@@ -43,7 +43,6 @@ end
 # Returns information in formatted hash form.
 # { "Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21 }
 def parse_order(a_string)
-  
   product_hash = {}
   
   a_string.split(";").each do |pair|
@@ -52,12 +51,10 @@ def parse_order(a_string)
   end
   
   return product_hash
-  
 end
 
 # Takes in a hash of products and returns formatted string for CSV file.
 def product_to_csv_format(hash)
-  
   string = ""
   
   hash.each do |key, value|
@@ -66,7 +63,6 @@ def product_to_csv_format(hash)
   
   # Remove the last ";" character prior to returning string.
   return string[0..-2]
-  
 end
 
 class Order
@@ -142,11 +138,6 @@ class Order
     end
   end
   
-  # NOTE: The instructions specified that only the filename should be passed as a parameter.
-  # So no list of object can be passed in.
-  # No list of objects is saved in within the class.
-  # The return value of self.all is not saved, just returned.
-  # THe only thing self.save can do is produce a duplicate of the data file.
   def self.save(filename)
     all_orders = self.all
     
@@ -158,6 +149,7 @@ class Order
         status = find_status_from_symbol(order.fulfillment_status)
         
         row = [id, products, customer, status]
+        
         file << row
       end
     end
