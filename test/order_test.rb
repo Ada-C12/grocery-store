@@ -147,7 +147,11 @@ end
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      order = Order.all
+      
+      expect (order).must_be_instance_of Array
+      expect (order.sample).must_be_instance_of Order
+      expect (order.length).must_equal 100
     end
     
     it "Returns accurate information about the first order" do
@@ -161,7 +165,7 @@ describe "Order Wave 2" do
       fulfillment_status = :complete
       
       order = Order.all.first
-
+      
       # Check that all data was loaded as expected
       expect(order.id).must_equal id
       expect(order.products).must_equal products
@@ -171,21 +175,101 @@ describe "Order Wave 2" do
     end
     
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+      
+      order = Order.all.last
+      
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
   
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      id = 1
+      products = {
+        "Lobster" => 17.18,
+        "Annatto seed" => 58.38,
+        "Camomile" => 83.21
+      }
+      customer_id = 25
+      fulfillment_status = :complete
+      
+      order = Order.find(1)
+      
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
+      
     end
     
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+      
+      order = Order.find(100)
+      
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
     
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      id = 150
+      assert_nil(Order.find(id))
+    end
+  end
+  
+  describe "Order.find_by_customer" do
+    # returns a list of Order instances where the value of the customer's ID matches the passed parameter.
+    
+    it "Returns and array of orders" do
+      customer_id = 20
+      customer_orders = 7
+      orders = Order.find_by_customer(customer_id)
+      
+      expect (orders).must_be_instance_of Array
+      expect (orders.length).must_equal customer_orders
+      expect (orders.sample).must_be_instance_of Order
+    end
+    
+    it "Returns and array of orders of one customer" do
+      customer_id = 20
+      customer_orders = 7
+      orders = Order.find_by_customer(customer_id)
+      
+      expect (orders).must_be_instance_of Array
+      expect (orders.length).must_equal customer_orders
+      expect (orders.sample).must_be_instance_of Order
+      expect (orders.sample.customer.id).must_equal customer_id 
+    end
+    
+    it "Returns nil for a customer that doesn't exist" do
+      customer_id = 80
+      assert_nil(Order.find_by_customer(customer_id))
     end
   end
 end
