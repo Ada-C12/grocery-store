@@ -83,14 +83,33 @@ class Order
     return nil if orders_by_customer.empty?
     return orders_by_customer
   end
-
+  
   # wave-3
   def self.save(filename)
+    
+    # change my method to use Order.all to get the collection of all the orders and then save all the information to csv, which makes more sense because there could be more orders added to the order collection and then call Order.save to save the newly added order information 
+    
     CSV.open(filename, 'w') do |csv|
-      CSV.open(ORDERS_CSV).each do |line|
-        csv << line
+      Order.all.each do |order|
+        id = order.id.to_s
+        products_arr = []
+        order.products.each do |name, price|
+          products_arr << "#{name}:#{price}"
+        end
+        products = products_arr.join(";")
+        customer_id = order.customer.id.to_s
+        fulfillment_status = order.fulfillment_status.to_s
+        
+        csv << [id, products, customer_id, fulfillment_status]
+        
       end
     end
+    
+    # CSV.open(filename, 'w') do |csv|
+    #   CSV.open(ORDERS_CSV).each do |line|
+    #     csv << line
+    #   end
+    # end
   end
-
+  
 end
