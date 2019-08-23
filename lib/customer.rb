@@ -20,7 +20,7 @@ class Customer
   end
 
   def self.find(id)
-    customer_data = Customer.all
+    customer_data = self.all
     return customer_data.find { |customer| customer.id == id }
   end
 
