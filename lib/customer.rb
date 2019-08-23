@@ -27,6 +27,15 @@ class Customer
   
   
   def self.find(id)
+    customer_array = self.all
+    # p "=============="
+    # p customer_array
+    customer_array.each do |object|
+      if object.id == id
+        return object
+      end 
+    end
+    return nil
   end
   
 end
