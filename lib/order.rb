@@ -74,9 +74,20 @@ class Order
       end
       orders << Order.new(id, products, customer, fulfillment_status)
     end
-    
-    
     return orders
+  end
+  
+  
+  def self.find(id)
+    
+    Order.all.find { |order| order.id == id}
+    
+  end
+  
+  def self.find_by_customer(customer_id)
+    
+    all_customer_orders = Order.all.select { |order|  order if order.customer.id == customer_id }
+    # clients.map { |client| client.ip if client.type == 'tablet' }.compact
   end
   
 end

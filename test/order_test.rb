@@ -218,4 +218,35 @@ describe "Order.find" do
     expect(Order.find(53145)).must_be_nil
   end
 end
+
+
+describe "Order.find_by_cusomer" do
+  
+  it "Returns an array of all customer orders for a given customer id" do
+    customer_id = 35
+    
+    all_orders = Order.find_by_customer(35)
+    
+    expect(all_orders.length).must_equal 4
+    expect(all_orders).must_be_kind_of Array
+  end
+  
+  
+  it "Returns accurate information for the second customer order for a given customer id" do
+    customer_id = 35
+    products = {
+    "Nasturtium" => 26.33,
+    "Baking Powder" => 47.62
+  }
+  fulfillment_status = :processing
+  all_orders = Order.find_by_customer(35)
+  
+  expect(all_orders[1].id).must_equal 47
+  expect(all_orders[1].products).must_equal products
+  expect(all_orders[1].customer).must_be_kind_of Customer
+  expect(all_orders[1].customer.id).must_equal customer_id
+  expect(all_orders[1].fulfillment_status).must_equal fulfillment_status
+  
+end
+end
 end
