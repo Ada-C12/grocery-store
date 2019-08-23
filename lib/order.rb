@@ -49,7 +49,15 @@ class Order
     def self.find(id) 
         orders = Order.all
         return orders.find {|order| order.id == id }
-        # - returns an instance of Order where the value of 
-        # the id field in the CSV matches the passed parameter
+    end
+    
+    def self.find_by_customer(customer_id)
+        orders = Order.all    
+        output = orders.select { |order| order.customer.id == customer_id }
+        if output.empty?
+            return nil
+        else
+            return output
+        end
     end
 end
