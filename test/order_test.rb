@@ -221,4 +221,23 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       expect(Customer.find(25673)).must_be_nil    end
   end
+
+  # Order.find_by_customer(customer_id) - returns a list of 
+  # Order instances where the value of the customer's ID matches the passed parameter.
+  describe "Order.find_by_customer(customer_id)" do
+    it "returns a list of Orders" do
+      # ACT
+      matching_orders = Order.find_by_customer(4)
+      # ASSERT
+      expect(matching_orders[0]).must_be_kind_of Order
+    end
+    it "returns the correct customer's orders" do
+      # ACT
+      matching_orders = Order.find_by_customer(4)
+      # ASSERT
+      expected_customer_id = 4
+      actual_customer_id = matching_orders[0].customer.id
+      expect(actual_customer_id).must_equal expected_customer_id
+    end
+  end
 end
