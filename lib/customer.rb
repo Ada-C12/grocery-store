@@ -20,7 +20,6 @@ class Customer
         :city => line[3], 
         :state => line[4], 
         :zip => line[5]}
-        p address
         @customers << Customer.new(id.to_i, email, address)
       end
       return @customers    
