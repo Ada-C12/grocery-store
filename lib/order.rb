@@ -1,3 +1,5 @@
+require 'customer'
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -34,5 +36,30 @@ class Order
     else
       @products[product_name] = price
     end
+  end
+  
+  # method to return a collection of Order instances
+  def self.all
+    return CSV.open('data/orders.csv').map do |curr_order|
+      products = {}
+      product_price_in_element = curr_order[1].split(";")
+      
+      product_price_in_element.each do |product_price|
+        separated = product_price.split(":")
+        products[separated[0]] = separated[1].to_f
+      end
+      
+      Order.new(curr_order[0].to_i, products, Customer.find(curr_order[-2].to_i), curr_order[-1].to_sym)
+    end
+  end
+  
+  # method to return an Order searched by id number
+  def self.find(id)
+    self.all.each do |order|
+      if id == order.id
+        return order
+      end
+    end
+    return nil 
   end
 end
