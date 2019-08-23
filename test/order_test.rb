@@ -5,6 +5,8 @@ require 'minitest/skip_dsl'
 require_relative '../lib/customer'
 require_relative '../lib/order'
 
+require 'pry'
+
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 describe "Order Wave 1" do
@@ -25,7 +27,9 @@ describe "Order Wave 1" do
       order = Order.new(id, {}, customer, fulfillment_status)
 
       expect(order).must_respond_to :id
+      # expect order.id to work
       expect(order.id).must_equal id
+      # order.id should be equal to id
 
       expect(order).must_respond_to :products
       expect(order.products.length).must_equal 0
@@ -114,10 +118,18 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+      
+      expect(orders.length).must_equal 100
+      orders.each do |order|
+        expect(order).must_be_kind_of Order
+        expect(order.id).must_be_kind_of Integer
+        expect(order.products).must_be_kind_of Hash
+        expect(order.fulfillment_status).must_be_kind_of Symbol
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -141,21 +153,35 @@ xdescribe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      last = Order.all.last
+      fulfillment_status = :pending
+      
+      expect(last.id).must_equal 100
+      expect(last.products["Amaranth"]).must_equal 83.81
+      expect(last.products["Smoked Trout"]).must_equal 70.6
+      expect(last.products["Cheddar"]).must_equal 5.63
+      expect(last.customer.id).must_equal 20
+      expect(last.fulfillment_status).must_equal fulfillment_status
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+      
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Order.find(4234234)).must_be_nil
     end
   end
 end
