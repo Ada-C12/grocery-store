@@ -1,4 +1,5 @@
 require 'csv'
+require './lib/customer'
 
 class Order
     STATUSES = [:pending, :paid, :processing, :shipped, :complete]
@@ -58,6 +59,22 @@ class Order
             return nil
         else
             return output
+        end
+    end
+    
+    def self.save(filename)
+        orders = Order.all
+        CSV.open(filename, 'w') do |file|
+            orders.each do |order|
+                
+                product_list = [] 
+                order.products.each do |name, price|
+                    product_list  << "#{name.to_s.capitalize}:#{price}"
+                end
+                
+                products = product_list.join(';')
+                file << [order.id, products, order.customer.id, order.fulfillment_status.to_s]
+            end
         end
     end
 end
