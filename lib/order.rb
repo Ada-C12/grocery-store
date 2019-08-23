@@ -86,4 +86,14 @@ class Order
     return product_hash
   end
   
+  def self.find(id)
+    order_list = Order.all
+    order_list.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    return nil
+  end 
+  
 end
