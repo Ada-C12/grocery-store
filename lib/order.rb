@@ -1,7 +1,7 @@
-require 'pry'
 require 'csv'
 require_relative 'customer'
 
+# Takes in a string, returns a symbol. 
 def find_status_from_string(a_string)
   case a_string
   when "pending"
@@ -19,6 +19,7 @@ def find_status_from_string(a_string)
   end
 end
 
+# Takes in a symbol, returns a string. 
 def find_status_from_symbol(a_symbol)
   case a_symbol
   when :pending
@@ -36,9 +37,13 @@ def find_status_from_symbol(a_symbol)
   end
 end
 
+# Takes in a string from CSV containing information about products in the order.
 # "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
-# { "banana" => 1.99, "cracker" => 3.00 }
+# ...
+# Returns information in formatted hash form.
+# { "Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21 }
 def parse_order(a_string)
+  
   product_hash = {}
   
   a_string.split(";").each do |pair|
@@ -47,24 +52,27 @@ def parse_order(a_string)
   end
   
   return product_hash
+  
 end
 
+# Takes in a hash of products and returns formatted string for CSV file.
 def product_to_csv_format(hash)
+  
   string = ""
   
   hash.each do |key, value|
     string << key << ":" << value.to_s << ";"
   end
   
+  # Remove the last ";" character prior to returning string.
   return string[0..-2]
+  
 end
 
 class Order
-  # order = Order.new(id, {}, customer, fulfillment_status)
   attr_accessor :products, :customer, :fulfillment_status
   attr_reader :id 
   
-  # do optional parameters work here - YES THEY DO
   def initialize(id, products, customer, fulfillment_status = :pending)
     if ![:pending, :paid, :processing, :shipped, :complete].include? fulfillment_status
       raise ArgumentError, 'Invalid fulfillment status.'
@@ -76,11 +84,9 @@ class Order
     @fulfillment_status = fulfillment_status
   end
   
-  # { "banana" => 1.99, "cracker" => 3.00 }
   def total
     total = @products.values.sum
     total *= 1.075
-    # FIND OUT IF THIS IS HOW THEY WANT TO ROUND
     return total.round(2)
   end
   
@@ -96,14 +102,14 @@ class Order
     if @products.keys.include? prod_name
       @products.reject! {|key,value| key == prod_name}
     else
-      raise ArgumentError, 'Product was not a part of the cart to begin with.'
+      raise ArgumentError, 'Product was not found in cart.'
     end
   end
   
   def self.all
     all_orders = []
     
-    # CSV file does not seem to include headers, will be read as array of arrays
+    # CSV file did not include headers, will be read as array of arrays.
     CSV.read('data/orders.csv').each do |element|
       id = element[0].to_i
       products = parse_order(element[1])
@@ -112,24 +118,23 @@ class Order
       
       all_orders << Order.new(id, products, customer, status)
     end
-    # returns an array of objects
+    
+    # Returns an array of objects.
     return all_orders
   end
   
-  def self.find(target_id)
-    matches = self.all.select {|order| order.id == target_id}
+  def self.find(order_id)
+    matches = self.all.select {|order| order.id == order_id}
     
-    # if no customers found, returns nil like the find method for Ruby arrays
-    # returns the first match if multiple matches found, like the find method for Ruby arrays
-    if matches == []
-      return nil
-    else
-      return matches[0]
-    end
+    # If no customer object found, returns nil like the find method for Ruby arrays.
+    # Returns the first match if multiple matches found, like the find method for Ruby arrays.
+    return matches[0]
   end
   
-  def self.find_by_customer(target_id)
-    matches = self.all.select {|order| order.customer.id == target_id}
+  def self.find_by_customer(cust_id)
+    matches = self.all.select {|order| order.customer.id == cust_id}
+    
+    # Returns nil if no matches found from customer ID.
     if matches == []
       return nil
     else
@@ -156,6 +161,6 @@ class Order
         file << row
       end
     end
-    
   end
+  
 end
