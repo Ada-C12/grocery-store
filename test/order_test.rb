@@ -232,7 +232,7 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       no_order = Order.find(101)
       
-      expect(no_order).must_equal nil
+      assert_nil(no_order)
     end
   end
   

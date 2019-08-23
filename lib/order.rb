@@ -5,7 +5,7 @@ class Order
   attr_reader :id, :products, :customer, :fulfillment_status, :total
   
   def initialize(id, products, customer, fulfillment_status=:pending)
-    @id = id
+    @id = id.to_i
     @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status 
@@ -61,7 +61,7 @@ class Order
     CSV.foreach("data/orders.csv") do |row|
       product_hash = make_product_hash(row[1])
       customer = Customer.find(row[-2].to_i)    
-      all_orders << Order.new(row[0].to_i, product_hash, customer, row[-1].to_sym)
+      all_orders << Order.new(row[0], product_hash, customer, row[-1].to_sym)
     end
     
     return all_orders
@@ -84,7 +84,7 @@ class Order
   
   def self.save(filename)
     all_orders = Order.all
-    CSV.open(filename, "w", force_quotes: false) do |csv|
+    CSV.open(filename, "w") do |csv|
       all_orders.each do |order|
         products = []
         

@@ -14,7 +14,7 @@ class Customer
     all_customers = []
     
     CSV.foreach("data/customers.csv") do |row|    
-      all_customers << Customer.new(row[0].to_i, row[1], {street: row[2], city: row[3], state: row[4], zip: row[5]})
+      all_customers << Customer.new(row[0], row[1], {street: row[2], city: row[3], state: row[4], zip: row[5]})
     end
     
     return all_customers
@@ -32,9 +32,8 @@ class Customer
     all_customers = Customer.all
     
     CSV.open(filename, "w") do |csv|
-      
       all_customers.each do |customer|
-        csv << [customer.id.to_s, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]        
+        csv << [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
       end
     end    
   end
