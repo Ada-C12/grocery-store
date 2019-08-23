@@ -13,7 +13,7 @@ class Customer
   end
   
   def self.all
-    return CSV.open('../data/customers.csv', 'r+').map do |customer|
+    return CSV.open('./data/customers.csv', 'r+').map do |customer|
       address = { 
         street: customer[2],
         city: customer[3],
@@ -24,8 +24,8 @@ class Customer
     end
   end
   
-  
-  
+  def self.find(id)
+    data = Customer.all
+    return data.find { |instance| instance.id == id }
+  end
 end
-
-
