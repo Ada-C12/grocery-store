@@ -37,7 +37,7 @@ class Order
     return total
   end
   
-  def add_product (product_name, price)
+  def add_product(product_name, price)
     @products.each do |key,value|
       if key == product_name
         raise ArgumentError.new("Product Already in Order")
@@ -48,7 +48,7 @@ class Order
     return @products
   end
   
-  def remove_product (product_name)
+  def remove_product(product_name)
     @products.each do |key,value|
       if key == product_name
         @products.delete(key)
@@ -62,8 +62,6 @@ class Order
   def self.all
     order_list = []
     CSV.read('data/orders.csv').each do |line|
-      #index_variable = line.length
-      # products = line[1,(index_variable-3)]
       products = product_format(line[1])
       customer = Customer.find(line[2].to_i)
       new_order = Order.new(line[0].to_i, products, customer, line[-1].to_sym)
