@@ -19,8 +19,14 @@ class Customer
     array = CSV.read('data/customers.csv').map do |row|
       Customer.new(row[0].to_i, row[1], {street: row[2], city: row[3], state: row[4], zip: row[5]})
     end
-    # binding.pry
     return array
   end
   
+  def self.find(id_parameter)
+    if ((self.all).length) == (id_parameter - 1 )
+      return Customer.new(nil, nil, nil)
+    else 
+      return self.all[id_parameter - 1]
+    end
+  end
 end
