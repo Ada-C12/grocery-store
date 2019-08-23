@@ -1,10 +1,9 @@
-#order.rb
+require 'csv'
+require_relative "customer.rb"
 
 class Order
-  
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
-  
   
   def initialize(id, products, customer, fulfillment_status = :pending)
     valid_statuses = %i[pending paid processing shipped complete]
@@ -31,6 +30,36 @@ class Order
     else
       products[name] = price
     end 
+  end 
+  
+  def self.all
+    csv_orders = CSV.read("data/orders.csv").map(&:to_a)
+    
+    final_orders = []
+    csv_orders.each do |line|
+      order_id = line[0].to_i
+      
+      customer_id = line[2].to_i
+      customer = Customer.find(customer_id)
+      
+      fulfillment_status = line[3].to_sym
+
+      list_products = line[1].split(";")
+      hash_products = {}
+      
+      list_products.each do |pair|
+        pairs = pair.split(":")
+        item = pairs[0]
+        price = pairs[1]
+
+        hash_products[item] = price.to_f
+      end 
+
+      new_order = Order.new(order_id, hash_products, customer, fulfillment_status)  
+      final_orders << new_order   
+    end
+
+    return final_orders
   end 
   
 end 
