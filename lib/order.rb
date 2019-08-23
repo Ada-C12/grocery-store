@@ -44,7 +44,6 @@ class Order
     instances_of_orders = []
 
     array_of_orders.each do |order|
-    # CSV.foreach("data/orders.csv") do |order|
       mini_array = []
       prod_orders = {}
       products = order[1].split(";")
@@ -57,11 +56,19 @@ class Order
         prod_orders[pp[0]] = pp[1].to_f
       end 
 
-      # binding.pry
       new_order = Order.new(order[0].to_i, prod_orders, Customer.find(order[2].to_i), order[3].to_sym)
       instances_of_orders.push(new_order)
     end
     return  instances_of_orders
   end 
 
+  def self.find(id_search)
+    order_data = Order.all
+    order_data.each do |order|
+      if order.id == id_search
+        return order
+      end
+    end 
+    return nil 
+  end 
 end 
