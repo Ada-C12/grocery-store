@@ -19,8 +19,8 @@ class Customer
       address = {
         street: line[2],
         city: line[3],
-        state: line [4],
-        zip: line [5]
+        state: line[4],
+        zip: line[5]
       }
       
       customer = Customer.new(id,email,address)
