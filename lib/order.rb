@@ -1,3 +1,5 @@
+require 'csv'
+
 class Order
 
   attr_reader :id
@@ -35,9 +37,43 @@ class Order
     else
       @products[product_name] = price
     end
-    return @products
-        
+    return @products    
   end
 
+
+  def self.all
+    orders = []
+    csv_orders = CSV.open("data/orders.csv")
+
+    csv_orders.each do |line|
+      orders << Order.new(line[0].to_i, (split_csv_method(line[1])), Customer.find(line[-2].to_i), line[-1].to_sym)
+    end
+    return orders
+  end
+
+  #Helper method used to split the products information in the CSV file. The method returns a hash with two key value pairs, product: "product" and price: 0.00.
+  def self.split_csv_method(csv_to_be_split)
+    new_array = []
+    prod_orders = {}
+    products = csv_to_be_split.split(";")
+    products.each do |prod|
+      item = prod.split(":")
+      new_array.push(item)
+    end
+    #pp = product/price
+    new_array.each do |pp|
+      prod_orders[pp[0]] = pp[1].to_f
+    end
+    return prod_orders
+
+  end
+
+  def self.find(id)
+    find_order = Order.all
+
+    found_order = find_order.find(ifnone = nil) {|order| order.id == id}
+
+    return found_order
+  end
 
 end
