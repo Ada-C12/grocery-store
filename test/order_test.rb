@@ -230,4 +230,31 @@ describe "Order Wave 2" do
       expect(Order.find(1005)).must_be_nil
     end
   end
+
+  describe "Order.find_by_customer" do
+    it "Returns correct number of orders using customer id" do
+      customer_id = 35
+
+      customer_orders = Order.find_by_customer(customer_id)
+
+      expect(customer_orders.length).must_equal 4
+    
+    end
+    it "Returns correct order data based on a customer id" do
+      customer_id = 31
+      order_59_products = {
+        "Miso" => 88.86,
+        "White Wine" => 8.52,
+        "Turnips" => 30.73
+      }
+
+      customer_orders = Order.find_by_customer(customer_id)
+
+      expect(customer_orders[1].id).must_equal 39
+      expect(customer_orders[2].products).must_equal order_59_products
+      expect(customer_orders[5].fulfillment_status).must_equal :paid
+    end
+  end
 end
+
+
