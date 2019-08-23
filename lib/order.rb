@@ -42,11 +42,9 @@ class Order
     return order_data.find { |order| order.id == id }
   end
 
-  # Order.find_by_customer(customer_id) - returns a list of Order instances where the value of the customer's ID matches the passed parameter.
   def self.find_by_customer(customer_id)
     order_data = self.all
     return order_data.select { |order| order.customer.id == customer_id}
-
   end
 
   def total
