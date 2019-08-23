@@ -84,6 +84,7 @@ class Order
   
   def self.save(filename)
     all_orders = Order.all
+    
     CSV.open(filename, "w") do |csv|
       all_orders.each do |order|
         products = []
@@ -92,7 +93,7 @@ class Order
           products.push("#{name}:#{price}")
         end
         
-        csv << [order.id.to_s, products.join(";"), order.customer.id.to_s, order.fulfillment_status.to_s]
+        csv << [order.id, products.join(";"), order.customer.id, order.fulfillment_status.to_s]
       end
     end    
   end  

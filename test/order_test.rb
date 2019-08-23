@@ -215,7 +215,6 @@ describe "Order Wave 2" do
     end
     
     it "Can find the last order from the CSV" do
-      
       products = {"Amaranth" => 83.81,
         "Smoked Trout" => 70.6,
         "Cheddar" => 5.63
