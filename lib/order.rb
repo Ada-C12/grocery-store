@@ -40,7 +40,6 @@ class Order
     return @products    
   end
 
-
   def self.all
     orders = []
     csv_orders = CSV.open("data/orders.csv")
@@ -60,7 +59,7 @@ class Order
       item = prod.split(":")
       new_array.push(item)
     end
-    #pp = product/price
+    #pp stands for product/price
     new_array.each do |pp|
       prod_orders[pp[0]] = pp[1].to_f
     end
@@ -77,3 +76,7 @@ class Order
   end
 
 end
+
+
+# if we have two separate order csvs we want to be able to call the new file if we call Customer.save and Order.save and all the order/customer data will be there
+# Using the database example (so instead of just reading, we will be writing/saving)
