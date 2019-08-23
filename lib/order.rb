@@ -1,6 +1,3 @@
-require 'csv'
-require 'awesome_print'
-
 class Order
   
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -38,7 +35,6 @@ class Order
   
   def self.all
     return CSV.read('./data/orders.csv').map do |order|
-      # 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
       first_split = order[1].split(';')
       products_array = first_split.map { |element| element.split(':') }
       
@@ -46,10 +42,12 @@ class Order
       products_array.each do |array|
         products_hash[array[0]] = array[1].to_f
       end
-      
       order = Order.new(order[0].to_i, products_hash, Customer.find(order[2].to_i), order[3].to_sym)
     end
   end
-
-
-ap Order.all
+  
+  def self.find(id)
+    data = Order.all
+    return data.find { |instance| instance.id == id }
+  end
+end
