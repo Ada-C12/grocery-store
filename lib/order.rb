@@ -1,4 +1,6 @@
 require 'csv'
+require 'pry'
+require_relative 'customer'
 
 class Order
   
@@ -57,6 +59,31 @@ class Order
     return @products
   end
   
+  def self.all
+    order_list = []
+    CSV.read('data/orders.csv').each do |line|
+      #index_variable = line.length
+      # products = line[1,(index_variable-3)]
+      products = product_format(line[1])
+      customer = Customer.find(line[2].to_i)
+      new_order = Order.new(line[0].to_i, products, customer, line[-1].to_sym)
+      order_list.push(new_order)
+    end
+    return order_list
+  end
   
+  def self.product_format(product_string_data)
+    products = []
+    product_hash = {}
+    product_info = product_string_data.split(";")
+    product_info.each do |item|
+      new = item.split(":")
+      products.push(new)
+    end
+    products.each do |item|
+      product_hash[item[0]] = item[1].to_f
+    end
+    return product_hash
+  end
   
 end

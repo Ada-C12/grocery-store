@@ -38,12 +38,12 @@ describe "Customer Wave 2" do
     it "Returns an array of all customers" do
       customers = Customer.all
       expect(customers.length).must_equal 35
-      customers.each do |c|
-        expect(c).must_be_kind_of Customer
+      customers.each do |customer|
+        expect(customer).must_be_kind_of Customer
         
-        expect(c.id).must_be_kind_of Integer
-        expect(c.email).must_be_kind_of String
-        expect(c.address).must_be_kind_of Hash
+        expect(customer.id).must_be_kind_of Integer
+        expect(customer.email).must_be_kind_of String
+        expect(customer.address).must_be_kind_of Hash
       end
     end
     
