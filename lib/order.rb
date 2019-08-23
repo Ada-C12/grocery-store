@@ -81,7 +81,18 @@ class Order
   
   def self.save(file)
     File.open(file, 'a+') do |content|
-      content << self.all
+      self.all.each do |order|
+        products = []
+        order.products.each do |product|
+          products << "#{product[0]}:#{product[1]}"
+        end
+        product_string = ""
+        products.each do |product|
+          product_string += "#{product};"
+        end
+        order = "#{order.id},#{product_string.delete_suffix(';')},#{order.customer.id},#{order.fulfillment_status}\n"
+        content << order
+      end
     end
   end
   

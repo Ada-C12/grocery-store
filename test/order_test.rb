@@ -233,4 +233,11 @@ describe "Order.find" do
     expect(last.id).must_equal 90
   end
 end
+
+describe "Optional Wave 3" do
+  it "Adds all the csv info into a new csv" do
+    new_file = Order.save('new_csv_file.csv')
+  end
+end
+
 end
