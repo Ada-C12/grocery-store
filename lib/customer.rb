@@ -27,4 +27,15 @@ class Customer
     
     return customer
   end
+  
+  def self.save(filename)
+    all_customers = Customer.all
+    
+    CSV.open(filename, "w") do |csv|
+      
+      all_customers.each do |customer|
+        csv << [customer.id.to_s, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]        
+      end
+    end    
+  end
 end
