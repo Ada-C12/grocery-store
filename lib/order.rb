@@ -1,36 +1,32 @@
-require_relative 'customer'
+require_relative "customer.rb"
 
 class Order
   attr_reader :id 
   attr_accessor :products, :customer, :fulfillment_status
   
-  def initalize(id, order, customer, fulfillment_status = :pending)
+  def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
-    @order = order
+    @products = products
     @customer = customer
     @fulfillment_status = fulfillment_status
-    
-    unless [:pending, :paid, :complete, :processing, :shipped].include?(fulfillment_status)
-      raise ArgumentError, "This is an invalid status"
+    until[:paid, :complete, :processing, :shipped, :pending].include?(fulfillment_status)
+      raise ArgumentError, "Not valid"
     end
   end
   
   def total
-    pre_tax = 0
-    @products.each do |key, value|
-      pre_tax += value
-      endtotal = (pre_tax * 0.075)
-      return total.round(2)
-    end
+    order_total_with_tax = products.values.sum * 1.075
+    return order_total_with_tax.round(2)
   end
   
-  def add_product(ame, price)
-    if @products.has_key? name 
+  def add_product(name, price)
+    if @products.keys.include?(name) 
       raise ArgumentError, "Cannot duplicate"
     else
       @products[name] = price
+      return products
     end
-    return @products
   end
-  
 end
+
+
