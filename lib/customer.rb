@@ -31,22 +31,25 @@ class Customer
       address[:zip] = row[5]
       customer = Customer.new(row[0].to_i, row[1], address)
       customers << customer
-      
     end
     
     return customers
   end
+  
+  
+  # Add method self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
+  def self.find(id)
+    data = Customer.all
+    customer_info = nil
+    data.find do |customer|
+      if customer.id == id
+        customer_info = customer
+      end
+    end
+    
+    return customer_info
+
+    
+  end
 end
-
-
-
-# self.find(id) - returns an instance of Customer where the value of the id field in the CSV matches the passed parameter
-# def self.find(id)
-
-
-
-# end
-
-
-
 
