@@ -1,3 +1,5 @@
+require "csv"
+
 class Customer
   attr_accessor :email, :address
   attr_reader :id
@@ -10,23 +12,24 @@ class Customer
   
   def self.all
     @customers = []
-    CSV.open("data/customers.csv", "r").each do |line|
+    CSV.open("data/customers.csv").each do |line|
       id = line[0]
       email = line[1]
-      address = {"street-address" => line[2], 
-        "city" => line[3], 
-        "state" => line[4], 
-        "zip-code" => line[5]}
+      address = {
+        :street => line[2], 
+        :city => line[3], 
+        :state => line[4], 
+        :zip => line[5]}
+        p address
         @customers << Customer.new(id.to_i, email, address)
       end
-      return @customers
-      
+      return @customers    
     end
     
-    def self. find(id)
+    def self.find(id)
       customers = Customer.all
-      return customer.find do |customer|
-        customer.id == id.to_i
+      return customers.find do |customer|
+        customer.id == id
       end
     end
     
