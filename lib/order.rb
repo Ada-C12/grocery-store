@@ -44,6 +44,20 @@ class Order
     end
   end
   
+  ##############################################################################
+  # SOLUTION TO CRAZY ASS BUG, not going to do this but will document for future generations
+  
+  # HOLD UP!!!! we need to AVOID calling Customer.find(id) b/c it will call Customer.find
+  # which will make new Customer instances all over again!  
+  
+  # IDEALLY... use Customer.all and save those Objects to a master database,
+  # anytime a new Customer instnce is made, immediately add to that database.
+  # CHANGE Customer.find(id) to look into that master database.
+  # CHANGE Order.all to do the same!!!
+  
+  ##############################################################################
+  
+  
   def self.all
     file = "data/orders.csv"
     all_orders = []
@@ -97,7 +111,7 @@ class Order
   
   def self.save(file)
     # save the list of objects to the file in ALMOST the same format as the original CSV
-    # I added object_ids for the Order and the Customers!!  
+    # I was gonna add object_ids for the Order and the Customers but SHAN'T due to crazy ass bug
     ### CRAZY ASS "BUG" of duplicate instances b/c both Order.all will invoke Customer.all, 
     ### and if u call both Order.all and separately Customer.all, which we totally did here... 
     ### the object_ids of the customer sets in both destination files will NOT MATCH! 
@@ -106,10 +120,9 @@ class Order
     
     all_orders = self.all
     CSV.open(file, "a") do |file|
-      file << ["OBJECT_ID", "ID", "PRODUCTS", "CUSTOMER_OBJ", "CUSTOMER_ID", "FULFILLMENT_STATUS"]
+      file << ["ID", "PRODUCTS", "CUSTOMER_ID", "FULFILLMENT_STATUS"]
       all_orders.each do |line|
-        object_id = line.object_id
-        file << [object_id, line.id, line.products, line.customer, line.customer.id, line.fulfillment_status]
+        file << [line.id, line.products, line.customer.id, line.fulfillment_status]
       end
     end
   end
