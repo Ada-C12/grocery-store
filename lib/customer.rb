@@ -31,7 +31,7 @@ class Customer
   end
 
   def self.find(id)
-    customers =self.all
+    customers = Customer.all
     customers.each { |customer| return customer if customer.id == id }
     return nil
   end

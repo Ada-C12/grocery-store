@@ -56,15 +56,33 @@ class Order
     orders = []
     CSV.open("data/orders.csv").each do |line|
       id = line[0].to_i
-      customer_id = Customer.find(line[-2].to_i)
+      customer = Customer.find(line[-2].to_i)
       fulfillment_status = line[-1].to_sym
       products = Order.formatproducts(line[1])
 
-      order = Order.new(id, products,customer_id,fulfillment_status)
+      order = Order.new(id, products,customer,fulfillment_status)
       orders << order
     end
     return orders
   end
+
+  def self.find(order_id)
+    orders = Order.all
+    orders.each { |order| return order if order.id == order_id }
+    return nil
+  end
+
+  def self.find_by_customer(customer_id)
+    customer_orders = []
+    orders = Order.all
+    orders.each do |order| 
+      if orders.customer == customer_id
+        customer_orders << order 
+      end
+    end
+    return customer_orders
+  end
+
 end
 
 
