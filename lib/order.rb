@@ -42,7 +42,7 @@ end
 # ...
 # Returns information in formatted hash form.
 # { "Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21 }
-def parse_order(a_string)
+def parse_product(a_string)
   product_hash = {}
   
   a_string.split(";").each do |pair|
@@ -108,7 +108,7 @@ class Order
     # CSV file did not include headers, will be read as array of arrays.
     CSV.read('data/orders.csv').each do |element|
       id = element[0].to_i
-      products = parse_order(element[1])
+      products = parse_product(element[1])
       customer = Customer.find(element[2].to_i)
       status = find_status_from_string(element[3].downcase)
       

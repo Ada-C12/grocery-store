@@ -111,6 +111,38 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+  
+  describe "#remove_product" do
+    it "Decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "apple" => 5.98 }
+      order = Order.new(1337, products, customer)
+      
+      order.remove_product("cracker")
+      
+      expect(order.products.count).must_equal 2
+    end
+    
+    it "Removes an item from the collection of products" do 
+      products = { "banana" => 1.99, "cracker" => 3.00, "apple" => 5.98 }
+      order = Order.new(1337, products, customer)
+      
+      order.remove_product("cracker")
+      
+      expect(order.products.include?("banana")).must_equal true
+      expect(order.products.include?("apple")).must_equal true
+      expect(order.products.include?("cracker")).must_equal false
+    end
+    
+    it "Raises an ArgumentError if the item is not found" do
+      products = { "banana" => 1.99, "cracker" => 3.00, "apple" => 5.98 }
+      order = Order.new(1337, products, customer)
+      before_order = order
+      
+      expect{order.remove_product("quinoa")}.must_raise ArgumentError
+      
+      expect(order).must_equal before_order
+    end
+  end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
