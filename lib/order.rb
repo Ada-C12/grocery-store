@@ -1,5 +1,3 @@
-require 'customer'
-
 class Order
   attr_reader :id, :customer
   attr_accessor :products, :fulfillment_status
