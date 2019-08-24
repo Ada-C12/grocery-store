@@ -20,7 +20,6 @@ class Order
   def total
     total_products_cost = @products.values.sum
     total_sum = total_products_cost * 1.075
-    # puts(total_sum.round(2))
     return total_sum.round(2)
   end
 
@@ -30,8 +29,6 @@ class Order
     else
       @products[product_name] = price
     end
-    # puts("productsproducts")
-    # print(@products.inspect)
   end
 
   def remove_product(product_name)
@@ -64,5 +61,24 @@ class Order
   def self.find(id)
     orders = self.all
     return orders.find { |order| order.id == id }
+  end
+
+  def self.find_by_customer(customer_id)
+    all_orders = self.all
+
+    return all_orders.find { |order| order.customer.id == customer_id }
+  end
+
+  def save(filename)
+    orders = self.all
+    CSV.open(filename, "wb") do |csv|
+      orders.each do |order|
+        id = order.id
+        products = self.list_of_products_hash(order.products)
+        customer = order.customer.id
+        fulfill_status = order.fulfillment_status
+        csv << [id, products, customer, fulfill_status]
+      end
+    end
   end
 end

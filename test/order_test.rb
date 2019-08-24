@@ -91,7 +91,7 @@ describe "Order Wave 1" do
 
     it "Is added to the collection of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
-      # products = { "banana" => 1.99, "cracker" => 3.00, "sandwhich" => 4.25 }
+
       order = Order.new(1337, products, customer)
 
       order.add_product("sandwich", 4.25)
@@ -142,9 +142,13 @@ describe "Order Wave 2" do
       orders = Order.all
 
       expect(orders.length).must_equal 100
-      # orders.each do |o|
-      #   expect(o).must_be_kind_of Array
-      #   expect(o.id).
+      orders.each do |o|
+        expect(o).must_be_kind_of Order
+        expect(o.id).must_be_kind_of Integer
+        expect(o.products).must_be_kind_of Hash
+        expect(o.customer.id).must_be_kind_of Integer
+        expect(o.fulfillment_status).must_be_kind_of Symbol
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -172,13 +176,19 @@ describe "Order Wave 2" do
       id = 100
       products = {
         "Amaranth" => 83.81,
-        "Smoked trout" => 70.6,
+        "Smoked Trout" => 70.6,
         "Cheddar" => 5.63,
       }
       customer_id = 20
       fulfillment_status = :pending
 
       order = Order.all.last
+
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
@@ -202,6 +212,14 @@ describe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
       expect(Order.find(12123123)).must_be_nil
+    end
+  end
+
+  describe "Order.find_by_customer" do
+    it "will return a list of orders by a customer's ID" do
+      customer_order = Order.find_by_customer(15)
+      expect(customer_order).must_be_kind_of Order
+      expect(customer_order.customer.id).must_equal 15
     end
   end
 end

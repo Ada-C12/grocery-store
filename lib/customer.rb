@@ -30,4 +30,11 @@ class Customer
     customers = self.all
     return customers.find { |customer| customer.id == id }
   end
+
+  def save(filename)
+    # Assuming we are appending to an existing file
+    CSV.open(filename, "a+") do |csv|
+      csv << [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
+    end
+  end
 end
