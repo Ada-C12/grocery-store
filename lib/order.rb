@@ -115,7 +115,6 @@ class Order
       all_orders << Order.new(id, products, customer, status)
     end
     
-    # Returns an array of objects.
     return all_orders
   end
   

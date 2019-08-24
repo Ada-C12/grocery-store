@@ -27,7 +27,6 @@ class Customer
       all_customers << Customer.new(id, email, address)
     end
     
-    # Returns an array of objects.
     return all_customers
   end
   
@@ -43,12 +42,9 @@ class Customer
     all_customers = self.all
     
     CSV.open(filename, "w") do |file|
-      
       all_customers.each do |customer|
-        row = [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
-        file << row
+        file << [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
       end
-      
     end
   end
   
