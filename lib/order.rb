@@ -34,4 +34,32 @@ class Order
     end
   end
   
+  def self.all
+    
+    csv_data = CSV.read('data/orders.csv')
+    
+    collection_of_orders = csv_data.map do |individual_order|
+      products_array = individual_order[1].split(";")
+      products_hash = {}
+      products_array.each do |product|
+        name_price_array = product.split(":")
+        
+        product_name = name_price_array[0]
+        product_price = name_price_array[1].to_f
+        
+        products_hash[product_name] = product_price
+      end
+      
+      products = products_hash
+      order_id = individual_order[0].to_i
+      customer = Customer.find(individual_order[2].to_i)
+      fulfillment_status = individual_order[3].to_sym
+      
+      current_order = Order.new(order_id, products, customer, fulfillment_status)
+    end
+    
+    return collection_of_orders
+    
+  end
+  
 end
