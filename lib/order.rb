@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'customer'
 require 'pry'
 
 class Order
@@ -68,10 +69,10 @@ class Order
     
     instance_array = []
     
-    csv_array.each do |row|
-      products = self.make_hash(row[1])
+    csv_array.each do |column|
+      products = self.make_hash(column[1])
       
-      instance_array << Order.new(row[0].to_i, products, Customer.find(row[2].to_i), row[3].to_sym)
+      instance_array << Order.new(column[0].to_i, products, Customer.find(column[2].to_i), column[3].to_sym)
     end
     
     return instance_array
@@ -90,8 +91,8 @@ class Order
     
     # Create a hash of all of the nested array items
     prod_hash = {}
-    prod_nested_array.each do |key, value|
-      prod_hash[key] = value.to_f
+    prod_nested_array.each do |product, price|
+      prod_hash[product] = price.to_f
     end
     
     return prod_hash
@@ -131,4 +132,42 @@ class Order
     return order_list
   end
   
+  # Wave 3 - Optional
+  # Saves a list of objects to a specified file.
+  def self.save(filename)
+    # take a list of objects
+    instances = Order.all
+    
+    # separate the objects into individual arrays
+    order_array = []
+    
+    instances.each do |order_instance|
+      prod_string = Order.break_hash(order_instance.products)
+      
+      order_array << [order_instance.id, prod_string, order_instance.customer.id, order_instance.fulfillment_status]
+      
+    end
+    
+    # Wrirte to CSV
+    File.write(filename, order_array.map(&:to_csv).join)
+    
+    
+  end
+  
+  # Helper method for self.save to deconstruct the product
+  def self.break_hash(hash)
+    prod_array = []
+    
+    hash.each do |key, value|
+      prod_array << key + ":" + value.to_s
+      
+    end
+    
+    prod_string = prod_array.join(';')
+    
+    return prod_string
+  end
+  
+  
 end
+

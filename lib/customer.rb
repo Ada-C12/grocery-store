@@ -39,4 +39,41 @@ class Customer
     return nil
   end
   
+  # Wave 3 - Optional
+  # Saves a list of objects to a specified file.
+  def self.save(filename)
+    # take a list of objects
+    instances = Customer.all
+    
+    # separate the objects into individual arrays
+    customer_array = []
+    
+    instances.each do |customer_instance|
+      
+      customer_array << [customer_instance.id, customer_instance.email, Customer.break_hash(customer_instance.address)]
+      
+    end
+    
+    # Wrirte to CSV
+    File.write(filename, customer_array.map(&:to_csv).join)
+    
+    
+  end
+  
+  # Helper method for self.save to deconstruct the address hash
+  def self.break_hash(hash)
+    address_array = []
+    
+    hash.each do |key, value|
+      address_array << value.to_s
+      
+    end
+    
+    address_string = address_array.join(',')
+    
+    return address_string
+  end
+  
+  
 end
+
