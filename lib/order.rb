@@ -59,6 +59,19 @@ class Order
     end
     
     return collection_of_orders
+  end
+  
+  def self.find(id)
+    
+    collection_of_orders = self.all
+    
+    collection_of_orders.each do |order|
+      if order.id == id
+        return order
+      end
+    end
+    
+    return nil
     
   end
   
