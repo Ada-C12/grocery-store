@@ -38,4 +38,36 @@ class Order
       raise ArgumentError, "This item is already in your cart."
     end
   end
+  
+  def self.all
+    orders = CSV.read("data/orders.csv")
+    #p orders
+    new_order_array = []
+    orders.each do |one_order_object|
+      id = one_order_object[0].to_i
+      
+      
+      products = one_order_object[1].split(";")
+      product_hash = {}
+      products.each do |one_product|
+        key_and_value = one_product.split(":")
+        product_hash[key_and_value[0]] = key_and_value[1].to_f
+      end
+      products = product_hash
+      
+      customer = Customer.find(one_order_object[2].to_i)
+      fulfillment_status = one_order_object[3].to_sym
+      #p customer
+      new_order_array << Order.new(id, products, customer, fulfillment_status)
+      
+    end
+    #p new_order_array
+    
+    return new_order_array
+    
+    
+  end
+  
+  def self.find(id)
+  end
 end
