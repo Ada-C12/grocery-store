@@ -32,8 +32,7 @@ class Customer
   end
 
   def save(filename)
-    # Assuming we are appending to an existing file
-    CSV.open(filename, "a+") do |csv|
+    CSV.open(filename, "wb") do |csv|
       csv << [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
     end
   end
