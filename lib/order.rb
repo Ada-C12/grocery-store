@@ -1,4 +1,6 @@
 require_relative 'customer'
+require 'csv'
+require 'pry'
 
 class Order
   attr_reader :id, :products
@@ -14,6 +16,32 @@ class Order
     if !(valid_statuses.include?(@fulfillment_status))
       raise ArgumentError.new("Invalid status.")
     end
+  end
+
+  def self.all
+   orders_list = []
+   CSV.read('data/orders.csv').each do |order|
+    food_price_pairs = order[1].split(";")
+
+    products = {}
+    food_price_pairs.each do |food|
+      food_price = food.split(":")
+      products["#{food_price[0]}"] = food_price[1].to_f
+    end
+    
+    order_object = Order.new(order[0].to_i, products, Customer.find(order[2].to_i), order[3].to_sym)
+    orders_list << order_object 
+   end
+   return orders_list
+  end
+
+  def self.find(id)
+    Order.all.each do |order|
+      if order.id == (id)
+        return order 
+      end  
+    end
+    return nil
   end
 
   def total
