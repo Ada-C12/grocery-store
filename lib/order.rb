@@ -1,5 +1,6 @@
 require 'csv'
 require_relative 'customer'
+require 'awesome_print'
 
 class Order
   
@@ -52,5 +53,10 @@ class Order
   def self.find(id)
     data = Order.all
     return data.find { |instance| instance.id == id }
+  end
+  
+  def self.find_by_customer(customer_id)
+    orders = Order.all
+    return orders.select { |order| order.customer.id == customer_id }
   end
 end
