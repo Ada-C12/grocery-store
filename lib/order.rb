@@ -43,4 +43,25 @@ class Order
     end
   end
 
+  def self.all
+    orders_draft = CSV.read('../data/orders.csv').map(&:to_a)
+    orders_draft.each do |o|
+      p = {}
+      o[1].split(";").each do |i|
+        p.merge!(i.split(":")[0] => i.split(":")[1].to_f)
+      end
+      o[1] = p
+    end
+    orders = []
+    orders_draft.each do |o|
+      orders << self.new(
+        o[0].to_i,
+        o[1],
+        Customer.find(o[2].to_i),
+        o[3].to_sym
+      )
+    end
+    return orders
+  end
+
 end
