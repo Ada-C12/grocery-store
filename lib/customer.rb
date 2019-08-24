@@ -42,10 +42,10 @@ class Customer
       customer_address[:state] = line[4]
       customer_address[:zip] = line[5]
       
-      # ... use the values pulled from the csv data to create a new instance of the class customer
+      # ... us the values pulled from the csv data to create a new instance of the class customer
       customer = Customer.new(customer_id, customer_email, customer_address)
       
-      # ....and finally, push that newly created instance of customer to the customers array
+      # ....and finally, pushing that newly created instance of customer to the customers array
       customers << customer
     end
     
@@ -63,8 +63,10 @@ class Customer
       if customer.id == id
         # ... and if the id matches, return the customer object
         return customer
-          end
+      end
     end
+    # ... otherwise, return nil
     return nil
   end
+  
 end

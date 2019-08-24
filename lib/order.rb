@@ -109,12 +109,27 @@ class Order
       orders << order
       
     end
-    
     return orders
     
   end
   
+  
+  def self.find(order_id)
+    # Invoke Order.all to produce our array of orders
+    orders = Order.all
+    
+    # Iterate over each order in the array ...
+    orders.each do |order|
+      # ... determine if id in the object matches the id in the method argument
+      
+      # Ruby doesn't know what "order_id" means here
+      if order.id == order_id
+        # ... and if the id matches, return the customer object
+        return order
+      end
+    end
+    # ... otherwise, return nil
+    return nil
+  end
+  
 end
-
-
-
