@@ -33,14 +33,18 @@ class Customer
     
     CSV.open(file_name, "w") do |file|
       data.each do |customer|
-        address = String.new
+        street = String.new
+        city = String.new
+        state = String.new
+        zip = String.new
         customer.address.each do |key, item|
-          address += item + ','
+          street = customer.address[:street]
+          city = customer.address[:city]
+          state = customer.address[:state]
+          zip = customer.address[:zip]
         end
-        # delete hanging comma at end of string
-        address.slice!(address.length-1)
         
-        line = [customer.id, customer.email, address]
+        line = [customer.id, customer.email, street, city, state, zip]
         file << line
       end
     end
