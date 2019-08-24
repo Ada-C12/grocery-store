@@ -63,11 +63,17 @@ class Order
     end
     #p new_order_array
     
-    return new_order_array
-    
-    
+    return new_order_array 
   end
   
   def self.find(id)
+    order_array = Order.all
+    
+    order_array.each do |object|
+      if object.id == id 
+        return object
+      end
+    end
+    return nil
   end
 end
