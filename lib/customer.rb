@@ -27,4 +27,22 @@ class Customer
     data = Customer.all
     return data.find { |instance| instance.id == id }
   end
+  
+  def self.save(file_name)
+    data = Customer.all
+    
+    CSV.open(file_name, "w") do |file|
+      data.each do |customer|
+        address = String.new
+        customer.address.each do |key, item|
+          address += item + ','
+        end
+        # delete hanging comma at end of string
+        address.slice!(address.length-1)
+        
+        line = [customer.id, customer.email, address]
+        file << line
+      end
+    end
+  end
 end
