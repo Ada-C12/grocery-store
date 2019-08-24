@@ -38,6 +38,15 @@ class Order
     end
   end
   
+  # method to remove a product from the collection
+  def remove_product(product_name)
+    if @products.has_key?(product_name) == false
+      raise ArgumentError.new("This product cannot be found.")
+    else
+      @products.delete(product_name)
+    end
+  end
+  
   # method to return a collection of Order instances
   def self.all
     return CSV.open('data/orders.csv').map do |curr_order|
