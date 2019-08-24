@@ -132,7 +132,6 @@ it "Raises an ArgumentError if the product does not exist" do
   order.remove_product("cracker")
 }.must_raise ArgumentError
 end
-
 end
 
 end
@@ -220,17 +219,12 @@ end
 # OPTIONAL 
 describe "Order.find_by_customer" do
   it "Returns an error if the ID is not found" do
-    expect { Order.find_by_customer(53145) }.must_raise ArgumentError
-    
+    expect { Order.find_by_customer(53145) }.must_raise ArgumentError  
   end
   
-  it "Returns an array of order instances" do
-    
+  it "Returns an array of order instances" do 
     order_list = Order.find_by_customer(25)
     
     expect(order_list.length).must_equal 6
-    
   end
-  
-  
 end

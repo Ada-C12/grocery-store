@@ -18,9 +18,7 @@ class Order
       raise ArgumentError.new("Invalid fulfillment status given.")
     end
     
-    
   end
-  
   
   def total
     order_sum = 0
@@ -37,9 +35,7 @@ class Order
     total = (order_sum * tax).round(2)
     
     return total
-    
   end
-  
   
   def add_product(product_name, price)
     existing_products = @products.keys
@@ -49,7 +45,6 @@ class Order
     else
       @products[product_name] = price
     end
-    
   end
   
   def remove_product(rem_product_name)
@@ -60,7 +55,6 @@ class Order
     else
       @products.delete(rem_product_name)
     end
-    
   end
   
   # Creates order instances from a CSV file
@@ -71,7 +65,6 @@ class Order
     
     csv_array.each do |column|
       products = self.make_hash(column[1])
-      
       instance_array << Order.new(column[0].to_i, products, Customer.find(column[2].to_i), column[3].to_sym)
     end
     
@@ -80,23 +73,19 @@ class Order
   
   # Helper method for self.all
   def self.make_hash(product_string)
-    # Separate products into an array
     prod_array = product_string.split(";")
     prod_nested_array = []
     
-    # Make a nested array of individual products and their prices
     prod_array.each do |item|
       prod_nested_array << item.split(":")
     end
     
-    # Create a hash of all of the nested array items
     prod_hash = {}
     prod_nested_array.each do |product, price|
       prod_hash[product] = price.to_f
     end
     
     return prod_hash
-    
   end
   
   # Looks for a specified ID and returns order instance, if found.
@@ -109,7 +98,6 @@ class Order
       end
     end
     
-    # Did not locate customer
     return nil
   end
   
@@ -138,20 +126,13 @@ class Order
     # take a list of objects
     instances = Order.all
     
-    # separate the objects into individual arrays
     order_array = []
     
     instances.each do |order_instance|
-      prod_string = Order.break_hash(order_instance.products)
-      
-      order_array << [order_instance.id, prod_string, order_instance.customer.id, order_instance.fulfillment_status]
-      
+      order_array << [order_instance.id, Order.break_hash(order_instance.products), order_instance.customer.id, order_instance.fulfillment_status]
     end
     
-    # Wrirte to CSV
     File.write(filename, order_array.map(&:to_csv).join)
-    
-    
   end
   
   # Helper method for self.save to deconstruct the product
@@ -160,14 +141,11 @@ class Order
     
     hash.each do |key, value|
       prod_array << key + ":" + value.to_s
-      
     end
     
     prod_string = prod_array.join(';')
     
     return prod_string
   end
-  
-  
 end
 

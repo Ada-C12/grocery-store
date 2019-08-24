@@ -91,5 +91,4 @@ describe "Customer Wave 2" do
       expect(Customer.find(53145)).must_be_nil
     end
   end
-  
 end
