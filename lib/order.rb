@@ -23,7 +23,6 @@ class Order
     if !valid_statuses.include?(fulfillment_status)
       raise ArgumentError.new "Invalid fulfillment status."
     end
-    
   end
   
   def total
@@ -45,7 +44,6 @@ class Order
     end
     
     @products[product_name] = price
-    
   end
   
   def self.all
@@ -56,8 +54,11 @@ class Order
       product_split.each do |product_string|
         product_array << product_string.split(':')
       end
+
       product_hash = Hash[product_array]
+
       products = {}
+
       product_hash.each do |item, price|
         price = price.to_f
         products[item] = price
@@ -65,16 +66,15 @@ class Order
       
       order = Order.new(row[0].to_i, products, Customer.find(row[2].to_i), row[3].to_sym)
       orders << order
-      
-      
     end
+
     return orders
-    
   end
   
   
   def self.find(id)
     data = Order.all
+    order_info = nil
     data.find do |order|
       if order.id == id
         order_info = order
@@ -82,16 +82,5 @@ class Order
     end
     
     return order_info
-    
-    
   end
-  
-  
-  
 end
-
-# ap CSV.open(filename, headers: true)
-# ap CSV.read(filename)
-# ap CSV.open('../data/orders.csv')
-# ap CSV.open(filename)
-# ap CSV.read("orders.csv")
