@@ -33,16 +33,10 @@ class Customer
     
     CSV.open(file_name, "w") do |file|
       data.each do |customer|
-        street = String.new
-        city = String.new
-        state = String.new
-        zip = String.new
-        customer.address.each do |key, item|
-          street = customer.address[:street]
-          city = customer.address[:city]
-          state = customer.address[:state]
-          zip = customer.address[:zip]
-        end
+        street = customer.address[:street]
+        city = customer.address[:city]
+        state = customer.address[:state]
+        zip = customer.address[:zip]
         
         line = [customer.id, customer.email, street, city, state, zip]
         file << line
