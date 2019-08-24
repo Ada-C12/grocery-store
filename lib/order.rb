@@ -13,7 +13,7 @@ class Order
     @fulfillment_status = fulfillment_status
     
     if !status.include?(fulfillment_status) 
-      raise ArgumentError
+      raise ArgumentError, "Invalid fulfillmentstatus"
     end
   end
   
@@ -29,13 +29,8 @@ class Order
   
   def add_product(product_name, price)
     if @products.include?(product_name)
-      raise ArgumentError, ""
+      raise ArgumentError, "Duplicate products names"
     end
     @products[product_name] = price
   end
 end
-
-
-
-
-
