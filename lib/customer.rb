@@ -1,9 +1,9 @@
 require "csv"
-require "pry"
 
 class Customer
   attr_accessor :email, :address
   attr_reader :id
+  
   def initialize(id, email, address)
     @id = id
     @email = email
@@ -27,9 +27,16 @@ class Customer
     end
     return customers
   end
-
+  
   def self.find(id)
-    
+    self.all.each do |c|
+      if (1..35).include?(id) == false
+        return nil
+      elsif c.instance_variable_get(:@id) == id
+        customer_founded = c
+        return customer_founded
+      end
+    end
   end
 
 end
