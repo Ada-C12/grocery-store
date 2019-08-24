@@ -1,5 +1,4 @@
 require 'csv'
-require 'awesome_print'
 
 
 # Wave 1
@@ -15,10 +14,10 @@ class Customer
     @id = id
     @email = email
     @address = address
-    
   end
   
   # Wave 2
+  
   # Add the following class methods to the Customer class:
   #   self.all - returns a collection of Customer instances, representing all of the Customer described in the CSV file
   def self.all
@@ -48,8 +47,6 @@ class Customer
     end
     
     return customer_info
-
-    
   end
 end
 
