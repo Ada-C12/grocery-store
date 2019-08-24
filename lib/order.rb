@@ -40,7 +40,15 @@ class Order
     # end
   end
 
-  
+  def remove_product(product_name)
+    if @products.keys.include?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError
+    end
+
+  end
+
 #     An add_product method which will take in two parameters, product name and price, and add the data to the product collection
 
 # If a product with the same name has already been added to the order, an ArgumentError should be raised
