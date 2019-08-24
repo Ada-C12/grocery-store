@@ -222,4 +222,24 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+  
+  describe "Order.find_by_customer" do
+    it "Can find the first order from the CSV" do
+      orders = Order.find_by_customer(25)
+      
+      expect(orders).must_be_kind_of Array
+      expect(orders.first).must_be_kind_of Order
+      expect(orders.first.id).must_equal 1
+      expect(orders.length).must_equal 6
+    end
+    
+    it "Can find the last order from the CSV" do
+      orders = Order.find_by_customer(20)
+      
+      expect(orders).must_be_kind_of Array
+      expect(orders.last).must_be_kind_of Order
+      expect(orders.last.id).must_equal 100
+      expect(orders.length).must_equal 7
+    end
+  end
 end
