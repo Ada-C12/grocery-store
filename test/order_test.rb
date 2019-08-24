@@ -244,7 +244,6 @@ describe "Order Wave 2" do
   end
   
   describe "Order.find_by_customer" do
-    # returns a list of Order instances where the value of the customer's ID matches the passed parameter.
     
     it "Returns and array of orders" do
       customer_id = 20
@@ -267,9 +266,9 @@ describe "Order Wave 2" do
       expect (orders.sample.customer.id).must_equal customer_id 
     end
     
-    it "Returns nil for a customer that doesn't exist" do
+    it "Returns empty array for a customer that doesn't exist" do
       customer_id = 80
-      assert_nil(Order.find_by_customer(customer_id))
+      expect (Order.find_by_customer(customer_id)).must_be_empty
     end
   end
 end
