@@ -1,4 +1,5 @@
 require_relative 'customer'
+require 'pry'
 
 class Order
   
@@ -46,5 +47,37 @@ class Order
       raise ArgumentError
     end
   end
+  
+  def self.all
+    # returns a collection of Order instances, representing all of the Orders described in the CSV file
+    all_orders = CSV.read('data/orders.csv').map(&:to_a) 
+    all = []
+    
+    all_orders.each do |order|
+      @id = order[0].to_i
+      @products = {}
+      @customer = (Customer.find(order[2].to_i))
+      @fulfillment_status = order[3].to_sym
+      orders_unformatted = order[1].split(/;/)
+      orders_unformatted.each do |orders|
+        holding = orders.split(/:/) 
+        @products[holding[0]] = holding[1].to_f
+      end
+      all << Order.new(@id, @products, @customer, @fulfillment_status)
+    end
+    return all
+  end
+  
+  def self.find(id)
+    self.all.each do |each_order|
+      if each_order.id == id
+        return each_order
+      end 
+    end
+    return nil
+  end
+  
+  
+  
   
 end
