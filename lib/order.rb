@@ -1,6 +1,5 @@
 require 'csv'
 require_relative 'customer'
-require 'awesome_print'
 
 class Order
   
@@ -58,5 +57,23 @@ class Order
   def self.find_by_customer(customer_id)
     orders = Order.all
     return orders.select { |order| order.customer.id == customer_id }
+  end
+  
+  def self.save(file_name)
+    data = Order.all
+    
+    CSV.open(file_name, "w") do |file|
+      data.each do |order|
+        product_info = String.new
+        order.products.each do |key, item|
+          product_info += "#{key}:#{item};"
+        end
+        # delete hanging semicolon at end of string
+        product_info.slice!(product_info.length-1)
+        
+        line = [order.id, product_info, order.customer.id, order.fulfillment_status]
+        file << line
+      end
+    end
   end
 end
