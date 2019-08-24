@@ -7,7 +7,6 @@ class Order
     unless fulfillment_status == :pending || fulfillment_status == :paid || fulfillment_status == :processing || fulfillment_status == :shipped || fulfillment_status == :complete 
       raise ArgumentError, "Not a valid fulfillment status."
     end
-    
     @id = id
     @customer = customer
     @products = products 
@@ -25,7 +24,6 @@ class Order
         bill += price 
       end
     end
-    
     bill_with_tax = bill * 1.075
     return bill_with_tax.round(2)
   end
@@ -39,13 +37,12 @@ class Order
     end
   end
   
+  
   def self.all
     orders = CSV.read("data/orders.csv")
-    #p orders
     new_order_array = []
     orders.each do |one_order_object|
       id = one_order_object[0].to_i
-      
       
       products = one_order_object[1].split(";")
       product_hash = {}
@@ -57,14 +54,11 @@ class Order
       
       customer = Customer.find(one_order_object[2].to_i)
       fulfillment_status = one_order_object[3].to_sym
-      #p customer
-      new_order_array << Order.new(id, products, customer, fulfillment_status)
-      
+      new_order_array << Order.new(id, products, customer, fulfillment_status) 
     end
-    #p new_order_array
-    
     return new_order_array 
   end
+  
   
   def self.find(id)
     order_array = Order.all
