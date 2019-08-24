@@ -2,7 +2,6 @@ class Customer
   
   require "csv"
   
-  
   attr_reader :id
   attr_accessor :email, :address
   
@@ -12,8 +11,8 @@ class Customer
     @address = address
   end 
   
+  
   def self.all  
-    
     customers = CSV.read('data/customers.csv')
     new_cust_array = []
     customers.each do |array|
@@ -28,8 +27,6 @@ class Customer
   
   def self.find(id)
     customer_array = self.all
-    # p "=============="
-    # p customer_array
     customer_array.each do |object|
       if object.id == id
         return object
