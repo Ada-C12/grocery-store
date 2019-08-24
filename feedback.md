@@ -7,7 +7,7 @@ Comprehension Question Answers:
 
 1. Raising an ArgumentError stops the program and says that the method was invoked incorrectly. Also acceptable: answers about informing developers that the method was used incorrectly
 2. `all` and `find` methods are class methods because they don't interact with a specific instance
-3. The relationship between order and customer is many to one, where one customer may have many orders. It was similar in Solar System, where it was one solar system may have many planets.
+3. The relationship between order and customer is many to one, where one customer may have many orders. It was similar in Solar System, where it was one solar system may have many planets. If the student says "Order has one Customer," that's also correct, since that's what's most closely pulled from the project requirements
 4. In the CSV file, the relationships between order and customer are tracked through ID numbers. In our code, because we have OO and composition, we didn't use ID numbers
 5. This question is a qualitative question about TDD
 

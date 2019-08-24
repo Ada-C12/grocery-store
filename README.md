@@ -31,10 +31,10 @@ This is the first project where you'll be writing your own tests. Following the 
 ```
 Rakefile
 lib/
-specs/
+test/
 ```
 
-Each class you write should get its own file, `lib/class_name.rb`. The specs for that class will be in `specs/class_name_spec.rb`, and you can run all specs using the `rake` command from your terminal.
+Each class you write should get its own file, `lib/class_name.rb`. The test for that class will be in `test/class_name_test.rb`, and you can run all test using the `rake` command from your terminal.
 
 ## Implementation Requirements
 
@@ -96,7 +96,7 @@ Make sure to write tests for any optionals you implement!
 - Create your own tests to verify method correctness
 
 #### Testing Requirements in Wave 2
-You enter Wave 2 with all tests from Wave 1 passing. In Wave 2, all the tests for `Customer` and one of the specs for `Order` have been provided. The remaining tests are stubbed out in `order_spec.rb`. Filling in these stubs is part of Wave 2.
+You enter Wave 2 with all tests from Wave 1 passing. In Wave 2, all the tests for `Customer` and one of the tests for `Order` have been provided. The remaining tests are stubbed out in `order_test.rb`. Filling in these stubs is part of Wave 2.
 
 **When you are done with Wave 2, all your tests from Wave 1 should still pass!**
 
