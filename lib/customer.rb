@@ -33,10 +33,10 @@ class Customer
       if (1..35).include?(id) == false
         return nil
       elsif c.instance_variable_get(:@id) == id
-        customer_founded = c
-        return customer_founded
+        customer_found = c
+        return customer_found
       end
     end
   end
-
+  
 end

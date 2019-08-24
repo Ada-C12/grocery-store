@@ -64,4 +64,15 @@ class Order
     return orders
   end
 
+  def self.find(id)
+    self.all.each do |o|
+      if (1..100).include?(id) == false
+        return nil
+      elsif o.instance_variable_get(:@id) == id
+        order_found = o
+        return order_found
+      end
+    end
+  end 
+
 end
