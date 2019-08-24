@@ -46,12 +46,28 @@ class Order
       id = element[0].to_i
       products = self.parse_product(element[1])
       customer = Customer.find(element[2].to_i)
-      status = self.find_status_from_string(element[3].downcase)
+      status = element[3].downcase.to_sym
       
       all_orders << Order.new(id, products, customer, status)
     end
     
     return all_orders
+  end
+  
+  # Takes in a string from CSV containing information about products in the order.
+  # "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
+  # ...
+  # Returns information in formatted hash form.
+  # { "Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21 }
+  def self.parse_product(a_string)
+    product_hash = {}
+    
+    a_string.split(";").each do |pair|
+      prod_price_array = pair.split(":")
+      product_hash[prod_price_array[0]] = prod_price_array[1].to_f
+    end
+    
+    return product_hash
   end
   
   def self.find(order_id)
@@ -81,65 +97,13 @@ class Order
         id = order.id
         products = self.product_to_csv_format(order.products)
         customer = order.customer.id
-        status = self.find_status_from_symbol(order.fulfillment_status)
+        status = order.fulfillment_status.to_s
         
         row = [id, products, customer, status]
         
         file << row
       end
     end
-  end
-  
-  # Takes in a string, returns a symbol. 
-  def self.find_status_from_string(a_string)
-    case a_string
-    when "pending"
-      return :pending
-    when "paid"
-      return :paid
-    when "processing"
-      return :processing
-    when "shipped"
-      return :shipped
-    when "complete"
-      return :complete
-    else
-      raise ArgumentError, "Invalid fulfillment status."
-    end
-  end
-  
-  # Takes in a symbol, returns a string. 
-  def self.find_status_from_symbol(a_symbol)
-    case a_symbol
-    when :pending
-      return "pending"
-    when :paid
-      return "paid"
-    when :processing
-      return "processing"
-    when :shipped
-      return "shipped"
-    when :complete
-      return "complete"
-    else
-      raise ArgumentError, "Invalid fulfillment status."
-    end
-  end
-  
-  # Takes in a string from CSV containing information about products in the order.
-  # "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
-  # ...
-  # Returns information in formatted hash form.
-  # { "Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21 }
-  def self.parse_product(a_string)
-    product_hash = {}
-    
-    a_string.split(";").each do |pair|
-      prod_price_array = pair.split(":")
-      product_hash[prod_price_array[0]] = prod_price_array[1].to_f
-    end
-    
-    return product_hash
   end
   
   # Takes in a hash of products and returns formatted string for CSV file.
