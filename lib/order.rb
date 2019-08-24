@@ -12,7 +12,7 @@ class Order
     @fulfillment_status = fulfillment_status
     
     valid_statuses = %i[pending paid processing shipped complete]
-    raise ArgumentError unless valid_statuses.include?(@fulfillment_status)
+    raise ArgumentError.new "Invalid fulfillment status" unless valid_statuses.include?(@fulfillment_status)
   end
   
   def total
