@@ -1,70 +1,6 @@
 require 'csv'
 require_relative 'customer'
 
-# Takes in a string, returns a symbol. 
-def find_status_from_string(a_string)
-  case a_string
-  when "pending"
-    return :pending
-  when "paid"
-    return :paid
-  when "processing"
-    return :processing
-  when "shipped"
-    return :shipped
-  when "complete"
-    return :complete
-  else
-    raise ArgumentError, "Invalid fulfillment status."
-  end
-end
-
-# Takes in a symbol, returns a string. 
-def find_status_from_symbol(a_symbol)
-  case a_symbol
-  when :pending
-    return "pending"
-  when :paid
-    return "paid"
-  when :processing
-    return "processing"
-  when :shipped
-    return "shipped"
-  when :complete
-    return "complete"
-  else
-    raise ArgumentError, "Invalid fulfillment status."
-  end
-end
-
-# Takes in a string from CSV containing information about products in the order.
-# "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
-# ...
-# Returns information in formatted hash form.
-# { "Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21 }
-def parse_product(a_string)
-  product_hash = {}
-  
-  a_string.split(";").each do |pair|
-    prod_price_array = pair.split(":")
-    product_hash[prod_price_array[0]] = prod_price_array[1].to_f
-  end
-  
-  return product_hash
-end
-
-# Takes in a hash of products and returns formatted string for CSV file.
-def product_to_csv_format(hash)
-  string = ""
-  
-  hash.each do |key, value|
-    string << key << ":" << value.to_s << ";"
-  end
-  
-  # Remove the last ";" character prior to returning string.
-  return string[0..-2]
-end
-
 class Order
   attr_accessor :products, :customer, :fulfillment_status
   attr_reader :id 
@@ -108,9 +44,9 @@ class Order
     # CSV file did not include headers, will be read as array of arrays.
     CSV.read('data/orders.csv').each do |element|
       id = element[0].to_i
-      products = parse_product(element[1])
+      products = self.parse_product(element[1])
       customer = Customer.find(element[2].to_i)
-      status = find_status_from_string(element[3].downcase)
+      status = self.find_status_from_string(element[3].downcase)
       
       all_orders << Order.new(id, products, customer, status)
     end
@@ -143,9 +79,9 @@ class Order
     CSV.open(filename, "w") do |file|
       all_orders.each do |order|
         id = order.id
-        products = product_to_csv_format(order.products)
+        products = self.product_to_csv_format(order.products)
         customer = order.customer.id
-        status = find_status_from_symbol(order.fulfillment_status)
+        status = self.find_status_from_symbol(order.fulfillment_status)
         
         row = [id, products, customer, status]
         
@@ -154,4 +90,67 @@ class Order
     end
   end
   
+  # Takes in a string, returns a symbol. 
+  def self.find_status_from_string(a_string)
+    case a_string
+    when "pending"
+      return :pending
+    when "paid"
+      return :paid
+    when "processing"
+      return :processing
+    when "shipped"
+      return :shipped
+    when "complete"
+      return :complete
+    else
+      raise ArgumentError, "Invalid fulfillment status."
+    end
+  end
+  
+  # Takes in a symbol, returns a string. 
+  def self.find_status_from_symbol(a_symbol)
+    case a_symbol
+    when :pending
+      return "pending"
+    when :paid
+      return "paid"
+    when :processing
+      return "processing"
+    when :shipped
+      return "shipped"
+    when :complete
+      return "complete"
+    else
+      raise ArgumentError, "Invalid fulfillment status."
+    end
+  end
+  
+  # Takes in a string from CSV containing information about products in the order.
+  # "Lobster:17.18;Annatto seed:58.38;Camomile:83.21"
+  # ...
+  # Returns information in formatted hash form.
+  # { "Lobster" => 17.18, "Annatto seed" => 58.38, "Camomile" => 83.21 }
+  def self.parse_product(a_string)
+    product_hash = {}
+    
+    a_string.split(";").each do |pair|
+      prod_price_array = pair.split(":")
+      product_hash[prod_price_array[0]] = prod_price_array[1].to_f
+    end
+    
+    return product_hash
+  end
+  
+  # Takes in a hash of products and returns formatted string for CSV file.
+  def self.product_to_csv_format(hash)
+    string = ""
+    
+    hash.each do |key, value|
+      string << key << ":" << value.to_s << ";"
+    end
+    
+    # Remove the last ";" character prior to returning string.
+    return string[0..-2]
+  end
 end
