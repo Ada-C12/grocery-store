@@ -1,6 +1,5 @@
 require_relative 'customer'
 require 'csv'
-require 'pry'
 
 class Order
   attr_reader :id, :products
@@ -44,6 +43,21 @@ class Order
     return nil
   end
 
+  def self.find_by_customer(customer_id)
+    customer_orders = []
+    Order.all.each do |order|
+      if order.customer.id == customer_id
+        customer_orders << order 
+      end
+    end 
+
+    if customer_orders.length == 0
+      raise ArgumentError.new("Invalid customer ID.")
+    end
+    return customer_orders
+  end
+
+
   def total
     total = 0
     @products.each do |product, amount|
@@ -63,6 +77,14 @@ class Order
    end
    
    return @products
+  end
+
+  def remove_products(product_name, product_price)
+    if @products.has_key?(product_name)
+      @products.delete(product_name)
+    else
+      raise ArgumentError.new("This product is not in our inventory.")
+    end
   end
   
 end

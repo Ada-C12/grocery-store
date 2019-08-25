@@ -113,6 +113,35 @@ describe "Order Wave 1" do
   end
 end
 
+# test for optional remove_products
+describe "#remove_products" do
+  it "Decreases the number of products" do 
+    products = { "Eggs" => 84.23, "Watermelon" => 11.16, "Cherries" => 10.4 }
+    before_count = products.length
+    customer = Customer.find(7)
+    order = Order.new(7, products, customer)
+
+    order.remove_products("Eggs", 84.23)
+    after_count = before_count - 1
+    expect(order.products.include?("Eggs")).must_equal false
+
+  end
+
+  it "Raises an ArgumentError if the product is not present" do 
+    products = { "Eggs" => 84.23, "Watermelon" => 11.16, "Cherries" => 10.4 }
+    
+    customer = Customer.find(7)
+    order = Order.new(7, products, customer)
+
+    expect {
+        order.remove_products("banana", 4.25)
+      }.must_raise ArgumentError
+
+      # The list of products should not have been modified
+      expect(order.total).must_equal 113.72
+  end
+end
+
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
@@ -187,6 +216,13 @@ describe "Order Wave 2" do
       expect(last.customer.id).must_equal 20
       expect(last.fulfillment_status).must_equal :pending
     end
+    
+    # optional enhancement
+    it "Can find the customer from the customer id" do 
+      customer_orders = Order.find_by_customer(24)
+      
+      expect((customer_orders.all? { |orders| orders.customer.id == 24 })).must_equal true 
+    end 
 
     
    it "Returns nil for an order that doesn't exist" do
@@ -196,3 +232,4 @@ describe "Order Wave 2" do
     end
   end
 end
+
