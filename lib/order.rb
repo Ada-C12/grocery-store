@@ -44,7 +44,7 @@ class Order
   end
 
   def self.all
-    orders_draft = CSV.read('../data/orders.csv').map(&:to_a)
+    orders_draft = CSV.read('data/orders.csv').map(&:to_a)
     orders_draft.each do |o|
       p = {}
       o[1].split(";").each do |i|

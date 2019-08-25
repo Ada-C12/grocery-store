@@ -11,7 +11,7 @@ class Customer
   end
   
   def self.all
-    customers_draft = CSV.read('../data/customers.csv').map(&:to_a)
+    customers_draft = CSV.read('data/customers.csv').map(&:to_a)
     customers = []
     customers_draft.each do |c|
       customers << self.new(
