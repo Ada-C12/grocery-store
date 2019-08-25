@@ -1,5 +1,4 @@
 require 'csv'
-# require 'pry'
 require_relative "customer"
 
 class Order
@@ -18,11 +17,6 @@ class Order
             
             puts fulfillment_status
             raise ArgumentError.new("fullfillment fulfillment_status should be either :pending, :paid, :shipped or :complete")
-
-            # A total method which will calculate the total cost of the order by:
-            # Summing up the products
-            # Adding a 7.5% tax
-            # Rounding the result to two decimal places
         end
     end
 
@@ -42,7 +36,6 @@ class Order
     end
 
     def add_product(name, price)
-        # instance method
         if @products[name]
             raise ArgumentError.new("product already there")
         end
@@ -50,7 +43,7 @@ class Order
         @products[name] = price
     end
 
-    def remove_product(name) # apple
+    def remove_product(name)
         if !@products[name]
             raise ArgumentError.new("product not found.")
         end
@@ -79,7 +72,7 @@ class Order
     end
 
     def self.get_products(products_data)
-        
+
         products = {}
         products_data.each do | name_price |
             product_name_price = name_price.split(":")
@@ -102,5 +95,4 @@ class Order
         end
     end
 
-    
 end
