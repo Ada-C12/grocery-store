@@ -12,13 +12,13 @@ class Order
     
     valid_statuses = [:pending, :paid, :processing, :shipped, :complete]
     
-    if !valid_statuses.include?(@fulfillment_status)
+    if !valid_statuses.include?(fulfillment_status)
       raise ArgumentError.new("That is not a valid fulfillment status.")
     end
   end
   
   def total
-    subtotal = @products.sum do |product, price|
+    subtotal = products.sum do |product, price|
       price
     end
     
@@ -27,18 +27,18 @@ class Order
   end
   
   def add_product(product_name, price)
-    if @products.has_key?(product_name)
+    if products.has_key?(product_name)
       raise ArgumentError.new("That item product was already added.")
     else
-      @products[product_name] = price
+      products[product_name] = price
     end  
   end
   
   def remove_product(product_name)
-    if !@products.has_key?(product_name)
+    if !products.has_key?(product_name)
       raise ArgumentError.new("This order does not contain that product.")
     else
-      @products.delete(product_name)
+      products.delete(product_name)
       
     end
   end
