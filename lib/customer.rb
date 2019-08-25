@@ -19,27 +19,28 @@ class Customer
   
   
   def self.all
-    @customers = []
     customer_array = CSV.read("../data/customers.csv").map(&:to_a)
-    binding.pry
-    customer_array.each do |id, email, address|
-      @id = customer_array.shift.shift
-      @customers << @id
-      email = customer_array.shift.shift
-      @email = email.to_s
-      @customers << @email
-      address = {street: customer_array[0],
-      city: customer_array[1],
-      state: customer_array[2],
-      zip: customer_array[3]}
-      @address = address
-      @customers << @address
-    end
-    return @customers
-  end 
+    @customers = customer_array.map do |index|
+      customer_info = []
+      @id = index[0].to_i
+      customer_info << @id
+      @email = index[1]
+      customer_info << @email
+      @address = {
+      street: index[2],
+      city: index[3],
+      state: index[4],
+      zip: index[5]
+    }
+    customer_info << @address
+  end
+  
+  binding.pry
+  
 end
 
-
+end 
 
 
 Customer.all
+
