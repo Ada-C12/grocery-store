@@ -25,6 +25,14 @@ class Customer
       customer.id == id
     end
   end
-end
 
+  def self.save(file_name)
+    CSV.open(file_name, 'wb') do |csv|
+      Customer.all.each do |customer|
+        address = customer.address.values.join(",")
+        csv << [customer.id, customer.email, address]
+      end
+    end
+  end
+end
 
