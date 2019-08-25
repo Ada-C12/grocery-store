@@ -114,7 +114,7 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       # TODO: Your test code here!
@@ -157,5 +157,12 @@ xdescribe "Order Wave 2" do
     it "Returns nil for an order that doesn't exist" do
       # TODO: Your test code here!
     end
+  end
+
+  # My test 
+  it 'raises an ArgumentError if a string is provided' do
+    expect {
+      Order.find("25")
+    }.must_raise ArgumentError
   end
 end
