@@ -40,15 +40,14 @@ class Order
         product_hash[product[0]] = product[1].to_f
       end
       products = product_hash
-      customer = Customer.find(line[2].to_i)      
+      customer = Customer.find(line[2].to_i)   
       fulfillment_status = line[3].to_sym
-      
       orders = Order.new(id, products, customer, fulfillment_status)
       new_order << orders
     end
     return new_order
   end
-
+  
   def self.find(id)
     Order.all.each do |order_number|
       if order_number.id == id
