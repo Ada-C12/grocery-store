@@ -4,7 +4,8 @@ class Customer
   attr_reader :id
   attr_accessor :email, :address
   
-  @@all_customers = []
+  
+  
   def initialize(id, email, address)
     @id = id
     @email = email
@@ -12,7 +13,9 @@ class Customer
   end
   
   def self.all
-    customer_data = CSV.open('/Users/briannakemp/Documents/Coding/Ada_Developers_Academy/Week3/grocery-store/data/customers.csv', headers:false).map(&:to_a)
+    all_customers = []
+    # customer_data = CSV.open('/Users/briannakemp/Documents/Coding/Ada_Developers_Academy/Week3/grocery-store/data/customers.csv', headers:false).map(&:to_a)
+    customer_data = CSV.open('data/customers.csv', headers:false).map(&:to_a)
     customer_data.each do |customer|
       parameter1 = customer[0].to_i
       parameter2 = customer[1]
@@ -22,9 +25,9 @@ class Customer
       parameter3[:state] = customer[4]
       parameter3[:zip] = customer[5]
       temp = Customer.new(parameter1, parameter2, parameter3)
-      @@all_customers.push(temp)
+      all_customers.push(temp)
     end
-    return @@all_customers
+    return all_customers
   end
   
   def self.find(id)
@@ -33,8 +36,8 @@ class Customer
       if customer.id == id
         return customer
       end
-      return nil
     end
+    return nil
   end
   
   
