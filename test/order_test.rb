@@ -5,6 +5,7 @@ require 'minitest/skip_dsl'
 require_relative '../lib/customer'
 require_relative '../lib/order'
 
+
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 describe "Order Wave 1" do
@@ -148,13 +149,13 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
 describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
       orders = Order.all
       
       expect(orders.length).must_equal 100
+      
       orders.each do |o|
         expect(o).must_be_kind_of Order
         
@@ -225,4 +226,40 @@ describe "Order Wave 2" do
       expect(Order.find(53145)).must_be_nil
     end
   end
+  
+  describe "Order.find_by_customer" do
+    it "Returns an array of Orders" do
+      found_orders = Order.find_by_customer(25)
+      
+      expect(found_orders).must_be_kind_of Array
+      
+      found_orders.each do |order|
+        expect(order).must_be_kind_of Order
+      end
+      
+    end
+    
+    it "Only returns information about the given customer" do
+      found_orders = Order.find_by_customer(25)
+      
+      found_orders.each do |order|
+        expect(order.customer.id).must_equal 25
+      end
+      
+    end
+    
+    it "Returns all orders of the given customer" do
+      found_orders = Order.find_by_customer(25)
+      
+      expect(found_orders.length).must_equal 6
+    end
+    
+    it "Returns nil if the given customer did not place any orders" do
+      found_orders = Order.find_by_customer(10003)
+      
+      expect(found_orders).must_be_nil
+    end
+    
+  end
+  
 end
