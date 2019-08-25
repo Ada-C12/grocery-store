@@ -1,6 +1,5 @@
 # Wave 1
 require 'csv'
-require 'pry'
 
 # customer class
 class Customer 
