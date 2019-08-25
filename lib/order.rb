@@ -4,10 +4,10 @@ class Order
   attr_accessor :products, :fulfillment_status
 
   def initialize id, products, customer, fulfillment_status = :pending
-    @id = id # number
-    @products = products # hash with product name as string, value as cost
+    @id = id
+    @products = products
     @customer = customer
-    @fulfillment_status = fulfillment_status # can be :pending, :paid, :processing, :shipped or :complete. need to raise ArgumentError if some other status is given
+    @fulfillment_status = fulfillment_status
     okay_statuses = [:pending, :paid, :processing, :shipped, :complete]
     raise ArgumentError, 'Invalid status.' unless okay_statuses.include?(@fulfillment_status)
   end
@@ -28,17 +28,14 @@ class Order
   end
 
   def self.all
-    order_instances = []
-    all_orders = CSV.read('data/orders.csv').map(&:to_a)
-    all_orders.each do |cur_order|
+    return CSV.read('data/orders.csv')
+    .map(&:to_a)
+    .map {|cur_order|
       id = cur_order[0].to_i
       products = product_hash(cur_order[1])
       customer = Customer.find(cur_order[2].to_i)
       fulfillment_status = cur_order[3].to_sym
-      order = Order.new(id, products, customer, fulfillment_status)
-      order_instances << order
-    end
-    return order_instances
+      Order.new(id, products, customer, fulfillment_status)}
   end
 
   def self.product_hash(string_of_products)
@@ -53,21 +50,12 @@ class Order
   end
 
   def self.find(id)
-    Order.all.each do |order|
-      if order.id == id
-        return order
-      end
-    end
-    return nil
+    Order.all.find{ |order| order.id == id}
   end
 
-  def self.find_by_customer customer_id
-    matching_orders = []
-    Order.all.each do |order|
-      if order.customer.id == customer_id
-        matching_orders << order
-      end
-    end
+  def self.find_by_customer(customer_id)
+    matching_orders = Order.all.select {|order|
+      order.customer.id == customer_id}
     if matching_orders.empty?
       return "Sorry. No orders found."
     end
