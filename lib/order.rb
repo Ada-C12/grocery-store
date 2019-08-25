@@ -60,10 +60,10 @@ class Order
   end
   
   # create method self.find(id) for Order
-  #  def self.find(id)
-  #   customers = Customer.all
-  #   customer = customers.find {|customer_instance| customer_instance.id == id}
-  #   return customer
-  # end
+  def self.find(id)
+    orders = Order.all
+    order = orders.find {|order_instance| order_instance.id == id}
+    return order
+  end
 end
 
