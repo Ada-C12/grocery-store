@@ -1,3 +1,5 @@
+require 'csv'
+
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
   
@@ -77,6 +79,29 @@ class Order
     end
     
     found_orders.empty? ? nil : found_orders
+  end
+  
+  def self.save(filename)
+    all_orders = self.all
+    
+    CSV.open(filename, 'w') do |csv|
+      self.all.each do |order|
+        array_of_product_strings = order.products.map do |product, price|
+          product != order.products.keys.last ? "#{product}:#{price};" : "#{product}:#{price}"
+        end
+        
+        products_description = array_of_product_strings.join
+        
+        individual_order_info = [
+          order.id.to_s,
+          products_description,
+          order.customer.id.to_s,
+          order.fulfillment_status.to_s
+        ]
+        
+        csv << individual_order_info
+      end
+    end
   end
   
 end
