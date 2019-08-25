@@ -12,8 +12,8 @@ class Order
         @fulfillment_status = fulfillment_status
         @customer = customer 
         
-        fulfillment_status = [:pending, :paid, :processing, :shipped, :complete ]
-        if !fulfillment_status.include?(@fulfillment_status)
+        fulfillment_statuses = [:pending, :paid, :processing, :shipped, :complete ]
+        if !fulfillment_statuses.include?(@fulfillment_status)
             raise ArgumentError 
         end 
     end 
@@ -34,7 +34,7 @@ class Order
         else 
             @products[name] = price 
         end 
-      
+        
     end 
     
     def self.all 
@@ -45,17 +45,17 @@ class Order
                 item_price = hash.split(':')
                 products[item_price[0]] = item_price[1].to_f
             end
-         Order.new(person[0].to_i, products, Customer.find(person[2].to_i), person[3].to_sym)
+            Order.new(person[0].to_i, products, Customer.find(person[2].to_i), person[3].to_sym)
         end 
         
         new_data   
     end 
-
+    
     def self.find (id)
         data = self.all 
         order_found = data.select {|order| order.id == id }
         order_found[0] 
     end 
-
+    
     
 end 
