@@ -1,4 +1,5 @@
 require 'csv'
+require 'customer'
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -62,13 +63,11 @@ class Order
   def self.find(id)
     all_orders = self.all
     
-    all_orders.each do |order|
-      if order.id == id
-        return order
-      end
+    found_order = all_orders.find do |order|
+      order.id == id
     end
     
-    return nil
+    return found_order
   end
   
   def self.find_by_customer(customer_id)
@@ -85,7 +84,7 @@ class Order
     all_orders = self.all
     
     CSV.open(filename, 'w') do |csv|
-      self.all.each do |order|
+      all_orders.each do |order|
         array_of_product_strings = order.products.map do |product, price|
           product != order.products.keys.last ? "#{product}:#{price};" : "#{product}:#{price}"
         end
