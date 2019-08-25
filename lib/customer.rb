@@ -14,7 +14,7 @@ class Customer
   def self.all
     csv_data = CSV.read('data/customers.csv')
     
-    collection_of_customers = csv_data.map do |individual_customer|
+    all_customers = csv_data.map do |individual_customer|
       customer_address = {
         street: individual_customer[2],
         city: individual_customer[3],
@@ -24,25 +24,20 @@ class Customer
       customer_id = individual_customer[0].to_i
       customer_email = individual_customer[1]
       
-      current_customer = Customer.new(customer_id, customer_email, customer_address)
+      Customer.new(customer_id, customer_email, customer_address)
     end
-    
-    return collection_of_customers
-    
+    return all_customers
   end
   
   def self.find(id)
+    all_customers = self.all
     
-    collection_of_customers = self.all
-    
-    collection_of_customers.each do |customer|
+    all_customers.each do |customer|
       if customer.id == id
         return customer
       end
     end
-    
     return nil
-    
   end
   
 end
