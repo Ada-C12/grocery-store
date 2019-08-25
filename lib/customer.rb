@@ -1,7 +1,6 @@
 require 'csv'
 
 class Customer
-  
   attr_reader :id
   attr_accessor :email, :address
   
@@ -32,20 +31,16 @@ class Customer
   def self.find(id)
     all_customers = self.all
     
-    all_customers.each do |customer|
-      if customer.id == id
-        return customer
-      end
+    all_customers.find do |customer|
+      customer.id == id
     end
-    return nil
   end
   
   def self.save(filename)
-    
     all_customers = self.all
     
     CSV.open(filename, 'w') do |csv|
-      self.all.each do |customer|
+      all_customers.each do |customer|
         individual_customer_info = [
           customer.id.to_s,
           customer.email,
