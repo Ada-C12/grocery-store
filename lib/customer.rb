@@ -1,5 +1,6 @@
 require 'csv'
-require 'awesome_print'
+
+
 class Customer 
     
     attr_reader :id 
@@ -9,20 +10,14 @@ class Customer
         @id = id
         @email = email
         @address = address
-        
-        
-        
-        
-        
-        
-        
     end 
+    
     def self.all
         data = CSV.read('data/customers.csv')
         customers = data.map do |person|
             address = {street: person[2], city: person[3], state: person[4], zip: person[5]}
-            csv_instance = self.new(person[0].to_i, person[1], address)
-         end 
+            self.new(person[0].to_i, person[1], address)
+        end 
         customers     
     end 
     
@@ -32,10 +27,6 @@ class Customer
         person_found = data.select {|person| person.id == id }
         person_found[0] 
     end 
-    
-    
-    
-    
     
     
 end 
