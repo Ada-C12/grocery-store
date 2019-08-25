@@ -11,7 +11,6 @@ class Order
     if !valid_statuses.include? fulfillment_status
       raise ArgumentError.new "Error! Provided fulfillment status is invalid."
     end
-    
   end
   
   def total
@@ -35,44 +34,49 @@ class Order
   end
   
   def self.all
-    
     csv_data = CSV.read('data/orders.csv')
     
-    collection_of_orders = csv_data.map do |individual_order|
-      products_array = individual_order[1].split(";")
-      products_hash = {}
-      products_array.each do |product|
-        name_price_array = product.split(":")
-        
-        product_name = name_price_array[0]
-        product_price = name_price_array[1].to_f
-        
-        products_hash[product_name] = product_price
+    all_orders = csv_data.map do |individual_order|
+      array_of_products = individual_order[1].split(";")
+      
+      products_and_prices_array = array_of_products.map do |product|
+        individual_product_info = product.split(":")
+        individual_product_info[1] = individual_product_info[1].to_f
+        individual_product_info
       end
       
-      products = products_hash
+      products_and_prices_hash = products_and_prices_array.to_h
+      
+      products = products_and_prices_hash
       order_id = individual_order[0].to_i
       customer = Customer.find(individual_order[2].to_i)
       fulfillment_status = individual_order[3].to_sym
       
-      current_order = Order.new(order_id, products, customer, fulfillment_status)
+      Order.new(order_id, products, customer, fulfillment_status)
     end
-    
-    return collection_of_orders
+    return all_orders
   end
   
   def self.find(id)
+    all_orders = self.all
     
-    collection_of_orders = self.all
-    
-    collection_of_orders.each do |order|
+    all_orders.each do |order|
       if order.id == id
         return order
       end
     end
     
     return nil
+  end
+  
+  def self.find_by_customer(customer_id)
+    all_orders = self.all
     
+    found_orders = all_orders.select do |order|
+      order.customer.id == customer_id
+    end
+    
+    found_orders.empty? ? nil : found_orders
   end
   
 end
