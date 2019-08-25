@@ -15,15 +15,14 @@ class Order
   end
   
   def total
-    total = ((@products.values.sum) * 1.75).round(2)
+    expected_total = (((@products.values).sum * 1.075).round(2))
+    return expected_total
   end
   
   def add_product(product_name, price)
     if products.keys.include?(product_name)
-      raise ArgumentError, "#{product_name} has already been added to cart"
+      raise ArgumentError, "#{product_name} has already been added to cart. It is now out of stock."
     end
     return @products[product_name] = price
   end
-  
-  
 end
