@@ -191,8 +191,9 @@ describe "Order.find" do
   describe "Order.find_by_customer" do
     it "Can find all orders from a customer ID" do
       test_customer = Order.find_by_customer(19)
+      p test_customer.length
       expect(test_customer).must_be_kind_of Array
-      expect(test_customer).length.must_equal 3
+      expect(test_customer.length).must_equal 3
     end
 
     it "Returns apology for an id that doesn't exist or no orders for customer" do

@@ -1,8 +1,9 @@
 class Order
+  require 'csv'
   attr_reader :id, :customer
   attr_accessor :products, :fulfillment_status
 
-  def initialize (id, products, customer, fulfillment_status = :pending)
+  def initialize id, products, customer, fulfillment_status = :pending
     @id = id # number
     @products = products # hash with product name as string, value as cost
     @customer = customer
@@ -18,7 +19,7 @@ class Order
     return total.round(2)
   end
 
-  def add_product (product_name, price)
+  def add_product(product_name, price)
     if @products.has_key?(product_name)
       raise ArgumentError, 'That product has already been added to the order.'
     else
@@ -28,7 +29,7 @@ class Order
 
   def self.all
     order_instances = []
-    all_orders = CSV.read('../data/orders.csv').map(&:to_a)
+    all_orders = CSV.read('data/orders.csv').map(&:to_a)
     all_orders.each do |cur_order|
       id = cur_order[0].to_i
       products = product_hash(cur_order[1])
@@ -60,11 +61,10 @@ class Order
     return nil
   end
 
-  def self.find_by_customer(customer_id)
+  def self.find_by_customer customer_id
     matching_orders = []
     Order.all.each do |order|
       if order.customer.id == customer_id
-        # or order.customer == Customer.find(customer_id)
         matching_orders << order
       end
     end
