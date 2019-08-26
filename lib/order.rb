@@ -1,3 +1,7 @@
+# I think these requires are only required for my personal testing????
+require 'csv'
+require_relative 'customer.rb'
+
 class Order
   attr_reader :id, :customer
   attr_accessor :products, :fulfillment_status
@@ -23,6 +27,16 @@ class Order
     return formatted_product_hash
   end
 
+  def self.format_products_to_text(product_hash)
+    product_string = ""
+    if product_hash.length > 0
+      product_hash.each do |item, price|
+        product_string += "#{item}:#{price};"
+      end
+      return product_string.delete_suffix(";")
+    end
+  end
+
   def self.all
     order_data = []
     CSV.open('data/orders.csv', 'r').each do |o|
@@ -43,6 +57,23 @@ class Order
   def self.find_by_customer(customer_id)
     order_data = self.all
     return order_data.select { |order| order.customer.id == customer_id}
+  end
+# Need to update to stop adding excess quote marks
+  # def self.save(file_name)
+  #   order_data = self.all
+  #   CSV.open(file_name, 'a+') do |csv|
+  #     order_data.each do |individual_order|
+  #       order_id = individual_order.id.to_s
+  #       products = self.format_products_to_text(individual_order.products)
+  #       cust_id = individual_order.customer.id
+  #       status = individual_order.fulfillment_status.to_s
+
+  #       csv_order_line = [order_id, products, cust_id, status].join(",")
+
+  #       csv << [csv_order_line]
+
+  #     end
+  #   end
   end
 
   def total
