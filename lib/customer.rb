@@ -36,4 +36,13 @@ class Customer
     requested_customer
   end
   
+  def self.save(filename)
+    customer_array = self.all
+    CSV.open(filename, "w") do |csv|
+      customer_array.each do |customer|
+        csv << [customer.id, customer.email, customer.address[:street], customer.address[:city], customer.address[:state], customer.address[:zip]]
+      end
+    end 
+  end 
+  
 end 

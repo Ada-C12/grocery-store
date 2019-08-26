@@ -69,4 +69,17 @@ class Order
     requested_order 
   end 
   
+  def self.save(filename)
+    order_array = self.all
+    CSV.open(filename, "w") do |csv|
+      order_array.each do |order|
+        csv_products = String.new
+        order.products.each do |item, price|
+          csv_products << "#{item}:#{price};" 
+        end 
+        csv << [order.id, csv_products.chop, order.customer.id, order.fulfillment_status]
+      end
+    end 
+  end 
+  
 end 
