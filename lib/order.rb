@@ -1,4 +1,6 @@
 require 'customer'
+require 'pry'
+require 'csv'
 
 class Order
   attr_reader :id
@@ -73,7 +75,7 @@ class Order
   end
   
   # method to return a list of orders by a customer
-  def Order.find_by_customer(customer_id)
+  def self.find_by_customer(customer_id)
     all_orders = self.all
     customer_orders = []
     
@@ -89,6 +91,21 @@ class Order
       return customer_orders
     end
   end
+  
+  # ** attempt at Order.save but pry was throwing a "cannot load customer file" error
+  # method to save Order instances to a csv file
+  # def self.save(file_name)
+  #   CSV.open(file_name, "w") do |file|
+  #     self.all.each do |each_order|
+  #       file << [
+  #         each_order.id,
+  #         each_order.products,
+  #         each_order.customer.id,
+  #         each_order.fulfillment_status
+  #       ]
+  #     end
+  #   end
+  # end
 end
 
 
