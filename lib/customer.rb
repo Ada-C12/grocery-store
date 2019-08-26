@@ -1,5 +1,4 @@
 require 'csv'
-require 'awesome_print'
 
 class Customer
   def initialize(id,email,address)

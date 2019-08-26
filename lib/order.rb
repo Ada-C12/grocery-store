@@ -1,4 +1,5 @@
 require 'CSV'
+require_relative 'customer'
 
 class Order
   def initialize(id, products,customer,fulfillment_status = :pending)
@@ -71,16 +72,4 @@ class Order
     orders.each { |order| return order if order.id == order_id }
     return nil
   end
-
-  def self.find_by_customer(customer_id)
-    customer_orders = []
-    orders = Order.all
-    orders.each do |order| 
-      if orders.customer == customer_id
-        customer_orders << order 
-      end
-    end
-    return customer_orders
-  end
-
 end
