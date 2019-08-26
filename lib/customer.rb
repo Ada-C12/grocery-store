@@ -16,8 +16,6 @@ class Customer
   end
 
   def self.all
-    # return collection of all Customer instances, representing all the customers described in the CSV
-
     customers = CSV.read('data/customers.csv').map(&:to_a)
     customers_array = []
     customers.each do |customer|
@@ -36,7 +34,6 @@ class Customer
   end
 
   def self.find(id)
-    # return Customer instance where value of id field matches input_id
     customers_array = Customer.all
 
     customers_array.find do |customer|
@@ -44,13 +41,6 @@ class Customer
         return customer
       end
     end
-
-    # Use .find method...
-    # if customer id matches input_id
-      # return customer instance
-    # else
-      # return that input id does not exist, try again(?)
-    #end
   end
 
 end

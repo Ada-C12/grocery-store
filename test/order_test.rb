@@ -115,6 +115,19 @@ describe "Order Wave 1" do
       expect(order.total).must_equal before_total
     end
   end
+
+  ### remove_product test, not working...yet
+  # describe "#remove_product" do
+  #   it "reduces the number of products" do
+  #     products = { "banana" => 1.99, "cracker" => 3.00 }
+  #     before_count = products.count
+  #     # order = Order.new (1337, products, customer)
+
+  #     products = remove_product("cracker")
+  #     expected_count = before_count - 1
+  #     expected(order.products.count).must_equal expected_count
+  #   end
+  # end
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests

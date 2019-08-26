@@ -24,50 +24,43 @@ class Order
   end
 
   def total
-    #sum the prodcts
     sub_total = 0
     products.each do |product, price|
       price = price.to_f
       sub_total += price.to_f
     end
 
-    #add a 7.5%
     total = (sub_total*0.075) + sub_total
 
-    #round the nearest 2nd decimal place
     total = total.round(2)
 
     return total
   end
 
   def add_product(product_name,product_price)
-    #cant add a parameter if already included
     products.each do |product,price|
       if product_name == product
         return raise ArgumentError
       end
     end
     
-    #add parameters into products hash
     return products["#{product_name}"] = product_price
   end
 
-  def remove_product(product_name)
-    #will remove product from products collection
-    #if not product by that name found, raise argument error
-
-    products.each do |product, price|
-      if product_name == product
-        #remove product from hash
-        products.delete("#{product}")
-        return products
-      end
-    end
-  end
+  ### remove_product method, not working...yet
+  # def remove_product(product_name)
+  #   products.each do |product, price|
+  #     if product_name == product
+  #       binding.pry
+  #       products.delete(product_name)
+  #       return products
+  #     else
+  #       return raise ArgumentError
+  #     end
+  #   end
+  # end
 
   def self.all
-    # returns order instances, representing all the orders represented in the CSV file
-
     orders = CSV.read('data/orders.csv').map(&:to_a)
     orders_array = []
     orders.each do |order|
@@ -92,7 +85,6 @@ class Order
   end
 
   def self.find(id)
-    # return order instance whe;re value of id field in CSV matches the input_id
     orders_array = Order.all
 
     orders_array.find do |order|
