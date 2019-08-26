@@ -1,5 +1,6 @@
 require 'csv'
 require 'awesome_print'
+require_relative 'customer'
 
 class Order
   
@@ -90,4 +91,18 @@ class Order
     return all_customer_orders
   end
   
+  
+  def self.save(filename)
+    
+    CSV.open(filename, "wb") do |csv|
+      Order.all.each do |order|
+        product = order.products.map { |key, value|  key.to_s + ":" + value.to_s }
+        csv << [order.id, product , order.customer.id, order.fulfillment_status].flatten
+      end
+      
+    end
+    
+  end
 end
+
+Order.save('data/new_order_list.csv')
