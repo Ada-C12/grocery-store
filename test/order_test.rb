@@ -113,11 +113,13 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      orders = Order.all
+
+      expect(orders).must_be_kind_of Array
+      expect(orders.count).must_equal 100
     end
 
     it "Returns accurate information about the first order" do
@@ -141,21 +143,38 @@ xdescribe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      last_order = Order.all.last
+      expect(last_order.id).must_equal 100
+      expect(last_order.products["Cheddar"]).must_equal 5.63
+      expect(last_order.customer.id).must_equal 20
+      expect(last_order.fulfillment_status).must_equal :pending
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first_order = Order.find(1)
+
+      expect(first_order.id).must_equal 1
+      expect(first_order.products["Lobster"]).must_equal 17.18
+      expect(first_order.customer.id).must_equal 25
+      expect(first_order.fulfillment_status).must_equal :complete
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last_order = Order.find(100)
+
+      expect(last_order.id).must_equal Order.all.last.id
+      expect(last_order.id).must_equal 100
+      expect(last_order.products["Amaranth"]).must_equal 83.81
+      expect(last_order.customer.id).must_equal 20
+      expect(last_order.fulfillment_status).must_equal :pending
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      non_order = Order.find(999)
+
+      expect(non_order).must_equal nil
     end
   end
 end
