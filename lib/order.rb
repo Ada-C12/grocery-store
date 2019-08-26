@@ -1,3 +1,7 @@
+require 'csv'
+require 'customer'
+require 'pry'
+
 class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
@@ -49,10 +53,27 @@ class Order
 
   end
 
-#     An add_product method which will take in two parameters, product name and price, and add the data to the product collection
+  def self.all #returns a collection of Order instances
+    orders = []
+    orders_csv = CSV.open('data/orders.csv').map(&:to_a) 
+    # orders_csv = [1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete]
 
-# If a product with the same name has already been added to the order, an ArgumentError should be raised
+    orders_csv.each do |order|
+      customer = Customer.find(order[-2].to_i)
 
-# end
+      product_hash = {}
+      product_list = order[1].split(';')
 
+        product_list.each do |product|
+          each_product = []
+          each_product = product.split(':')
+          product_hash[each_product[0]] = each_product[1].to_f
+        end
+
+      orders.push(Order.new(order[0].to_i, product_hash, customer, order[-1].to_sym))
+    end
+
+    return orders
+  end
 end
+
