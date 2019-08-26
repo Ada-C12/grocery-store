@@ -32,12 +32,11 @@ describe "Customer Wave 1" do
   end
 end
 
-# TODO: remove the 'x' in front of this block when you start wave 2
-xdescribe "Customer Wave 2" do
+describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       customers = Customer.all
-
+      
       expect(customers.length).must_equal 35
       customers.each do |c|
         expect(c).must_be_kind_of Customer
@@ -61,7 +60,6 @@ xdescribe "Customer Wave 2" do
 
     it "Returns accurate information about the last customer" do
       last = Customer.all.last
-
       expect(last.id).must_equal 35
       expect(last.email).must_equal "rogers_koelpin@oconnell.org"
       expect(last.address[:street]).must_equal '7513 Kaylee Summit'
@@ -79,7 +77,7 @@ xdescribe "Customer Wave 2" do
       expect(first.id).must_equal 1
     end
 
-    it "Can find the last customer from the CSV" do
+   it "Can find the last customer from the CSV" do
       last = Customer.find(35)
 
       expect(last).must_be_kind_of Customer

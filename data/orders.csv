@@ -1,3 +1,4 @@
+id,products,customer_id,status
 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
 2,Sun dried tomatoes:90.16;Mastic:52.69;Nori:63.09;Cabbage:5.35,10,paid
 3,Vegetable spaghetti:37.83;Dates:90.88;WhiteFlour:3.24;Caraway Seed:54.29,5,processing
@@ -5,7 +6,7 @@
 5,Sour Dough Bread:35.11,21,shipped
 6,Peaches:46.34,14,pending
 7,Eggs:84.23;Watermelon:11.16;Cherries:10.4,24,complete
-8,Tahini:74.52;Chickory:43.8;Cos lettuce:33.4,12,complete
+8,Tahini:74.52;Chickoprory:43.8;Cos lettuce:33.4,12,complete
 9,Iceberg lettuce:88.51;Rice paper:66.35;Amaranth:1.5;Walnut:65.26,14,paid
 10,Jerusalem Artichoke:59.92,26,complete
 11,Pinto Beans:68.42,4,pending
