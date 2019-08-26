@@ -67,6 +67,17 @@ class Order
     return nil
   end
   
+  def self.find_by_customer(customer_id)
+    orders = self.all
+    customers_orders = []
+    orders.each do |order|
+      if order.customer == customer_id
+        customers_orders.push(order)
+      end
+    end
+    return customers_orders
+  end
+  
   def self.save(filename)
     CSV.open(filename, "w") do |csv|
       result = self.all
