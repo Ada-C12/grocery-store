@@ -1,3 +1,7 @@
+require_relative 'customer'
+require 'csv'
+require 'awesome_print'
+
 class Order 
 
   attr_reader :id
@@ -29,6 +33,28 @@ class Order
         total += price.round(2)
       end
     return total
-  end    
-end 
+  end  
+    
+  def self.all 
+    csv = CSV.read("/Users/dnsanche/ada/week3/grocery-store/data/orders.csv", headers: true).map(&:to_h) 
+    orders = []  
+      csv.each do |customer_order|
+        id = customer_order["id"].to_i 
+        products = {}  
+        customer_order["products"].split(";").each do |product|
+          name_and_price = product.split(":") 
+          products.store(name_and_price[0], name_and_price[1].to_f)
+        end
+        customer_id = customer_order["customer"].to_i
+        customer = Customer.find(customer_id)
+        fulfillment_status = customer_order["fulfillment_status"].to_sym
+        orders << Order.new(id,products,customer,fulfillment_status)
+    end
+    return orders
+  end
+  
+  def self.find(id)
+    #eturns an instance of Order where the value of the id field in the CSV matches the passed parameter
+  end
+end
 
