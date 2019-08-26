@@ -27,21 +27,15 @@ class Order
     end
 
     total += total * 0.075
-
     return total.round(2)
   end
 
   def add_product(product_name, price)
-    
     if !(@products.keys.include?(product_name))
       @products[product_name] = price
     else
       raise ArgumentError
     end
-  
-    # @products.find {|name| name == product_name } == nil
-    #   raise ArgumentError
-    # end
   end
 
   def remove_product(product_name)
@@ -50,13 +44,11 @@ class Order
     else
       raise ArgumentError
     end
-
   end
 
   def self.all #returns a collection of Order instances
     orders = []
     orders_csv = CSV.open('data/orders.csv').map(&:to_a) 
-    # orders_csv = [1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete]
 
     orders_csv.each do |order|
       customer = Customer.find(order[-2].to_i)
@@ -74,6 +66,13 @@ class Order
     end
 
     return orders
+  end
+
+  def self.find(id)
+    orders = self.all
+    result = orders.select {|order| order.id == id}
+
+    result.length > 0 ? result[0] : nil
   end
 end
 
