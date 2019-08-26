@@ -41,7 +41,6 @@ describe "Customer Wave 2" do
       expect(customers.length).must_equal 35
       customers.each do |c|
         expect(c).must_be_kind_of Customer
-        
         expect(c.id).must_be_kind_of Integer
         expect(c.email).must_be_kind_of String
         expect(c.address).must_be_kind_of Hash
