@@ -53,38 +53,46 @@ class Order
   end
   
   def self.all
-    orders = []
-    order = []
+    # array "orders" will be used for return statement
+    orders = []  
+    
+    # array "placeholder_of_strings" will be used as super temporary storage of order information for each line of the csv file. It gets reset with every line to avoid duplication of line 1 data into line 2
     placeholder_of_strings = []
+    
+    # array "order" will be used as temporary storage of order information for each line of the csv file. Will also be used for format transformation
+    order = []
+    
     CSV.open('data/orders.csv', 'r').each do |line| 
+      
+      # Order ID, customer ID and shipping status are pulled from the line using their index numbers and changed to match the expected format for a new order
+      imported_order_number = line[0].to_i
+      imported_customer_id = line[2].to_i
+      imported_shipping_status = line[3].to_sym
+      
+      # Double iteration digests the order information from the csv file
       import_products_array_odd = line[1].split (';')
       import_products_array_odd.each do |item_with_price|
         placeholder_of_strings << item_with_price.split(':')
       end
+      
+      # By line, the order information is transfored into a hash, and the costs of the items are transformed to floats
       order = placeholder_of_strings
       placeholder_of_strings = []
       items = order.to_h
       items.transform_values!(&:to_f)
       
-      imported_order_number = line[0].to_i
-      imported_ordered_items = items
-      imported_customer_id = line[2].to_i
-      
-      # imported_customer = Customer.new
-      
-      imported_shipping_status = line[3].to_sym
-      
-      
+      # customer IDs are replaced with instances of customer 
       customers = Customer.all
       customers.each do |customer|
         if customer.id == imported_customer_id
           imported_customer_id = customer
         end
-        
       end
       
-      imported_order = Order.new(imported_order_number, imported_ordered_items, imported_customer_id, imported_shipping_status)
+      # A new order is created for each of the lines of the CSV file
+      imported_order = Order.new(imported_order_number, items, imported_customer_id, imported_shipping_status)
       
+      # The orders are pushed into a data structure which will be returned
       orders.push(imported_order)
     end
     return orders
