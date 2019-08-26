@@ -97,6 +97,31 @@ class Order
     end
     return orders
   end  
+  
+  def self.find (order_id)
+    found_order = nil
+    orders = Order.all
+    orders.each do |order|
+      if order.id == order_id
+        found_order = order
+      end
+    end
+    return found_order
+  end
+  
+  
+  def find_by_customer(customer_id)
+    orders = Order.all
+    customers = Customer.all
+    order_by_customer = []
+    
+    orders.each do |order|
+      if order.id == customer.id
+        order_by_customer << order
+      end
+    end
+    return order_by_customer
+  end
 end
 
 
