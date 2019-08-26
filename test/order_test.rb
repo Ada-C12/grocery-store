@@ -3,7 +3,7 @@ require 'minitest/reporters'
 require 'minitest/skip_dsl'
 
 require_relative '../lib/customer'
-require_relative '../lib/order'
+require_relative '../lib/order' 
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
