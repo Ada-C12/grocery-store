@@ -162,11 +162,13 @@ describe "Order Wave 2" do
       order = Order.all.last
 
       # Check that all data was loaded as expected
-      expect(order.id).must_equal id
-      expect(order.products).must_equal products
+      expect(order.id).must_equal 100
+      expect(order.products["Amaranth"]).must_equal 83.81
+      expect(order.products["Smoked Trout"]).must_equal 70.6
+      expect(order.products["Cheddar"]).must_equal 5.63
       expect(order.customer).must_be_kind_of Customer
-      expect(order.customer.id).must_equal customer_id
-      expect(order.fulfillment_status).must_equal fulfillment_status
+      expect(order.customer.id).must_equal 20
+      expect(order.fulfillment_status).must_equal :pending
     end
   end
 

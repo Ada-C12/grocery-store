@@ -7,8 +7,8 @@ class Order
 
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
-    @products = products #hash structured like { "banana" => 1.99, "cracker" => 3.00 }; zero products is permitted
-    @customer = customer #Customer.new
+    @products = products
+    @customer = customer
     @fulfillment_status = checkStatus(fulfillment_status)
   end
 
@@ -16,7 +16,7 @@ class Order
     if status == :pending || status == :paid || status == :processing || status == :shipped || status == :complete
       return status
     else
-      raise ArgumentError.new "invalid status entered"
+      raise ArgumentError.new "Invalid status entered"
     end
   end
 
@@ -33,7 +33,7 @@ class Order
 
   def add_product(product_name, price)
     if @products.include?(product_name)
-      raise ArgumentError.new "you already have this product in your order!"
+      raise ArgumentError.new "You already have this product in your order!"
     else
       @products[product_name] = price
     end
@@ -50,33 +50,20 @@ class Order
     return orders
   end
 
-  #Helper method used to split the products information in the CSV file. The method returns a hash with two key value pairs, product: "product" and price: 0.00.
+  #Helper method used to split the products information in the CSV file. The method returns a hash with a key value pair, {"Product": Price.to_f}
   def self.split_csv_method(csv_to_be_split)
-    new_array = []
-    prod_orders = {}
     products = csv_to_be_split.split(";")
-    products.each do |prod|
-      item = prod.split(":")
-      new_array.push(item)
+    #.map! replaces the original array instead of creating a new array
+    products.map! {|items| items.split(":")}.each do |price|
+      price[1] = price[1].to_f
     end
-    #pp stands for product/price
-    new_array.each do |pp|
-      prod_orders[pp[0]] = pp[1].to_f
-    end
-    return prod_orders
-
+    return products.to_h
   end
 
   def self.find(id)
     find_order = Order.all
-
     found_order = find_order.find(ifnone = nil) {|order| order.id == id}
-
     return found_order
   end
 
 end
-
-
-# if we have two separate order csvs we want to be able to call the new file if we call Customer.save and Order.save and all the order/customer data will be there
-# Using the database example (so instead of just reading, we will be writing/saving)
