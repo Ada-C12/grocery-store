@@ -54,7 +54,11 @@ class Order
   end
   
   def self.find(id)
-    #eturns an instance of Order where the value of the id field in the CSV matches the passed parameter
+    if Order.all[id-1] != nil
+      return Order.all[id-1]
+    else 
+      nil         
+    end
   end
 end
 
