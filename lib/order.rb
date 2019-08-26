@@ -20,9 +20,9 @@ class Order
     elsif
       products.is_a?(Hash) == false
       raise ArgumentError 
-    elsif
-      customer.is_a?(Customer) == false
-      raise ArgumentError
+      # elsif
+      #   customer.is_a?(Integer) == false
+      #   raise ArgumentError
     elsif 
       !(status_array.include?(fulfillment_status))
       raise ArgumentError 
@@ -58,45 +58,41 @@ class Order
   # orders = csv_data.map do |order|
   
   def self.all
+    total_orders = []
     
-    csv_data = CSV.read("data/orders.csv").map(&:to_a)
+    csv_data = CSV.read("data/orders.csv")
     csv_data.each do |order|
-      
       isolate_order_products = []
-      organized_products = []
-      
+      product_hash = {}
       id = order[0].to_i
       isolate_order_products = order.slice(1)
       customer_id = order[2].to_i
       fulfillment_status = order[3].to_sym
       
       single_product = isolate_order_products.split(";")
-      
       single_product.each do |index|
         isolate_value = index.split(":")
-        item_hash = {
-        isolate_value[0] => isolate_value[1].to_f
-      }
-      organized_products << item_hash
+        product_hash.store(
+        isolate_value[0], isolate_value[1].to_f
+        )
+      end
+      customer = Customer.find(customer_id)
+      
+      single_order = Order.new(id, product_hash, customer, fulfillment_status)
+      total_orders << single_order
+      
+      
     end
-    
-    single_order = Order.new(id, organized_products, customer_id, fulfillment_status)
-    
-    total_orders << single_order
-    
+    return total_orders
   end
-  return total_orders
+  
+  
+  def self.find(id)
+    order_database = self.all
+    return order_database.find { |order| order.id == id }
+  end
+  
 end
-
-# def self.find
-
-
-
-end
-
-
-
-
 
 
 
