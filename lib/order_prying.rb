@@ -6,6 +6,10 @@ class Order
   attr_reader :id
   attr_accessor :products, :customer, :fulfillment_status
   
+  # instance of Customer, the person who placed the order
+  # fulfillment_status, a symbol of :pending, :paid, :processing, :shipped, :complete
+  # if there is not fulfilment_status, default to :pending
+  # otherwise, ArgumentError should be raised
   
   def initialize(id, products, customer, fulfillment_status = :pending)
     @id = id
@@ -20,9 +24,9 @@ class Order
     elsif
       products.is_a?(Hash) == false
       raise ArgumentError 
-      # elsif
-      #   customer.is_a?(Integer) == false
-      #   raise ArgumentError
+    elsif
+      customer.is_a?(Customer) == false
+      raise ArgumentError
     elsif 
       !(status_array.include?(fulfillment_status))
       raise ArgumentError 
@@ -58,41 +62,56 @@ class Order
   # orders = csv_data.map do |order|
   
   def self.all
-    total_orders = []
     
-    csv_data = CSV.read("data/orders.csv")
+    csv_data = CSV.read("data/orders.csv").map(&:to_a)
     csv_data.each do |order|
+      
       isolate_order_products = []
-      product_hash = {}
+      organized_products = []
+      
       id = order[0].to_i
       isolate_order_products = order.slice(1)
       customer_id = order[2].to_i
       fulfillment_status = order[3].to_sym
       
       single_product = isolate_order_products.split(";")
+      
       single_product.each do |index|
         isolate_value = index.split(":")
-        product_hash.store(
-        isolate_value[0], isolate_value[1].to_f
-        )
-      end
-      customer = Customer.find(customer_id)
-      
-      single_order = Order.new(id, product_hash, customer, fulfillment_status)
-      total_orders << single_order
-      
-      
+        item_hash = {
+        isolate_value[0] => isolate_value[1].to_f
+      }
+      organized_products << item_hash
     end
-    return total_orders
+    
+    single_order = Order.new(id, organized_products, customer_id, fulfillment_status)
+    
+    total_orders << single_order
+    
   end
-  
-  
-  def self.find(id)
-    order_database = self.all
-    return order_database.find { |order| order.id == id }
-  end
-  
+  return total_orders
 end
+
+#   id = order[0].to_i
+#   products = {}
+#   products = order[1]
+#   customer = order[2].to_i
+#   fulfullment_status = order[3] 
+# end
+
+# end
+end
+
+# instance = Order.all
+# should have method called total
+# summing up the products
+# adding a 7.5% tax
+# rounding the result to two decimal places 
+
+
+
+
+
 
 
 
