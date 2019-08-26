@@ -105,4 +105,3 @@ class Order
   end
 end
 
-Order.save('data/new_order_list.csv')
