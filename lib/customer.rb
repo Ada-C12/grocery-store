@@ -19,28 +19,29 @@ class Customer
   
   
   def self.all
-    customer_array = CSV.read("../data/customers.csv").map(&:to_a)
-    @customers = customer_array.map do |index|
-      customer_info = []
-      @id = index[0].to_i
-      customer_info << @id
-      @email = index[1]
-      customer_info << @email
-      @address = {
+    csv_data = CSV.read("data/customers.csv")
+    customer_data = []
+    
+    csv_data.each do |index|  
+      id = index[0].to_i
+      email = index[1]
+      address = {
       street: index[2],
       city: index[3],
       state: index[4],
       zip: index[5]
     }
-    customer_info << @address
+    individual_customer = Customer.new(id, email, address)
+    customer_data << individual_customer
   end
   
-  binding.pry
-  
+  return customer_data
 end
 
+def self.find(id)
+  
+  customer_database = self.all
+  return customer_database.find { |customer| customer.id == id }
+end
 end 
-
-
-Customer.all
 
