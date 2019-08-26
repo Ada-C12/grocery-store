@@ -13,11 +13,7 @@ class Customer
   end
 
   def self.parse_address(street, city, state, zip)
-    address = {}
-    method(__method__).parameters.map do |_, name|
-      address[name] = binding.local_variable_get(name)
-    end
-    return address
+    { street: street, city: city, state: state, zip: zip }
   end
 
   def self.all
