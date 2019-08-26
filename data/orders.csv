@@ -1,3 +1,4 @@
+id,products,customer_id,status
 1,Lobster:17.18;Annatto seed:58.38;Camomile:83.21,25,complete
 2,Sun dried tomatoes:90.16;Mastic:52.69;Nori:63.09;Cabbage:5.35,10,paid
 3,Vegetable spaghetti:37.83;Dates:90.88;WhiteFlour:3.24;Caraway Seed:54.29,5,processing
