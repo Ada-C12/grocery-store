@@ -14,8 +14,7 @@ class Order
   end
   
   def total()
-    cost_of_items = @products.values
-    cost_of_items = cost_of_items.sum
+    cost_of_items = @products.values.sum
     cost_of_items *= 1.075
     return cost_of_items.round(2)
   end
@@ -38,7 +37,6 @@ class Order
   
   def self.all
     all_orders = []
-    # order_data = CSV.open('/Users/briannakemp/Documents/Coding/Ada_Developers_Academy/Week3/grocery-store/data/orders.csv', headers:false).map(&:to_a)
     order_data = CSV.open('data/orders.csv', headers:false).map(&:to_a)
     order_data.each do |order|
       parameter1 = order[0].to_i
@@ -46,12 +44,12 @@ class Order
       parameter4 = order[3].to_sym
       
       product_string = order[1].split(';')
-      product_hash = {}
+      parameter2 = {}
       product_string.each do |row|
         temp = row.split(':')
-        product_hash[temp[0]] = temp[1].to_f
+        parameter2[temp[0]] = temp[1].to_f
       end
-      temp = Order.new(parameter1, product_hash, parameter3, parameter4)
+      temp = Order.new(parameter1, parameter2, parameter3, parameter4)
       all_orders.push(temp)
     end
     return all_orders
@@ -78,11 +76,29 @@ class Order
     return customers_orders
   end
   
+  
   def self.save(filename)
+    result = self.all
     CSV.open(filename, "w") do |csv|
-      result = self.all
       result.each do |row|
-        csv << row
+        current_order = {}
+        current_order[:id] = row.id
+        current_order_products = row.products
+        product_string = ""
+        count = 1
+        current_order_products.each do |item, cost|
+          length = current_order_products.length
+          product = item + ':' + cost.to_s
+          product_string.concat(product)
+          if count < length
+            product_string.concat(';')
+            count += 1
+          end
+        end
+        current_order[:products] = product_string
+        current_order[:customer] = row.customer
+        current_order[:fulfillment_status] = row.fulfillment_status
+        csv << current_order.values
       end
     end
   end

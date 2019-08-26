@@ -14,7 +14,6 @@ class Customer
   
   def self.all
     all_customers = []
-    # customer_data = CSV.open('/Users/briannakemp/Documents/Coding/Ada_Developers_Academy/Week3/grocery-store/data/customers.csv', headers:false).map(&:to_a)
     customer_data = CSV.open('data/customers.csv', headers:false).map(&:to_a)
     customer_data.each do |customer|
       parameter1 = customer[0].to_i
