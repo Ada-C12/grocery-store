@@ -6,7 +6,7 @@ require_relative "../lib/customer"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-xdescribe "Customer Wave 1" do
+describe "Customer Wave 1" do
   ID = 123
   EMAIL = "a@a.co"
   ADDRESS = {
