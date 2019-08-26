@@ -113,14 +113,24 @@ describe "Order Wave 1" do
   end
 end
 
-# TODO: change 'xdescribe' to 'describe' to run these tests
+
 describe "Order Wave 2" do
   describe "Order.all" do
-    xit "Returns an array of all orders" do
-      # TODO: Your test code here!
+    it "Returns an array of all orders" do
+      order = Order.all
+      
+      expect(order.length).must_equal 100
+      order.each do |c|
+        expect(c).must_be_kind_of Order
+
+        expect(c.id).must_be_kind_of Integer
+        expect(c.products).must_be_kind_of Hash
+        expect(c.customer).must_be_kind_of Customer
+        expect(c.fulfillment_status).must_be_kind_of Symbol
+      end
     end
 
-    xit "Returns accurate information about the first order" do
+    it "Returns accurate information about the first order" do
       id = 1
       products = {
         "Lobster" => 17.18,
@@ -140,22 +150,27 @@ describe "Order Wave 2" do
       expect(order.fulfillment_status).must_equal fulfillment_status
     end
 
-    xit "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+    it "Returns accurate information about the last order" do
+      last = Order.all.last
+      expect(last.id).must_equal 100
+      expect(last.products["Amaranth"]).must_equal 83.81
+      expect(last.products["Smoked Trout"]).must_equal 70.6
+      expect(last.products["Cheddar"]).must_equal 5.63
+      expect(last.customer).must_be_kind_of Customer
+      expect(last.fulfillment_status).must_equal :pending
     end
   end
 
   describe "Order.find" do
-    xit "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+    it "Can find the first order from the CSV" do
+      first = Order.find(1)
+
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
-    xit "Can find the last order from the CSV" do
-      # TODO: Your test code here!
-    end
-
-    xit "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+    it "Returns nil for an order that doesn't exist" do
+      expect(Order.find(53145)).must_be_nil
     end
   end
 end
