@@ -222,4 +222,20 @@ describe "Order Wave 2" do
       expect(Order.find(532)).must_be_nil
     end
   end
+  
+  describe "Order.find_by_customer" do
+    it "Returns an array of all orders by that customer" do
+      orders_by_customer = Order.find_by_customer(25)
+      
+      orders_by_customer.must_be_kind_of Array
+      expect(orders_by_customer.length).must_equal 6
+      expect(orders_by_customer[1]).must_be_kind_of Order
+    end
+    
+    it "Raises an ArgumentError if the customer does not exist" do
+      expect {
+        Order.find_by_customer(435)
+      }.must_raise ArgumentError
+    end
+  end
 end

@@ -71,4 +71,24 @@ class Order
     end
     return nil 
   end
+  
+  # method to return a list of orders by a customer
+  def Order.find_by_customer(customer_id)
+    all_orders = self.all
+    customer_orders = []
+    
+    all_orders.each do |each_order|
+      if each_order.customer.id == customer_id
+        customer_orders << each_order
+      end
+    end
+    
+    if customer_orders.length == 0
+      raise ArgumentError.new("This customer does not exist.")
+    else
+      return customer_orders
+    end
+  end
 end
+
+
