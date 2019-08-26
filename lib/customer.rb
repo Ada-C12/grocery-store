@@ -18,23 +18,25 @@ class Customer
     records.each do |record|
       id = record[0].to_i
       email = record[1]
-      address = { street: record[2],
+      address = {
+        street: record[2],
         city: record[3],
         state: record[4],
-        zip: record[5] }
-        customer = Customer.new(id, email, address)
-        cust_arr << customer
-      end
-      return cust_arr
+        zip: record[5]
+      }
+      customer = Customer.new(id, email, address)
+      cust_arr << customer
     end
-    
-    def self.find(id)
-      self.all.each do |search|
-        if search.id == id
-          return search
-        end
-      end
-      return nil
-    end
-    
+    return cust_arr
   end
+  
+  def self.find(id)
+    self.all.each do |search|
+      if search.id == id
+        return search
+      end
+    end
+    return nil
+  end
+  
+end
