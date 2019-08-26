@@ -21,7 +21,9 @@ describe "Customer Wave 1" do
       cust = Customer.new(ID, EMAIL, ADDRESS)
 
       expect(cust).must_respond_to :id
+      # The test fails if the object (cust) does not respond to the given method name(.id).
       expect(cust.id).must_equal ID
+      # The test succeeds if the object (cust.id) equals the given object (ID). It fails otherwise.	
 
       expect(cust).must_respond_to :email
       expect(cust.email).must_equal EMAIL
@@ -33,7 +35,7 @@ describe "Customer Wave 1" do
 end
 
 # TODO: remove the 'x' in front of this block when you start wave 2
-xdescribe "Customer Wave 2" do
+describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       customers = Customer.all
@@ -41,7 +43,6 @@ xdescribe "Customer Wave 2" do
       expect(customers.length).must_equal 35
       customers.each do |c|
         expect(c).must_be_kind_of Customer
-
         expect(c.id).must_be_kind_of Integer
         expect(c.email).must_be_kind_of String
         expect(c.address).must_be_kind_of Hash
