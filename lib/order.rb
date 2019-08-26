@@ -1,4 +1,7 @@
-require_relative "customer"
+require_relative "customer.rb"
+require "csv"
+require "awesome_print"
+require "json"
 
 class Order
   attr_reader :id, :products, :customer, :fulfillment_status
@@ -42,4 +45,43 @@ class Order
     end
     return @products
   end
+
+  def self.all
+    all_orders = []
+    split_by_item = []
+    product_hash = {}
+    array_array_orders = CSV.read("data/orders.csv")
+
+    array_array_orders.each do |order|
+      target_customer = Customer.find(order[2].to_i)
+      split_by_item = order[1].split(";")
+
+      split_by_item.each do |item|
+        product_split_key = item.split(":")
+        product_hash[product_split_key[0]] = product_split_key[1].to_f
+      end
+
+      all_orders.push(Order.new(order[0].to_i, product_hash, target_customer, order[3].to_sym))
+
+      product_hash = {}
+    end
+
+    return all_orders
+  end
+
+  def self.find(order_num)
+    orders = self.all
+    orders.each do |order|
+      if (order.id == order_num)
+        return order
+      end
+    end
+
+    return nil
+  end
 end
+
+ap Order.all.take(10)
+
+# 1,---Lobster:17.18;Annatto seed:58.38;Camomile:83.21,---25, ---complete
+# 2,---Sun dried tomatoes:90.16;Mastic:52.69;Nori:63.09;Cabbage:5.35, ---10, ---paid

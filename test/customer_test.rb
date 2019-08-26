@@ -1,19 +1,19 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
+require "minitest/autorun"
+require "minitest/reporters"
+require "minitest/skip_dsl"
 
-require_relative '../lib/customer'
+require_relative "../lib/customer"
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-describe "Customer Wave 1" do
+xdescribe "Customer Wave 1" do
   ID = 123
   EMAIL = "a@a.co"
   ADDRESS = {
     street: "123 Main",
     city: "Seattle",
     state: "WA",
-    zip: "98101"
+    zip: "98101",
   }.freeze
 
   describe "#initialize" do
@@ -33,7 +33,7 @@ describe "Customer Wave 1" do
 end
 
 # TODO: remove the 'x' in front of this block when you start wave 2
-xdescribe "Customer Wave 2" do
+describe "Customer Wave 2" do
   describe "Customer.all" do
     it "Returns an array of all customers" do
       customers = Customer.all
@@ -64,10 +64,10 @@ xdescribe "Customer Wave 2" do
 
       expect(last.id).must_equal 35
       expect(last.email).must_equal "rogers_koelpin@oconnell.org"
-      expect(last.address[:street]).must_equal '7513 Kaylee Summit'
-      expect(last.address[:city]).must_equal 'Uptonhaven'
-      expect(last.address[:state]).must_equal 'DE'
-      expect(last.address[:zip]).must_equal '64529-2614'
+      expect(last.address[:street]).must_equal "7513 Kaylee Summit"
+      expect(last.address[:city]).must_equal "Uptonhaven"
+      expect(last.address[:state]).must_equal "DE"
+      expect(last.address[:zip]).must_equal "64529-2614"
     end
   end
 
