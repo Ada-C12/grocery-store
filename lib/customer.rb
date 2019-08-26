@@ -7,7 +7,7 @@ class Customer
   attr_reader :id
   attr_accessor :email, :address
   
-  def initialize (input_id, input_email, input_address)
+  def initialize(input_id, input_email, input_address)
     @id = input_id
     @email = input_email
     @address = input_address
@@ -21,8 +21,8 @@ class Customer
       
       # creates an instance of Customer using the digested data 
       import = Customer.new(line[0].to_i, line[1], {:street => line[2], :city => line[3], :state => line[4], :zip => line[5]})
+      customers.push(import)
       
-      customers << import
     end
     return customers
   end

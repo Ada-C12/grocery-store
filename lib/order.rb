@@ -1,11 +1,12 @@
-require 'pry'
+# Creates an Order clas 
+require 'csv'
 
 class Order
   
   attr_reader :id, :products, :customer, :fulfillment_status
   
   
-  def initialize (input_id, input_products, input_customer, input_fulfillment_status=:pending)
+  def initialize(input_id, input_products, input_customer, input_fulfillment_status=:pending)
     
     possible_fulfillment_statuses = [:pending, :paid, :processing, :shipped, :complete]
     
@@ -29,10 +30,9 @@ class Order
     total = total * 1.075 * 100
     total = total.to_i.to_f / 100
     return total 
-    
   end
   
-  def add_product (product_name, product_price)
+  def add_product(product_name, product_price)
     #An add_product method which will take in two parameters, product name and price, and add the data to the product collection
     #If a product with the same name has already been added to the order, an ArgumentError should be raised
     if @products.has_key?(product_name)
@@ -42,7 +42,7 @@ class Order
     end
   end
   
-  def remove_product (product_name)
+  def remove_product(product_name)
     #Add a remove_product method to the Order class which will take in one parameter, a product name, and remove the product from the collection
     #If no product with that name was found, an ArgumentError should be raised
     if @products.has_key?(product_name)
@@ -52,4 +52,43 @@ class Order
     end
   end
   
+  def self.all
+    orders = []
+    order = []
+    placeholder_of_strings = []
+    CSV.open('data/orders.csv', 'r').each do |line| 
+      import_products_array_odd = line[1].split (';')
+      import_products_array_odd.each do |item_with_price|
+        placeholder_of_strings << item_with_price.split(':')
+      end
+      order = placeholder_of_strings
+      placeholder_of_strings = []
+      items = order.to_h
+      items.transform_values!(&:to_f)
+      
+      imported_order_number = line[0].to_i
+      imported_ordered_items = items
+      imported_customer_id = line[2].to_i
+      
+      # imported_customer = Customer.new
+      
+      imported_shipping_status = line[3].to_sym
+      
+      
+      customers = Customer.all
+      customers.each do |customer|
+        if customer.id == imported_customer_id
+          imported_customer_id = customer
+        end
+        
+      end
+      
+      imported_order = Order.new(imported_order_number, imported_ordered_items, imported_customer_id, imported_shipping_status)
+      
+      orders.push(imported_order)
+    end
+    return orders
+  end  
 end
+
+
