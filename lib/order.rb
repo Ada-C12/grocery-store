@@ -1,4 +1,5 @@
 require 'csv'
+require_relative 'customer'
 
 class Order
   VALID_STATUS = [:pending, :paid, :processing, :shipped, :complete]
