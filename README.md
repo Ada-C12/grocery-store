@@ -175,7 +175,7 @@ $ cat new_customer_list.csv
 [ ... ]
 ```
 
-We do not require testing for this wave - testing with external resouces like files is tricky to get right. Instead, do some brainstorming: what kind of things would tests need to do, and what error cases would they handle? Why is testing tricky, and what might be done to overcome these problems? How could you learn more about this?
+We do not require testing for this wave - testing with external resources like files is tricky to get right. Instead, do some brainstorming: what kind of things would tests need to do, and what error cases would they handle? Why is testing tricky, and what might be done to overcome these problems? How could you learn more about this?
 
 ## What We Are Looking For
 Check out the [feedback template](feedback.md) to see what instructors will be looking for.
