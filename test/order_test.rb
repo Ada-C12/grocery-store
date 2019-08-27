@@ -7,7 +7,7 @@ require_relative '../lib/order'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-describe "Order Wave 1" do
+xdescribe "Order Wave 1" do
   let(:customer) do
     address = {
       street: "123 Main",
@@ -78,6 +78,39 @@ describe "Order Wave 1" do
     end
   end
 
+  describe "#remove_product" do
+    it "decreases the number of products" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      before_count = products.count
+      order = Order.new(1337, products, customer)
+
+      order.remove_product("banana")
+      expected_count = before_count - 1
+      expect(order.products.count).must_equal expected_count
+    end 
+
+    it "removes product from the collection of products" do
+      # ARRANGE
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+      # ACT
+      order.remove_product("banana")
+      # ASSERT
+      expect(order.products.include?("banana")).must_equal false
+    end
+
+    it "Raises an ArgumentError if the product wasn't in the order" do
+      products = { "banana" => 1.99, "cracker" => 3.00 }
+      order = Order.new(1337, products, customer)
+      # ACT && ASSERT
+      expect{order.remove_product("9banana")}.must_raise ArgumentError
+    end
+
+
+  end
+
+
+
   describe "#add_product" do
     it "Increases the number of products" do
       products = { "banana" => 1.99, "cracker" => 3.00 }
@@ -114,10 +147,21 @@ describe "Order Wave 1" do
 end
 
 # TODO: change 'xdescribe' to 'describe' to run these tests
-xdescribe "Order Wave 2" do
+describe "Order Wave 2" do
   describe "Order.all" do
     it "Returns an array of all orders" do
-      # TODO: Your test code here!
+      # ACT
+      all_orders = Order.all
+      # ASSERT
+      expect(all_orders.length).must_equal 100
+      all_orders.each do |o|
+        expect(o).must_be_kind_of Order
+
+        expect(o.id).must_be_kind_of Integer
+        expect(o.products).must_be_kind_of Hash
+        expect(o.customer).must_be_kind_of Customer
+        expect(o.fulfillment_status).must_be_kind_of Symbol
+      end
     end
 
     it "Returns accurate information about the first order" do
@@ -141,21 +185,59 @@ xdescribe "Order Wave 2" do
     end
 
     it "Returns accurate information about the last order" do
-      # TODO: Your test code here!
+      id = 100
+      products = {
+        "Amaranth" => 83.81,
+        "Smoked Trout" => 70.6,
+        "Cheddar" => 5.63
+      }
+      customer_id = 20
+      fulfillment_status = :pending
+
+      order = Order.all.last
+
+      # Check that all data was loaded as expected
+      expect(order.id).must_equal id
+      expect(order.products).must_equal products
+      expect(order.customer).must_be_kind_of Customer
+      expect(order.customer.id).must_equal customer_id
+      expect(order.fulfillment_status).must_equal fulfillment_status
     end
   end
 
   describe "Order.find" do
     it "Can find the first order from the CSV" do
-      # TODO: Your test code here!
+      first = Order.find(1)
+      expect(first).must_be_kind_of Order
+      expect(first.id).must_equal 1
     end
 
     it "Can find the last order from the CSV" do
-      # TODO: Your test code here!
+      last = Order.find(100)
+      expect(last).must_be_kind_of Order
+      expect(last.id).must_equal 100
     end
 
     it "Returns nil for an order that doesn't exist" do
-      # TODO: Your test code here!
+      expect(Customer.find(25673)).must_be_nil    end
+  end
+
+  # Order.find_by_customer(customer_id) - returns a list of 
+  # Order instances where the value of the customer's ID matches the passed parameter.
+  describe "Order.find_by_customer(customer_id)" do
+    it "returns a list of Orders" do
+      # ACT
+      matching_orders = Order.find_by_customer(4)
+      # ASSERT
+      expect(matching_orders[0]).must_be_kind_of Order
+    end
+    it "returns the correct customer's orders" do
+      # ACT
+      matching_orders = Order.find_by_customer(4)
+      # ASSERT
+      expected_customer_id = 4
+      actual_customer_id = matching_orders[0].customer.id
+      expect(actual_customer_id).must_equal expected_customer_id
     end
   end
 end
