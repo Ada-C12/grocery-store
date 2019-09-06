@@ -10,7 +10,7 @@ class Order
     @id = id
     @products = products
     @customer = new_customer
-    raise ArgumentError.new("No fulfillment status were given!") if !STATUSES.include? status
+    raise ArgumentError.new("Bad fulfillment status given: #{status}!") if !STATUSES.include? status
     @fulfillment_status = status
   end
   
