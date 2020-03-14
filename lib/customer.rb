@@ -41,5 +41,3 @@ class Customer
     return flag 
   end
 end
-
-

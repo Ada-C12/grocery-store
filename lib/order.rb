@@ -109,27 +109,28 @@ class Order
     return found_order
   end
   
-  #BROKEN AT THE MOMENT
-#   def self.find_by_customer(customer_id)
-#     orders = Order.all
-#     customers = Customer.all
-#     order_by_customer = []
+  def self.find_by_customer(customer_id)
     
-#     orders.each do |order|
-      
-#     end
-#     #   customers.each do |customer|
-#     #     if order.customer == customer.id
-#     #       order_by_customer << order
-#     #     end
-#     #   end
-#     # end
-#     if order_by_customer.empty?
-#       return nil
-#     else
-#       return order_by_customer
-#     end
-#   end
-# end
-
-
+    # checks the validity of the customer
+    valid_customer = Customer.find(customer_id)
+    if valid_customer == nil
+      return nil
+    end
+    
+    # fetches all orders
+    orders = Order.all
+    
+    # will be the return structure
+    relevant_orders_to_customer = []
+    
+    #iterates over orders until an order's customer's id matches the customer_id passed in, in which case it pushes it into the return structure
+    orders.each do |order|
+      if order.customer.id == customer_id
+        relevant_orders_to_customer.push(order.id)
+      end
+    end
+    
+    return relevant_orders_to_customer
+    
+  end
+end
